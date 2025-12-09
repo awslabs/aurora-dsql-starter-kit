@@ -1,0 +1,70 @@
+/* Custom CSS for Aurora DSQL Documentation */
+
+:root {
+  --md-primary-fg-color: #FF9900;
+  --md-primary-fg-color--light: #FFB84D;
+  --md-primary-fg-color--dark: #CC7A00;
+}
+
+/* AWS Orange theme for light mode */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #FF9900;
+  --md-primary-fg-color--light: #FFB84D;
+  --md-primary-fg-color--dark: #CC7A00;
+}
+
+/* AWS Orange theme for dark mode */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #FF9900;
+  --md-primary-fg-color--light: #FFB84D;
+  --md-primary-fg-color--dark: #CC7A00;
+}
+
+/* Code block styling */
+.highlight pre {
+  border-radius: 6px;
+}
+
+/* Improve table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+}
+
+table th {
+  background-color: var(--md-primary-fg-color);
+  color: white;
+  font-weight: 600;
+  padding: 12px;
+  text-align: left;
+}
+
+table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-md-color-scheme="slate"] table td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Admonition styling */
+.admonition {
+  border-radius: 6px;
+  margin: 1.5em 0;
+}
+
+/* Link styling */
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Navigation improvements */
+.md-nav__link--active {
+  font-weight: 600;
+}
