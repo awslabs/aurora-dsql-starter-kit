@@ -22,34 +22,6 @@ Amazon Aurora DSQL is a serverless, distributed SQL database optimized for trans
 
 This repository contains documentation built with [MkDocs](https://www.mkdocs.org/) and the Material theme, following AWS documentation best practices.
 
-### Quick Start
-
-To view the documentation locally:
-
-```bash
-# Create a virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# Install dependencies
-pip install mkdocs mkdocs-material pymdown-extensions
-
-# Serve the documentation
-mkdocs serve
-```
-
-Then open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
-
-### Building the Documentation
-
-To build the static site:
-
-```bash
-mkdocs build
-```
-
-The generated site will be in the `site/` directory.
-
 ## 🚀 What is Aurora DSQL?
 
 Amazon Aurora DSQL is a serverless, distributed SQL database that provides:
@@ -71,6 +43,9 @@ Check out the [Getting Started Guide](docs/guides/getting-started/quickstart.md)
 
 ## 📝 License & Contributing
 
-- **License:** MIT-0 - see [LICENSE](LICENSE)
+- **License:** 
+  - Documentation: CC BY-SA 4.0 - see [LICENSE](LICENSE)
+  - Sample Code: MIT-0 - see [LICENSE-SAMPLECODE](LICENSE-SAMPLECODE)
+  - Full details: [LICENSE-SUMMARY](LICENSE-SUMMARY)
 - **Contributing:** See [CONTRIBUTING.md](CONTRIBUTING.md)
 - **Security:** See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for security issue notifications
