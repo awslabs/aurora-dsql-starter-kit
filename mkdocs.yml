@@ -68,6 +68,10 @@ nav:
     - Welcome: index.md
     - What is Amazon Aurora DSQL?: what-is-amazon-aurora-dsql.md
     - Getting Started: guides/getting-started/quickstart.md
+    - Managing Aurora DSQL Clusters:
+      - Managing Clusters Overview: managing-clusters.md
+      - Single-Region Clusters: single-region-clusters.md
+      - Multi-Region Clusters: multi-region-clusters.md
     - Auth & Access:
       - Auth & Access Overview: authentication-and-authorization.md
       - Generate Authentication Token: generate-authentication-token.md
