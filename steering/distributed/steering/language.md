@@ -3,9 +3,9 @@
 - ALWAYS prefer DSQL Connector when available
 - Follow patterns outlined in [aurora-dsql-samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/)
 
-## Framework Notes
+## Framework and Connection Notes for Languages and Drivers
 ### Python
-ALWAYS use the DSQL Python Connector for automatic IAM Auth:
+ALWAYS use the [DSQL Python Connector](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/SECTION_program-with-dsql-connector-for-python.html) for automatic IAM Auth:
 - See [https://github.com/awslabs/aurora-dsql-python-connector](https://github.com/awslabs/aurora-dsql-python-connector)
 - See sample: [aurora-dsql-samples/python/jupyter](https://github.com/aws-samples/aurora-dsql-samples/blob/main/python/jupyter/) 
 - Compatible support in both: psycopg and psycopg2, install only the needed library 
@@ -32,7 +32,7 @@ ALWAYS use the DSQL Python Connector for automatic IAM Auth:
 - See [aurora-dsql-samples/go/pgx](https://github.com/aws-samples/aurora-dsql-samples/tree/main/go/pgx)
 
 ### JavaScript/TypeScript
-PREFER using node-postgres or postgres-js with the DSQL Node.js Connector
+PREFER using [node-postgres](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/SECTION_program-with-dsql-connector-for-node-postgres.html) or [postgres-js](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/SECTION_program-with-dsql-connector-for-postgresjs.html) with the DSQL Node.js Connector
 
 **node-postgres (pg)** (recommended)
 - Use `@aws/aurora-dsql-node-postgres-connector` for automatic IAM auth
@@ -58,9 +58,10 @@ PREFER using node-postgres or postgres-js with the DSQL Node.js Connector
 - See [aurora-dsql-samples/typescript/type-orm](https://github.com/aws-samples/aurora-dsql-samples/tree/main/typescript/type-orm)
 
 ### Java
+PREFER using JDBC with the [DSQL JDBC Connector](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/SECTION_program-with-jdbc-connector.html)
 
 **JDBC** (PostgreSQL JDBC Driver)
-- Use Aurora DSQL JDBC Connector for automatic IAM auth
+- Use DSQL JDBC Connector for automatic IAM auth
   - URL format: `jdbc:aws-dsql:postgresql://<endpoint>/postgres`
   - See [aurora-dsql-samples/java/pgjdbc](https://github.com/aws-samples/aurora-dsql-samples/tree/main/java/pgjdbc)
 - Properties: `wrapperPlugins=iam`, `ssl=true`, `sslmode=verify-full`

@@ -19,10 +19,7 @@ Aurora DSQL is a true serverless database with scale-to-zero capability, zero op
 - **Schema Management**: Create tables, indexes, and manage DDL operations
 - **Migration Support**: Execute schema migrations with DSQL constraints
 - **Multi-Tenant Patterns**: Built-in tenant isolation and data scoping
-- **Token-Based Auth**: Automatic AWS IAM authentication with 15-minute tokens
-- **Constraint Awareness**: Guidance on DSQL limitations and workarounds
-
-**Authentication**: Uses AWS IAM credentials with automatic token generation.
+- **Authentication**: Uses AWS IAM credentials with automatic token generation.
 
 ## Available Steering Files
 

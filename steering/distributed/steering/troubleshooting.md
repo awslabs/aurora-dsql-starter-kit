@@ -1,7 +1,9 @@
 # Troubleshooting in DSQL
 
-This file contains common errors encountered while working with DSQL and guidelines for how to 
-solve them. 
+This file contains common additional errors encountered while working with DSQL and 
+guidelines for how to solve them. 
+
+Before referring to any listed errors, refer to the complete [DSQL troubleshooting guide](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/troubleshooting.html#troubleshooting-connections)
 
 ## Connection and Authorization
 

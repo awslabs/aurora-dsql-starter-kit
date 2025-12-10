@@ -219,8 +219,8 @@ const endpoint = "abc123.dsql.us-east-1.on.aws" // ❌ Never do this
 ### Schema Design Rules
 
 - Use simple PostgreSQL types: VARCHAR, TEXT, INTEGER, BOOLEAN, TIMESTAMP
-- Store arrays as TEXT (comma-separated or JSON.stringify)
-- Store JSON objects as TEXT
+- Store arrays as TEXT (comma-separated is recommended)
+- Store JSON objects as TEXT (JSON.stringify)
 - Always include tenant_id in tables for multi-tenant isolation
 - Create async indexes for tenant_id and common query patterns
 - Use partial indexes for sparse data (WHERE column IS NOT NULL)

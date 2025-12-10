@@ -2,6 +2,8 @@
 
 This file contains code examples for working with Aurora DSQL. Only load this when actively implementing database code.
 
+For language-specific framework selection, recommendations, and examples see [language.md](./language.md). 
+
 For constraints and mandates, see [steering.md](./steering.md).
 
 ---
@@ -231,49 +233,16 @@ class EntityRepository {
 
 ## Connection Management
 
-### Token-Based Authentication
+### Connector
 
 ```typescript
-import { DsqlSigner } from '@aws-sdk/dsql-signer';
-import { Client } from 'pg';
 
-class DSQLConnection {
-  private region: string;
-  private clusterId: string;
-  private hostname: string;
+```
 
-  constructor(clusterId: string, region: string = 'us-east-1') {
-    this.clusterId = clusterId;
-    this.region = region;
-    this.hostname = `${clusterId}.dsql.${region}.on.aws`;
-  }
+### Token-Based Authentication
 
-  async getConnection(): Promise<Client> {
-    const token = await this.generateAuthToken();
+```elixir
 
-    return new Client({
-      host: this.hostname,
-      port: 5432,
-      database: 'postgres',  // Always 'postgres'
-      user: 'admin',
-      password: token,
-      ssl: { rejectUnauthorized: false },
-      connectionTimeoutMillis: 3000
-    });
-  }
-
-  private async generateAuthToken(): Promise<string> {
-    const signer = new DsqlSigner({
-      region: this.region,
-      hostname: this.hostname,
-      port: 5432,
-      username: 'admin'
-    });
-
-    // Token expires in 15 minutes
-    return await signer.getDbConnectAdminAuthToken();
-  }
-}
 ```
 
 ---
@@ -405,11 +374,11 @@ abstract class TenantRepository<T> {
 
 ## Batch Operations
 
-### Safe Batching Under Limits
+### Safe Batching Within Limits
 
 ```typescript
 class BatchProcessor {
-  private readonly BATCH_SIZE = 500;  // Well under 3,000 limit
+  private readonly BATCH_SIZE = 500; // < 3000
 
   async batchInsert(tenantId: string, items: any[]) {
     const chunks = this.chunkArray(items, this.BATCH_SIZE);
