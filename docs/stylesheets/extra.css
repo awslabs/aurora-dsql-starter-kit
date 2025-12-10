@@ -84,7 +84,8 @@ a:hover {
 .md-nav--primary .md-nav__item:nth-child(5) > .md-nav__link,
 .md-nav--primary .md-nav__item:nth-child(6) > .md-nav__link,
 .md-nav--primary .md-nav__item:nth-child(7) > .md-nav__link,
-.md-nav--primary .md-nav__item:nth-child(8) > .md-nav__link {
+.md-nav--primary .md-nav__item:nth-child(8) > .md-nav__link,
+.md-nav--primary .md-nav__item:nth-child(9) > .md-nav__link {
   font-size: 1.5em !important;
   font-weight: 700 !important;
   padding: 0.6em 0 !important;
