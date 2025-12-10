@@ -4,7 +4,7 @@ Learn how to create an Aurora DSQL cluster, connect to it, and run your first qu
 
 ## Overview
 
-Amazon Aurora DSQL is a serverless, distributed relational database optimized for transactional workloads. This guide walks you through creating single-Region and multi-Region Aurora DSQL clusters, connecting to them, and running sample SQL commands.
+This guide walks you through creating single-Region and multi-Region Aurora DSQL clusters, connecting to them, and running sample SQL commands using the AWS Console and PostgreSQL-compatible tools.
 
 ## Prerequisites
 
