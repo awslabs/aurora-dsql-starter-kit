@@ -72,6 +72,9 @@ nav:
       - Managing Clusters Overview: managing-clusters.md
       - Single-Region Clusters: single-region-clusters.md
       - Multi-Region Clusters: multi-region-clusters.md
+    - Programming with DSQL:
+      - Programming with DSQL Overview: programming-with-dsql.md
+      - Connectors Overview: connectors-overview.md
     - Auth & Access:
       - Auth & Access Overview: authentication-and-authorization.md
       - Generate Authentication Token: generate-authentication-token.md
