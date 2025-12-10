@@ -64,9 +64,14 @@ extra_css:
   - stylesheets/extra.css
 
 nav:
-  - Home: index.md
-  - Getting Started:
-    - Quickstart: guides/getting-started/quickstart.md
+  - User Guide:
+    - Welcome: index.md
+    - What is Amazon Aurora DSQL?: what-is-amazon-aurora-dsql.md
+    - Getting Started: guides/getting-started/quickstart.md
+    - Auth & Access:
+      - Overview: authentication-and-authorization.md
+      - Generate Authentication Token: generate-authentication-token.md
+      - Database Roles and IAM Authentication: database-roles-iam-authentication.md
 
 plugins:
   - search
