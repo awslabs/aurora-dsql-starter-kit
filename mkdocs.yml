@@ -72,6 +72,8 @@ nav:
       - Overview: authentication-and-authorization.md
       - Generate Authentication Token: generate-authentication-token.md
       - Database Roles and IAM Authentication: database-roles-iam-authentication.md
+    - Troubleshooting:
+      - Overview: troubleshooting.md
 
 plugins:
   - search
