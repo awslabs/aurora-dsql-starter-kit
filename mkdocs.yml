@@ -69,11 +69,17 @@ nav:
     - What is Amazon Aurora DSQL?: what-is-amazon-aurora-dsql.md
     - Getting Started: guides/getting-started/quickstart.md
     - Auth & Access:
-      - Overview: authentication-and-authorization.md
+      - Auth & Access Overview: authentication-and-authorization.md
       - Generate Authentication Token: generate-authentication-token.md
       - Database Roles and IAM Authentication: database-roles-iam-authentication.md
+    - Considerations:
+      - Considerations Overview: considerations.md
+    - Quotas and Limits:
+      - Quotas and Limits Overview: quotas-and-limits.md
+    - API Reference:
+      - API Reference Overview: api-reference.md
     - Troubleshooting:
-      - Overview: troubleshooting.md
+      - Troubleshooting Overview: troubleshooting.md
 
 plugins:
   - search
