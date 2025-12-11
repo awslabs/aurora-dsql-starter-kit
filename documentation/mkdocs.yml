@@ -84,10 +84,10 @@ nav:
       - Considerations Overview: considerations.md
     - Quotas and Limits:
       - Quotas and Limits Overview: quotas-and-limits.md
-    - API Reference:
-      - API Reference Overview: api-reference.md
-    - Troubleshooting:
-      - Troubleshooting Overview: troubleshooting.md
+  - API Reference:
+    - API Reference Overview: api-reference.md
+  - Troubleshooting:
+    - Troubleshooting Overview: troubleshooting.md
 
 plugins:
   - search
