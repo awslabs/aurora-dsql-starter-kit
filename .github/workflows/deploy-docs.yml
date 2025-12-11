@@ -35,7 +35,6 @@ jobs:
           uv venv
           source .venv/bin/activate
           uv pip install mkdocs-material
-          uv pip install mkdocs-privacy
           
       - name: Setup Git for versioning
         run: |
