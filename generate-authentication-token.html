@@ -1,0 +1,2052 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for Amazon Aurora DSQL, a serverless distributed SQL database">
+      
+      
+      
+        <link rel="canonical" href="https://jubilant-adventure-yv9p22g.pages.github.io/generate-authentication-token.html">
+      
+      
+        <link rel="prev" href="authentication-and-authorization.html">
+      
+      
+        <link rel="next" href="database-roles-iam-authentication.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Generate Authentication Token - Aurora DSQL Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#generating-an-authentication-token-in-amazon-aurora-dsql" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Aurora DSQL Documentation" class="md-header__button md-logo" aria-label="Aurora DSQL Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Aurora DSQL Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Generate Authentication Token
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aws/aurora-dsql-starter-kit" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="index.html" class="md-tabs__link">
+          
+  
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="api-reference.html" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="troubleshooting.html" class="md-tabs__link">
+          
+  
+  
+  Troubleshooting
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Aurora DSQL Documentation" class="md-nav__button md-logo" aria-label="Aurora DSQL Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Aurora DSQL Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aws/aurora-dsql-starter-kit" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="what-is-amazon-aurora-dsql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is Amazon Aurora DSQL?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="guides/getting-started/quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Managing Aurora DSQL Clusters
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Managing Aurora DSQL Clusters
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="managing-clusters.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Managing Clusters Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="single-region-clusters.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Single-Region Clusters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="multi-region-clusters.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Region Clusters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming with DSQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Programming with DSQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="programming-with-dsql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming with DSQL Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="connectors-overview.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connectors Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_6" id="__nav_1_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth & Access
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Auth & Access
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="authentication-and-authorization.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth & Access Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generate Authentication Token
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="generate-authentication-token.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generate Authentication Token
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#token-expiration-and-duration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Token Expiration and Duration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-aws-console-to-generate-an-authentication-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the AWS Console to Generate an Authentication Token
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-aws-cloudshell-to-generate-an-authentication-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using AWS CloudShell to Generate an Authentication Token
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-aws-cli-to-generate-an-authentication-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the AWS CLI to Generate an Authentication Token
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-sdks-to-generate-a-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the SDKs to Generate a Token
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the SDKs to Generate a Token">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C++ SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JavaScript SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Java SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rust-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rust SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ruby-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ruby SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#net-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        .NET SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#golang-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Golang SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="database-roles-iam-authentication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database Roles and IAM Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_7" id="__nav_1_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Considerations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Considerations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="considerations.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Considerations Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_8" id="__nav_1_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quotas and Limits
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quotas and Limits
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="quotas-and-limits.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quotas and Limits Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api-reference.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Troubleshooting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="troubleshooting.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#token-expiration-and-duration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Token Expiration and Duration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-aws-console-to-generate-an-authentication-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the AWS Console to Generate an Authentication Token
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-aws-cloudshell-to-generate-an-authentication-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using AWS CloudShell to Generate an Authentication Token
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-aws-cli-to-generate-an-authentication-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the AWS CLI to Generate an Authentication Token
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-sdks-to-generate-a-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the SDKs to Generate a Token
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the SDKs to Generate a Token">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C++ SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JavaScript SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Java SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rust-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rust SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ruby-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ruby SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#net-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        .NET SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#golang-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Golang SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="generating-an-authentication-token-in-amazon-aurora-dsql">Generating an Authentication Token in Amazon Aurora DSQL<a class="headerlink" href="#generating-an-authentication-token-in-amazon-aurora-dsql" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>To connect to Amazon Aurora DSQL with a SQL client, generate an authentication token to use as the password. This token is used only for authenticating the connection. After the connection is established, the connection remains valid even if the authentication token expires.</p>
+<h2 id="token-expiration-and-duration">Token Expiration and Duration<a class="headerlink" href="#token-expiration-and-duration" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>AWS Console</strong>: Token automatically expires in one hour by default</li>
+<li><strong>CLI or SDKs</strong>: Default is 15 minutes</li>
+<li><strong>Maximum duration</strong>: 604,800 seconds (one week)</li>
+</ul>
+<p>To connect to Aurora DSQL from your client again, you can use the same authentication token if it hasn't expired, or you can generate a new one.</p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<p>To get started with generating a token:
+1. <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create-console.html">Create an IAM policy</a>
+2. <a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/getting-started.html#getting-started-quickstart">Create a cluster in Aurora DSQL</a></p>
+<p>At a minimum, you must have the IAM permissions for connecting to clusters, depending on which database role you use to connect.</p>
+<h2 id="using-the-aws-console-to-generate-an-authentication-token">Using the AWS Console to Generate an Authentication Token<a class="headerlink" href="#using-the-aws-console-to-generate-an-authentication-token" title="Permanent link">&para;</a></h2>
+<p>Aurora DSQL authenticates users with a token rather than a password. You can generate the token from the console.</p>
+<p><strong>To generate an authentication token:</strong></p>
+<ol>
+<li>
+<p>Sign in to the AWS Console and open the Aurora DSQL console at <a href="https://console.aws.amazon.com/dsql">https://console.aws.amazon.com/dsql</a></p>
+</li>
+<li>
+<p>Choose the cluster ID of the cluster for which you want to generate an authentication token</p>
+</li>
+<li>
+<p>Choose <strong>Connect</strong> and then select <strong>Get Token</strong></p>
+</li>
+<li>
+<p>Choose whether you want to connect as an <code>admin</code> or with a custom database role</p>
+</li>
+<li>
+<p>Copy the generated authentication token and use it for connecting with SQL clients</p>
+</li>
+</ol>
+<h2 id="using-aws-cloudshell-to-generate-an-authentication-token">Using AWS CloudShell to Generate an Authentication Token<a class="headerlink" href="#using-aws-cloudshell-to-generate-an-authentication-token" title="Permanent link">&para;</a></h2>
+<p>Before you can generate an authentication token using CloudShell, make sure that you have created an Aurora DSQL cluster.</p>
+<p><strong>To generate an authentication token using CloudShell:</strong></p>
+<ol>
+<li>
+<p>Sign in to the AWS Console and open the Aurora DSQL console at <a href="https://console.aws.amazon.com/dsql">https://console.aws.amazon.com/dsql</a></p>
+</li>
+<li>
+<p>At the bottom left of the AWS console, choose <strong>CloudShell</strong></p>
+</li>
+<li>
+<p>Run the following command to generate an authentication token for the <code>admin</code> role:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin-auth-token<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--expires-in<span class="w"> </span><span class="m">3600</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="w"> </span>us-east-1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--hostname<span class="w"> </span>your_cluster_endpoint
+</code></pre></div>
+<p><strong>Note</strong>: If you're not connecting as <code>admin</code>, use <code>generate-db-connect-auth-token</code> instead.</p>
+<ol>
+<li>Use the following command to use <code>psql</code> to start a connection to your cluster:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nv">PGSSLMODE</span><span class="o">=</span>require<span class="w"> </span><span class="se">\</span>
+psql<span class="w"> </span>--dbname<span class="w"> </span>postgres<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--username<span class="w"> </span>admin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--host<span class="w"> </span>cluster_endpoint
+</code></pre></div>
+<ol>
+<li>
+<p>When prompted for a password, paste the generated token</p>
+</li>
+<li>
+<p>Press <strong>Enter</strong> to see the PostgreSQL prompt: <code>postgres=&gt;</code></p>
+</li>
+</ol>
+<h2 id="using-the-aws-cli-to-generate-an-authentication-token">Using the AWS CLI to Generate an Authentication Token<a class="headerlink" href="#using-the-aws-cli-to-generate-an-authentication-token" title="Permanent link">&para;</a></h2>
+<p>When your cluster is <code>ACTIVE</code>, you can generate an authentication token using the <code>aws dsql</code> command:</p>
+<ul>
+<li><strong>Admin role</strong>: Use <code>generate-db-connect-admin-auth-token</code></li>
+<li><strong>Custom database role</strong>: Use <code>generate-db-connect-auth-token</code></li>
+</ul>
+<p>The following example uses these attributes to generate an authentication token for the <code>admin</code> role:
+- <strong>your_cluster_endpoint</strong>: The endpoint of the cluster (format: <code>your_cluster_identifier.dsql.region.on.aws</code>)
+- <strong>region</strong>: The AWS Region, such as <code>us-east-2</code> or <code>us-east-1</code></p>
+<p><strong>Linux and macOS:</strong>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin-auth-token<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="w"> </span>region<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--expires-in<span class="w"> </span><span class="m">3600</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--hostname<span class="w"> </span>your_cluster_endpoint
+</code></pre></div></p>
+<p><strong>Windows:</strong>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin-auth-token<span class="w"> </span>^
+<span class="w">  </span>--region<span class="o">=</span>region<span class="w"> </span>^
+<span class="w">  </span>--expires-in<span class="o">=</span><span class="m">3600</span><span class="w"> </span>^
+<span class="w">  </span>--hostname<span class="o">=</span>your_cluster_endpoint
+</code></pre></div></p>
+<h2 id="using-the-sdks-to-generate-a-token">Using the SDKs to Generate a Token<a class="headerlink" href="#using-the-sdks-to-generate-a-token" title="Permanent link">&para;</a></h2>
+<p>You can generate an authentication token for your cluster when it is in <code>ACTIVE</code> status. The SDK examples use the following attributes to generate an authentication token for the <code>admin</code> role:</p>
+<ul>
+<li><strong>your_cluster_endpoint</strong>: The endpoint of your Aurora DSQL cluster (format: <code>your_cluster_identifier.dsql.region.on.aws</code>)</li>
+<li><strong>region</strong>: The AWS Region in which your cluster is located</li>
+</ul>
+<h3 id="python-sdk">Python SDK<a class="headerlink" href="#python-sdk" title="Permanent link">&para;</a></h3>
+<p>You can generate the token in the following ways:
+- <strong>Admin role</strong>: Use <code>generate_db_connect_admin_auth_token</code>
+- <strong>Custom database role</strong>: Use <code>generate_connect_auth_token</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_token</span><span class="p">(</span><span class="n">your_cluster_endpoint</span><span class="p">,</span> <span class="n">region</span><span class="p">):</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">&quot;dsql&quot;</span><span class="p">,</span> <span class="n">region_name</span><span class="o">=</span><span class="n">region</span><span class="p">)</span>
+    <span class="c1"># use `generate_db_connect_auth_token` instead if you are not connecting as admin.</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">generate_db_connect_admin_auth_token</span><span class="p">(</span><span class="n">your_cluster_endpoint</span><span class="p">,</span> <span class="n">region</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">token</span>
+</code></pre></div>
+<h3 id="c-sdk">C++ SDK<a class="headerlink" href="#c-sdk" title="Permanent link">&para;</a></h3>
+<p>You can generate the token in the following ways:
+- <strong>Admin role</strong>: Use <code>GenerateDBConnectAdminAuthToken</code>
+- <strong>Custom database role</strong>: Use <code>GenerateDBConnectAuthToken</code></p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;aws/core/Aws.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;aws/dsql/DSQLClient.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">Aws</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">Aws</span><span class="o">::</span><span class="nn">DSQL</span><span class="p">;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="nf">generateToken</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">region</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Aws</span><span class="o">::</span><span class="n">SDKOptions</span><span class="w"> </span><span class="n">options</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Aws</span><span class="o">::</span><span class="n">InitAPI</span><span class="p">(</span><span class="n">options</span><span class="p">);</span>
+<span class="w">    </span><span class="n">DSQLClientConfiguration</span><span class="w"> </span><span class="n">clientConfig</span><span class="p">;</span>
+<span class="w">    </span><span class="n">clientConfig</span><span class="p">.</span><span class="n">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">region</span><span class="p">;</span>
+<span class="w">    </span><span class="n">DSQLClient</span><span class="w"> </span><span class="n">client</span><span class="p">{</span><span class="n">clientConfig</span><span class="p">};</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// If you are not using the admin role to connect, use GenerateDBConnectAuthToken instead</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">presignedString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">GenerateDBConnectAdminAuthToken</span><span class="p">(</span><span class="n">yourClusterEndpoint</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">presignedString</span><span class="p">.</span><span class="n">IsSuccess</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">presignedString</span><span class="p">.</span><span class="n">GetResult</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Token generation failed.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">Aws</span><span class="o">::</span><span class="n">ShutdownAPI</span><span class="p">(</span><span class="n">options</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">token</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="javascript-sdk">JavaScript SDK<a class="headerlink" href="#javascript-sdk" title="Permanent link">&para;</a></h3>
+<p>You can generate the token in the following ways:
+- <strong>Admin role</strong>: Use <code>getDbConnectAdminAuthToken</code>
+- <strong>Custom database role</strong>: Use <code>getDbConnectAuthToken</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">DsqlSigner</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;@aws-sdk/dsql-signer&quot;</span><span class="p">;</span>
+
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">generateToken</span><span class="p">(</span><span class="nx">yourClusterEndpoint</span><span class="p">,</span><span class="w"> </span><span class="nx">region</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">signer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">DsqlSigner</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">hostname</span><span class="o">:</span><span class="w"> </span><span class="nx">yourClusterEndpoint</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">region</span><span class="p">,</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Use `getDbConnectAuthToken` if you are _not_ logging in as the `admin` user</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">signer</span><span class="p">.</span><span class="nx">getDbConnectAdminAuthToken</span><span class="p">();</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">token</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">token</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&quot;Failed to generate token: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
+<span class="w">      </span><span class="k">throw</span><span class="w"> </span><span class="nx">error</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="java-sdk">Java SDK<a class="headerlink" href="#java-sdk" title="Permanent link">&para;</a></h3>
+<p>You can generate the token in the following ways:
+- <strong>Admin role</strong>: Use <code>generateDbConnectAdminAuthToken</code>
+- <strong>Custom database role</strong>: Use <code>generateDbConnectAuthToken</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">software.amazon.awssdk.services.dsql.DsqlUtilities</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">software.amazon.awssdk.regions.Region</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GenerateAuthToken</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">generateToken</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="p">,</span><span class="w"> </span><span class="n">Region</span><span class="w"> </span><span class="n">region</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">DsqlUtilities</span><span class="w"> </span><span class="n">utilities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DsqlUtilities</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">region</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">credentialsProvider</span><span class="p">(</span><span class="n">DefaultCredentialsProvider</span><span class="p">.</span><span class="na">create</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Use `generateDbConnectAuthToken` if you are _not_ logging in as `admin` user </span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utilities</span><span class="p">.</span><span class="na">generateDbConnectAdminAuthToken</span><span class="p">(</span><span class="n">builder</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">builder</span><span class="p">.</span><span class="na">hostname</span><span class="p">(</span><span class="n">yourClusterEndpoint</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">region</span><span class="p">(</span><span class="n">region</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">token</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">token</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="rust-sdk">Rust SDK<a class="headerlink" href="#rust-sdk" title="Permanent link">&para;</a></h3>
+<p>You can generate the token in the following ways:
+- <strong>Admin role</strong>: Use <code>db_connect_admin_auth_token</code>
+- <strong>Custom database role</strong>: Use <code>db_connect_auth_token</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">aws_config</span><span class="p">::{</span><span class="n">BehaviorVersion</span><span class="p">,</span><span class="w"> </span><span class="n">Region</span><span class="p">};</span>
+<span class="k">use</span><span class="w"> </span><span class="n">aws_sdk_dsql</span><span class="p">::</span><span class="n">auth_token</span><span class="p">::{</span><span class="n">AuthTokenGenerator</span><span class="p">,</span><span class="w"> </span><span class="n">Config</span><span class="p">};</span>
+
+<span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">generate_token</span><span class="p">(</span><span class="n">your_cluster_endpoint</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">sdk_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aws_config</span><span class="p">::</span><span class="n">load_defaults</span><span class="p">(</span><span class="n">BehaviorVersion</span><span class="p">::</span><span class="n">latest</span><span class="p">()).</span><span class="k">await</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">signer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AuthTokenGenerator</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+<span class="w">        </span><span class="n">Config</span><span class="p">::</span><span class="n">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="n">hostname</span><span class="p">(</span><span class="o">&amp;</span><span class="n">your_cluster_endpoint</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="n">region</span><span class="p">(</span><span class="n">Region</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">region</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="n">build</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Use `db_connect_auth_token` if you are _not_ logging in as `admin` user</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">signer</span><span class="p">.</span><span class="n">db_connect_admin_auth_token</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sdk_config</span><span class="p">).</span><span class="k">await</span><span class="p">.</span><span class="n">unwrap</span><span class="p">();</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">token</span><span class="p">);</span>
+<span class="w">    </span><span class="n">token</span><span class="p">.</span><span class="n">to_string</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="ruby-sdk">Ruby SDK<a class="headerlink" href="#ruby-sdk" title="Permanent link">&para;</a></h3>
+<p>You can generate the token in the following ways:
+- <strong>Admin role</strong>: Use <code>generate_db_connect_admin_auth_token</code>
+- <strong>Custom database role</strong>: Use <code>generate_db_connect_auth_token</code></p>
+<div class="highlight"><pre><span></span><code><span class="nb">require</span><span class="w"> </span><span class="s1">&#39;aws-sdk-dsql&#39;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_token</span><span class="p">(</span><span class="n">your_cluster_endpoint</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">)</span>
+<span class="w">  </span><span class="n">credentials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Aws</span><span class="o">::</span><span class="no">SharedCredentials</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+
+<span class="w">  </span><span class="k">begin</span>
+<span class="w">      </span><span class="n">token_generator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Aws</span><span class="o">::</span><span class="no">DSQL</span><span class="o">::</span><span class="no">AuthTokenGenerator</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+<span class="w">          </span><span class="ss">:credentials</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">credentials</span>
+<span class="w">      </span><span class="p">})</span>
+
+<span class="w">      </span><span class="c1"># if you&#39;re not using admin role, use generate_db_connect_auth_token instead</span>
+<span class="w">      </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">token_generator</span><span class="o">.</span><span class="n">generate_db_connect_admin_auth_token</span><span class="p">({</span>
+<span class="w">          </span><span class="ss">:endpoint</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">your_cluster_endpoint</span><span class="p">,</span>
+<span class="w">          </span><span class="ss">:region</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">region</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">  </span><span class="k">rescue</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">error</span>
+<span class="w">    </span><span class="nb">puts</span><span class="w"> </span><span class="n">error</span><span class="o">.</span><span class="n">full_message</span>
+<span class="w">  </span><span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<h3 id="net-sdk">.NET SDK<a class="headerlink" href="#net-sdk" title="Permanent link">&para;</a></h3>
+<p><strong>Note</strong>: The official SDK for .NET doesn't include a built-in API call to generate an authentication token for Aurora DSQL. Instead, you must use <code>DSQLAuthTokenGenerator</code>, which is a utility class.</p>
+<p>You can generate the token in the following ways:
+- <strong>Admin role</strong>: Use <code>DbConnectAdmin</code>
+- <strong>Custom database role</strong>: Use <code>DbConnect</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">Amazon</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">Amazon.DSQL.Util</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">Amazon.Runtime</span><span class="p">;</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;insert-dsql-cluster-endpoint&quot;</span><span class="p">;</span>
+
+<span class="n">AWSCredentials</span><span class="w"> </span><span class="n">credentials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FallbackCredentialsFactory</span><span class="p">.</span><span class="n">GetCredentials</span><span class="p">();</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DSQLAuthTokenGenerator</span><span class="p">.</span><span class="n">GenerateDbConnectAdminAuthToken</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span><span class="w"> </span><span class="n">RegionEndpoint</span><span class="p">.</span><span class="n">USEast1</span><span class="p">,</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="p">);</span>
+
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">token</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="golang-sdk">Golang SDK<a class="headerlink" href="#golang-sdk" title="Permanent link">&para;</a></h3>
+<p><strong>Note</strong>: The Golang SDK doesn't provide a built-in method for generating a pre-signed token. You must manually construct the signed request.</p>
+<p>In the following code example, specify the <code>action</code> based on the PostgreSQL user:
+- <strong>Admin role</strong>: Use the <code>DbConnectAdmin</code> action
+- <strong>Custom database role</strong>: Use the <code>DbConnect</code> action</p>
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">GenerateDbConnectAdminAuthToken</span><span class="p">(</span><span class="nx">yourClusterEndpoint</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">region</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Fetch credentials</span>
+<span class="w">    </span><span class="nx">sess</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">session</span><span class="p">.</span><span class="nx">NewSession</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">creds</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sess</span><span class="p">.</span><span class="nx">Config</span><span class="p">.</span><span class="nx">Credentials</span><span class="p">.</span><span class="nx">Get</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">staticCredentials</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">credentials</span><span class="p">.</span><span class="nx">NewStaticCredentials</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">creds</span><span class="p">.</span><span class="nx">AccessKeyID</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">creds</span><span class="p">.</span><span class="nx">SecretAccessKey</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">creds</span><span class="p">.</span><span class="nx">SessionToken</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="c1">// The scheme is arbitrary and is only needed because validation of the URL requires one.</span>
+<span class="w">    </span><span class="nx">endpoint</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;https://&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">yourClusterEndpoint</span>
+<span class="w">    </span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">NewRequest</span><span class="p">(</span><span class="s">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">endpoint</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">values</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">Query</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">values</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="s">&quot;Action&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">req</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">RawQuery</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">values</span><span class="p">.</span><span class="nx">Encode</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">signer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">v4</span><span class="p">.</span><span class="nx">Signer</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">Credentials</span><span class="p">:</span><span class="w"> </span><span class="nx">staticCredentials</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">signer</span><span class="p">.</span><span class="nx">Presign</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dsql&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">region</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Minute</span><span class="p">,</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">())</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">url</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">String</span><span class="p">()[</span><span class="nb">len</span><span class="p">(</span><span class="s">&quot;https://&quot;</span><span class="p">):]</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.copy", "content.code.select", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

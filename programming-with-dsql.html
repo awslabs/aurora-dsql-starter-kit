@@ -1,0 +1,2228 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for Amazon Aurora DSQL, a serverless distributed SQL database">
+      
+      
+      
+        <link rel="canonical" href="https://jubilant-adventure-yv9p22g.pages.github.io/programming-with-dsql.html">
+      
+      
+        <link rel="prev" href="multi-region-clusters.html">
+      
+      
+        <link rel="next" href="connectors-overview.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Programming with DSQL Overview - Aurora DSQL Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#programming-with-amazon-aurora-dsql" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Aurora DSQL Documentation" class="md-header__button md-logo" aria-label="Aurora DSQL Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Aurora DSQL Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Programming with DSQL Overview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aws/aurora-dsql-starter-kit" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="index.html" class="md-tabs__link">
+          
+  
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="api-reference.html" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="troubleshooting.html" class="md-tabs__link">
+          
+  
+  
+  Troubleshooting
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Aurora DSQL Documentation" class="md-nav__button md-logo" aria-label="Aurora DSQL Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Aurora DSQL Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aws/aurora-dsql-starter-kit" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="what-is-amazon-aurora-dsql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is Amazon Aurora DSQL?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="guides/getting-started/quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Managing Aurora DSQL Clusters
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Managing Aurora DSQL Clusters
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="managing-clusters.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Managing Clusters Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="single-region-clusters.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Single-Region Clusters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="multi-region-clusters.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Region Clusters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming with DSQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Programming with DSQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming with DSQL Overview
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="programming-with-dsql.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming with DSQL Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#programmatic-access-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programmatic Access Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Programmatic Access Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aws-command-line-interface-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AWS Command Line Interface (CLI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aws-software-development-kits-sdks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AWS Software Development Kits (SDKs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aurora-dsql-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aurora DSQL API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aws-cloudformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AWS CloudFormation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-aurora-dsql-with-postgresql-compatible-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessing Aurora DSQL with PostgreSQL-Compatible Clients
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Accessing Aurora DSQL with PostgreSQL-Compatible Clients">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-parameter-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Parameter Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sql-client-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL Client Access
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SQL Client Access">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-cloudshell-with-psql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using CloudShell with psql
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-local-cli-with-psql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Local CLI with psql
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-dbeaver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using DBeaver
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-jetbrains-datagrip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using JetBrains DataGrip
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-connectivity-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Connectivity Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Connectivity Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#database-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Drivers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#object-relational-mapping-orm-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Object-Relational Mapping (ORM) Libraries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aurora-dsql-adapters-and-dialects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aurora DSQL Adapters and Dialects
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connection Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication-token-expiration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication Token Expiration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssl-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SSL Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="connectors-overview.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connectors Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_6" id="__nav_1_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth & Access
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Auth & Access
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="authentication-and-authorization.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth & Access Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="generate-authentication-token.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generate Authentication Token
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="database-roles-iam-authentication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database Roles and IAM Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_7" id="__nav_1_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Considerations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Considerations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="considerations.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Considerations Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_8" id="__nav_1_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quotas and Limits
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quotas and Limits
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="quotas-and-limits.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quotas and Limits Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api-reference.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Troubleshooting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="troubleshooting.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#programmatic-access-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programmatic Access Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Programmatic Access Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aws-command-line-interface-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AWS Command Line Interface (CLI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aws-software-development-kits-sdks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AWS Software Development Kits (SDKs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aurora-dsql-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aurora DSQL API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aws-cloudformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AWS CloudFormation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-aurora-dsql-with-postgresql-compatible-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessing Aurora DSQL with PostgreSQL-Compatible Clients
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Accessing Aurora DSQL with PostgreSQL-Compatible Clients">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-parameter-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Parameter Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sql-client-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL Client Access
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SQL Client Access">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-cloudshell-with-psql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using CloudShell with psql
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-local-cli-with-psql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Local CLI with psql
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-dbeaver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using DBeaver
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-jetbrains-datagrip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using JetBrains DataGrip
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-connectivity-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Connectivity Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Connectivity Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#database-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Drivers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#object-relational-mapping-orm-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Object-Relational Mapping (ORM) Libraries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aurora-dsql-adapters-and-dialects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aurora DSQL Adapters and Dialects
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connection Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication-token-expiration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication Token Expiration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssl-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SSL Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="programming-with-amazon-aurora-dsql">Programming with Amazon Aurora DSQL<a class="headerlink" href="#programming-with-amazon-aurora-dsql" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Aurora DSQL provides you with the following tools to manage your Aurora DSQL resources programmatically and connect to your databases.</p>
+<h2 id="programmatic-access-tools">Programmatic Access Tools<a class="headerlink" href="#programmatic-access-tools" title="Permanent link">&para;</a></h2>
+<h3 id="aws-command-line-interface-cli">AWS Command Line Interface (CLI)<a class="headerlink" href="#aws-command-line-interface-cli" title="Permanent link">&para;</a></h3>
+<p>You can create and manage your resources by using the CLI in a command-line shell. The CLI provides direct access to the APIs for AWS services, such as Aurora DSQL.</p>
+<p><strong>Documentation</strong>: <a href="https://docs.aws.amazon.com/cli/latest/reference/dsql">AWS CLI Command Reference for DSQL</a></p>
+<h3 id="aws-software-development-kits-sdks">AWS Software Development Kits (SDKs)<a class="headerlink" href="#aws-software-development-kits-sdks" title="Permanent link">&para;</a></h3>
+<p>AWS provides SDKs for many popular technologies and programming languages. They make it easier for you to call AWS services from within your applications in that language or technology.</p>
+<p><strong>Documentation</strong>: <a href="https://aws.amazon.com/developer/tools/">Tools for developing and managing applications on AWS</a></p>
+<h3 id="aurora-dsql-api">Aurora DSQL API<a class="headerlink" href="#aurora-dsql-api" title="Permanent link">&para;</a></h3>
+<p>This API is another programming interface for Aurora DSQL. When using this API, you must format every HTTPS request correctly and add a valid digital signature to every request.</p>
+<p><strong>Documentation</strong>: <a href="api-reference.html">Aurora DSQL API Reference</a></p>
+<h3 id="aws-cloudformation">AWS CloudFormation<a class="headerlink" href="#aws-cloudformation" title="Permanent link">&para;</a></h3>
+<p>The <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dsql-cluster.html">AWS::DSQL::Cluster</a> is a CloudFormation resource that enables you to create and manage Aurora DSQL clusters as part of your infrastructure as code.</p>
+<p>CloudFormation helps you define your entire AWS environment in code, making it easier to provision, update, and replicate your infrastructure in a consistent and reliable way. When you use the AWS::DSQL::Cluster resource in your CloudFormation templates, you can declaratively provision Aurora DSQL clusters alongside your other cloud resources.</p>
+<h2 id="accessing-aurora-dsql-with-postgresql-compatible-clients">Accessing Aurora DSQL with PostgreSQL-Compatible Clients<a class="headerlink" href="#accessing-aurora-dsql-with-postgresql-compatible-clients" title="Permanent link">&para;</a></h2>
+<p>Aurora DSQL uses the <a href="https://www.postgresql.org/docs/current/protocol.html">PostgreSQL wire protocol</a>. You can connect to Aurora DSQL using a variety of tools and clients, such as CloudShell, psql, DBeaver, and DataGrip.</p>
+<h3 id="connection-parameter-mapping">Connection Parameter Mapping<a class="headerlink" href="#connection-parameter-mapping" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>PostgreSQL</th>
+<th>Aurora DSQL</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong> (User or Group)</td>
+<td>Database Role</td>
+<td>Aurora DSQL creates a role named <code>admin</code>. Custom database roles must be associated with IAM roles for authentication.</td>
+</tr>
+<tr>
+<td><strong>Host</strong> (hostname)</td>
+<td>Cluster Endpoint</td>
+<td>Single-Region clusters provide a single managed endpoint with automatic traffic redirection.</td>
+</tr>
+<tr>
+<td><strong>Port</strong></td>
+<td>Default <code>5432</code></td>
+<td>Uses the PostgreSQL default port.</td>
+</tr>
+<tr>
+<td><strong>Database</strong> (dbname)</td>
+<td><code>postgres</code></td>
+<td>Aurora DSQL creates this database when you create the cluster.</td>
+</tr>
+<tr>
+<td><strong>SSL Mode</strong></td>
+<td>SSL always enabled</td>
+<td>Aurora DSQL supports <code>require</code> SSL Mode. Connections without SSL are rejected.</td>
+</tr>
+<tr>
+<td><strong>Password</strong></td>
+<td>Authentication Token</td>
+<td>Aurora DSQL requires temporary authentication tokens instead of long-lived passwords.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authentication-requirements">Authentication Requirements<a class="headerlink" href="#authentication-requirements" title="Permanent link">&para;</a></h3>
+<p>When connecting, Aurora DSQL requires a signed IAM <a href="generate-authentication-token.html">authentication token</a> in place of a traditional password. These temporary tokens are generated using AWS Signature Version 4 and are used only during connection establishment. Once connected, the session remains active until it ends or the client disconnects.</p>
+<p>If you attempt to open a new session with an expired token, the connection request fails and a new token must be generated.</p>
+<h2 id="sql-client-access">SQL Client Access<a class="headerlink" href="#sql-client-access" title="Permanent link">&para;</a></h2>
+<p>Aurora DSQL supports multiple PostgreSQL-compatible clients for connecting to your cluster. Each client requires a valid authentication token.</p>
+<h3 id="using-cloudshell-with-psql">Using CloudShell with psql<a class="headerlink" href="#using-cloudshell-with-psql" title="Permanent link">&para;</a></h3>
+<p>Use the following procedure to access Aurora DSQL with the PostgreSQL interactive terminal from CloudShell.</p>
+<p><strong>Steps</strong>:
+1. Sign in to the <a href="https://console.aws.amazon.com/dsql">Aurora DSQL console</a>
+2. Choose the cluster you want to connect to
+3. Choose <strong>Connect with Query Editor</strong> and then <strong>Connect with CloudShell</strong>
+4. Choose whether to connect as admin or with a custom database role
+5. Choose <strong>Launch in CloudShell</strong> and <strong>Run</strong> in the CloudShell dialog</p>
+<h3 id="using-local-cli-with-psql">Using Local CLI with psql<a class="headerlink" href="#using-local-cli-with-psql" title="Permanent link">&para;</a></h3>
+<p>Use <code>psql</code>, a terminal-based front-end to PostgreSQL utility, to interactively enter queries and view results.</p>
+<p><strong>Note</strong>: To improve query response times, use PostgreSQL version 17 client. Ensure you have Python version 3.8+ and psql version 14+.</p>
+<p><strong>Connection Example</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Aurora DSQL requires a valid IAM token as the password when connecting</span>
+<span class="c1"># Generate authentication token using AWS CLI</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="k">$(</span>aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin-auth-token<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="w"> </span>us-east-1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--expires-in<span class="w"> </span><span class="m">3600</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--hostname<span class="w"> </span>your_cluster_endpoint<span class="k">)</span>
+
+<span class="c1"># Aurora DSQL requires SSL and will reject connections without it</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PGSSLMODE</span><span class="o">=</span>require
+
+<span class="c1"># Connect with psql using the environment variables</span>
+psql<span class="w"> </span>--quiet<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--username<span class="w"> </span>admin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--dbname<span class="w"> </span>postgres<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--host<span class="w"> </span>your_cluster_endpoint
+</code></pre></div></p>
+<h3 id="using-dbeaver">Using DBeaver<a class="headerlink" href="#using-dbeaver" title="Permanent link">&para;</a></h3>
+<p>DBeaver is an open-source, GUI-based database tool for connecting to and managing your database.</p>
+<p><strong>Setup Steps</strong>:
+1. Choose <strong>New Database Connection</strong>
+2. Select <strong>PostgreSQL</strong>
+3. In <strong>Connection settings/Main</strong> tab:
+   - <strong>Host</strong>: Your cluster endpoint
+   - <strong>Database</strong>: <code>postgres</code>
+   - <strong>Authentication</strong>: <code>Database Native</code>
+   - <strong>Username</strong>: <code>admin</code>
+   - <strong>Password</strong>: <a href="generate-authentication-token.html">Generate authentication token</a>
+4. Configure SSL mode (<code>PGSSLMODE=require</code> or <code>PGSSLMODE=verify-full</code>)
+5. Test connection and begin running SQL statements</p>
+<p><strong>Important</strong>: Administrative features like Session Manager and Lock Manager don't apply to Aurora DSQL due to its unique architecture.</p>
+<h3 id="using-jetbrains-datagrip">Using JetBrains DataGrip<a class="headerlink" href="#using-jetbrains-datagrip" title="Permanent link">&para;</a></h3>
+<p>DataGrip is a cross-platform IDE for working with SQL and databases, including PostgreSQL.</p>
+<p><strong>Setup Steps</strong>:
+1. Choose <strong>New Data Source</strong> and select <strong>PostgreSQL</strong>
+2. In <strong>Data Sources/General</strong> tab:
+   - <strong>Host</strong>: Your cluster endpoint
+   - <strong>Port</strong>: <code>5432</code>
+   - <strong>Database</strong>: <code>postgres</code>
+   - <strong>Authentication</strong>: <code>User &amp; Password</code>
+   - <strong>Username</strong>: <code>admin</code>
+   - <strong>Password</strong>: <a href="generate-authentication-token.html">Generate authentication token</a>
+3. Configure SSL mode in connection settings
+4. Test connection and start running SQL statements</p>
+<p><strong>Important</strong>: Some views like Sessions don't apply to Aurora DSQL due to its unique architecture.</p>
+<h2 id="database-connectivity-tools">Database Connectivity Tools<a class="headerlink" href="#database-connectivity-tools" title="Permanent link">&para;</a></h2>
+<p>AWS provides various tools for connecting to and working with Aurora DSQL databases, including database drivers, ORM libraries, and specialized adapters.</p>
+<h3 id="database-drivers">Database Drivers<a class="headerlink" href="#database-drivers" title="Permanent link">&para;</a></h3>
+<p>Low-level libraries that directly connect to the database:</p>
+<table>
+<thead>
+<tr>
+<th>Programming Language</th>
+<th>Driver</th>
+<th>Sample Repository</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>C++</strong></td>
+<td>libpq</td>
+<td><a href="https://github.com/aws-samples/aurora-dsql-samples/tree/main/cpp/libpq">C++ libpq samples</a></td>
+</tr>
+<tr>
+<td><strong>C# (.NET)</strong></td>
+<td>Npgsql</td>
+<td><a href="https://github.com/aws-samples/aurora-dsql-samples/tree/main/dotnet/npgsql">.NET Npgsql samples</a></td>
+</tr>
+<tr>
+<td><strong>Go</strong></td>
+<td>pgx</td>
+<td><a href="https://github.com/aws-samples/aurora-dsql-samples/tree/main/go/pgx">Go pgx samples</a></td>
+</tr>
+<tr>
+<td><strong>Java</strong></td>
+<td>pgJDBC</td>
+<td><a href="https://github.com/aws-samples/aurora-dsql-samples/tree/main/java/pgjdbc">Java pgJDBC samples</a></td>
+</tr>
+<tr>
+<td><strong>Java</strong></td>
+<td>Aurora DSQL Connector for JDBC</td>
+<td><a href="https://github.com/awslabs/aurora-dsql-jdbc-connector">JDBC Connector</a></td>
+</tr>
+<tr>
+<td><strong>JavaScript</strong></td>
+<td>node-postgres</td>
+<td><a href="https://github.com/aws-samples/aurora-dsql-samples/tree/main/javascript/node-postgres">Node.js postgres samples</a></td>
+</tr>
+<tr>
+<td><strong>JavaScript</strong></td>
+<td>Postgres.js</td>
+<td><a href="https://github.com/aws-samples/aurora-dsql-samples/tree/main/javascript/postgres-js">Postgres.js samples</a></td>
+</tr>
+<tr>
+<td><strong>Python</strong></td>
+<td>Psycopg</td>
+<td><a href="https://github.com/aws-samples/aurora-dsql-samples/tree/main/python/psycopg">Python Psycopg samples</a></td>
+</tr>
+<tr>
+<td><strong>Python</strong></td>
+<td>Psycopg2</td>
+<td><a href="https://github.com/aws-samples/aurora-dsql-samples/tree/main/python/psycopg2">Python Psycopg2 samples</a></td>
+</tr>
+<tr>
+<td><strong>Ruby</strong></td>
+<td>pg</td>
+<td><a href="https://github.com/aws-samples/aurora-dsql-samples/tree/main/ruby/ruby-pg">Ruby pg samples</a></td>
+</tr>
+<tr>
+<td><strong>Rust</strong></td>
+<td>SQLx</td>
+<td><a href="https://github.com/aws-samples/aurora-dsql-samples/tree/main/rust/sqlx">Rust SQLx samples</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="object-relational-mapping-orm-libraries">Object-Relational Mapping (ORM) Libraries<a class="headerlink" href="#object-relational-mapping-orm-libraries" title="Permanent link">&para;</a></h3>
+<p>Standalone libraries that provide object-relational mapping functionality:</p>
+<table>
+<thead>
+<tr>
+<th>Programming Language</th>
+<th>ORM Library</th>
+<th>Sample Repository</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Java</strong></td>
+<td>Hibernate</td>
+<td><a href="https://github.com/awslabs/aurora-dsql-hibernate/tree/main/examples/pet-clinic-app">Hibernate Pet Clinic App</a></td>
+</tr>
+<tr>
+<td><strong>Python</strong></td>
+<td>SQLAlchemy</td>
+<td><a href="https://github.com/awslabs/aurora-dsql-sqlalchemy/tree/main/examples/pet-clinic-app">SQLAlchemy Pet Clinic App</a></td>
+</tr>
+<tr>
+<td><strong>TypeScript</strong></td>
+<td>Sequelize</td>
+<td><a href="https://github.com/aws-samples/aurora-dsql-samples/tree/main/typescript/sequelize">TypeScript Sequelize samples</a></td>
+</tr>
+<tr>
+<td><strong>TypeScript</strong></td>
+<td>TypeORM</td>
+<td><a href="https://github.com/aws-samples/aurora-dsql-samples/tree/main/typescript/type-orm">TypeScript TypeORM samples</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="aurora-dsql-adapters-and-dialects">Aurora DSQL Adapters and Dialects<a class="headerlink" href="#aurora-dsql-adapters-and-dialects" title="Permanent link">&para;</a></h3>
+<p>Specific extensions that make existing ORMs work with Aurora DSQL:</p>
+<table>
+<thead>
+<tr>
+<th>Programming Language</th>
+<th>ORM/Framework</th>
+<th>Repository</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Java</strong></td>
+<td>Hibernate</td>
+<td><a href="https://github.com/awslabs/aurora-dsql-hibernate/">Aurora DSQL Hibernate Adapter</a></td>
+</tr>
+<tr>
+<td><strong>Python</strong></td>
+<td>Django</td>
+<td><a href="https://github.com/awslabs/aurora-dsql-django/">Aurora DSQL Django Adapter</a></td>
+</tr>
+<tr>
+<td><strong>Python</strong></td>
+<td>SQLAlchemy</td>
+<td><a href="https://github.com/awslabs/aurora-dsql-sqlalchemy/">Aurora DSQL SQLAlchemy Adapter</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="connection-troubleshooting">Connection Troubleshooting<a class="headerlink" href="#connection-troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="authentication-token-expiration">Authentication Token Expiration<a class="headerlink" href="#authentication-token-expiration" title="Permanent link">&para;</a></h3>
+<p><strong>Behavior</strong>: Established sessions remain authenticated for a maximum of 1 hour or until an explicit disconnect or client-side timeout occurs.</p>
+<p><strong>Important Considerations</strong>:
+- If new connections need to be established, a new authentication token must be generated
+- Opening a new session (listing tables, new SQL console) forces a new authentication attempt
+- If the authentication token is no longer valid, new sessions will fail and all previously opened sessions become invalid
+- Plan token duration carefully using the <code>expires-in</code> option (15 minutes default, maximum 7 days)</p>
+<h3 id="ssl-requirements">SSL Requirements<a class="headerlink" href="#ssl-requirements" title="Permanent link">&para;</a></h3>
+<p><strong>SSL Mode Support</strong>:
+- <code>PGSSLMODE=require</code>: Basic SSL encryption
+- <code>PGSSLMODE=verify-full</code>: SSL with certificate verification</p>
+<p><strong>Important</strong>: Aurora DSQL enforces SSL communication on the server side and rejects non-SSL connections. For <code>verify-full</code> option, you need to install SSL certificates locally.</p>
+<h2 id="related-documentation">Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Authentication Tokens</strong>: <a href="generate-authentication-token.html">Generate Authentication Token</a></li>
+<li><strong>Database Roles</strong>: <a href="database-roles-iam-authentication.html">Database Roles and IAM Authentication</a></li>
+<li><strong>Getting Started</strong>: <a href="guides/getting-started/quickstart.html">Getting Started</a></li>
+<li><strong>Troubleshooting</strong>: <a href="troubleshooting.html">Troubleshooting Overview</a></li>
+<li><strong>SSL Certificates</strong>: <a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/configure-root-certificates.html">SSL/TLS certificates configuration</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.copy", "content.code.select", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
