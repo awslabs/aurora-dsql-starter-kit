@@ -89,7 +89,7 @@ Aurora DSQL provides specialized connectors that extend existing database driver
 ## Getting Started with Connectors
 
 ### Installation Process
-1. **Install connector package** for eyour programming language
+1. **Install connector package** for your programming language
 2. **Configure AWS credentials** (IAM roles, access keys, or profiles)
 3. **Update connection strings** to use Aurora DSQL endpoints
 4. **Test connectivity** with your Aurora DSQL cluster
