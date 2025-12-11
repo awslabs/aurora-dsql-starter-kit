@@ -233,16 +233,64 @@ class EntityRepository {
 
 ## Connection Management
 
-### Connector
+### RECOMMENDED: Connector
 
 ```typescript
+import { AuroraDSQLClient } from "@aws/aurora-dsql-node-postgres-connector";
 
+async function getConnection(
+  clusterEndpoint: string,
+  user: string,
+  region: string
+): Promise<pg.Client> {
+  const client = new AuroraDSQLClient({
+    host: clusterEndpoint,
+    user: user,
+  });
+
+  // Connect
+  await client.connect();
+  return client;
+}
 ```
 
-### Token-Based Authentication
+### Token Generation
+```javascript
+import { DsqlSigner } from "@aws-sdk/dsql-signer";
 
-```elixir
+async function getConnection(clusterEndpoint, user, region) {
+  
+  let client = postgres({
+    host: clusterEndpoint,
+    user: user,
+    // We can pass a function to password instead of a value, which will be triggered whenever
+    // connections are opened.
+    password: async () => await getPasswordToken(clusterEndpoint, user, region),
+    database: "postgres",
+    port: 5432,
+    idle_timeout: 2,
+    ssl: {
+      rejectUnauthorized: true,
+    }
+    // max: 1, // Optionally set maximum connection pool size
+  })
 
+  return client;
+}
+
+async function getPasswordToken(clusterEndpoint, user, region) {
+  const signer = new DsqlSigner({
+    hostname: clusterEndpoint,
+    region,
+  });
+  if (user === "admin") {
+    return await signer.getDbConnectAdminAuthToken();
+  }
+  else {
+    signer.user = user;
+    return await signer.getDbConnectAuthToken()
+  }
+}
 ```
 
 ---
@@ -484,5 +532,6 @@ async findDescendants(tenantId: string, entityId: string): Promise<Entity[]> {
 
 ## References
 
-- **Constraints:** [steering.md](./steering.md)
+- **Developing Guide:** [development-guide.md](./development-guide.md)
+- **Onboarding Guide:**
 - **AWS Documentation:** [Aurora DSQL User Guide](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/)
