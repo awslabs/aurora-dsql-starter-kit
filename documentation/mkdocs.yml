@@ -1,6 +1,7 @@
 site_name: Aurora DSQL Documentation
 site_description: Documentation for Amazon Aurora DSQL, a serverless distributed SQL database
 site_dir: site
+site_url: "https://jubilant-adventure-yv9p22g.pages.github.io/"
 use_directory_urls: false
 
 repo_url: https://github.com/aws/aurora-dsql-starter-kit
