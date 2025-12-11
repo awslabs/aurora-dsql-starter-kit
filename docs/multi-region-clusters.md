@@ -473,6 +473,6 @@ For multi-region clusters, both clusters must be deleted. The first cluster will
 ## Related Documentation
 
 - **Single-Region Clusters**: [Single-Region Clusters](single-region-clusters.md)
-- **Getting Started**: [Getting Started](../guides/getting-started/quickstart.md)
+- **Getting Started**: [Getting Started](guides/getting-started/quickstart.md)
 - **Authentication**: [Auth & Access Overview](authentication-and-authorization.md)
 - **Troubleshooting**: [Troubleshooting Overview](troubleshooting.md)

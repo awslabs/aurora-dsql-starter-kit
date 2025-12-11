@@ -398,7 +398,7 @@ For more code samples and examples, visit the [Aurora DSQL Samples GitHub reposi
 
 ## Related Documentation
 
-- **Getting Started**: [Getting Started](../guides/getting-started/quickstart.md)
+- **Getting Started**: [Getting Started](guides/getting-started/quickstart.md)
 - **Multi-Region Clusters**: [Multi-Region cluster management](multi-region-clusters.md)
 - **Authentication**: [Auth & Access Overview](authentication-and-authorization.md)
 - **Troubleshooting**: [Troubleshooting Overview](troubleshooting.md)
