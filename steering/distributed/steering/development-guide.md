@@ -8,7 +8,7 @@ effortless scaling, multi-region viability, among other advantages.
 
 ## Best Practices
 
-- **SHOULD read guidelines first** - Check [development_guide.md](steering/development-guide.md) before making schema changes
+- **SHOULD read guidelines first** - Check [development_guide.md](./development-guide.md) before making schema changes
 - **SHOULD Execute queries directly** - PREFER MCP tools for ad-hoc queries 
 - **REQUIRED: Follow DDL Guidelines** - Refer to [DDL Rules](#ddl-rules)
 - **SHALL repeatedly generate fresh tokens** - Refer to [Connection Limits](#connection-limits)
@@ -23,11 +23,14 @@ effortless scaling, multi-region viability, among other advantages.
 - **SHOULD test any migrations** - Verify DDL on dev clusters before production
 - **SHOULD use partial indexes** - For sparse data with WHERE clauses
 - **Plan for Scale** - DSQL is designed to optimize for massive scales without latency drops
+- **SHOULD use connection pooling in production applications** - Refer to [Connection Pooling](#connection-pooling)
+- **SHOULD debug with the troubleshooting guide:** - Always refer to the resources and guidelines in [troubleshooting.md](./troubleshooting.md)
 
 ---
 
 
 ## Basic Development Guidelines
+
 
 ### Connection and Authentication
 
@@ -71,7 +74,7 @@ effortless scaling, multi-region viability, among other advantages.
 - Set connection timeouts appropriately
 
 #### Secrets Management
-**Never hardcode credentials:**
+**ALWAYS dynamically assign credentials:**
 - Use environment variables for configuration
 - Store cluster endpoints in AWS Systems Manager Parameter Store
 - Use AWS Secrets Manager for any sensitive configuration
@@ -94,21 +97,42 @@ const endpoint = "abc123.dsql.us-east-1.on.aws" // ❌ Never do this
 - 10,000 connections per cluster
 - SSL required
 
-### DDL Rules
-- One DDL statement per operation
-- No DDL in transactions
-- All indexes must use ASYNC
-- To add a column with DEFAULT or NOT NULL:
-  - MUST issue ADD COLUMN specifying only the column name and data type
-  - MUST then issue UPDATE to populate existing rows
-  - MAY then issue ALTER COLUMN to apply the constraint
-- MUST issue a separate ALTER TABLE statement for each column modification.
+#### SSL/TLS Requirements
 
-### Transaction 
-- Should modify **up to 3000 rows** per transaction
-- Should maintain **10 MiB data size** per write transaction
-- Should expect **5-minute** transaction duration 
-- Should always expect repeatable read isolation
+Aurora DSQL uses the [PostgreSQL wire protocol](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/working-with-postgresql-compatibility.html) and enforces SSL:
+
+```
+sslmode: verify-full
+sslnegotiation: direct      # PostgreSQL 17+ drivers (better performance)
+port: 5432
+database: postgres           # single database per cluster
+```
+
+**Key details:**
+- SSL always enabled server-side
+- Use `verify-full` to verify server certificate
+- Use `direct` TLS negotiation for PostgreSQL 17+ compatible drivers
+- System trust store must include Amazon Root CA
+
+#### Connection Pooling (Recommended)
+
+For production applications:
+- SHOULD Implement connection pooling
+- ALWAYS Configure token refresh before expiration
+- MUST Set appropriate pool size (e.g., max: 10, min: 2)
+- MUST Configure connection lifetime and idle timeout
+- MUST Generate fresh token in `BeforeConnect` or equivalent hook
+
+#### Security Best Practices
+
+- ALWAYS dynamically set crededntials
+- MUST use IAM authentication exclusively
+- ALWAYS use SSL/TLS with certificate verification
+- SHOULD grant least privilege IAM permissions
+- ALWAYS rotate tokens before expiration
+- SHOULD use connection pooling to minimize token generation overhead
+
+---
 
 ### Audit Logging
 
@@ -123,6 +147,8 @@ const endpoint = "abc123.dsql.us-east-1.on.aws" // ❌ Never do this
 - Monitor slow queries and connection patterns
 - Track failed authentication attempts
 - Review logs regularly for anomalies
+
+---
 
 ### Access Control
 
@@ -153,59 +179,6 @@ const endpoint = "abc123.dsql.us-east-1.on.aws" // ❌ Never do this
 
 ### Query Execution
 
----
-
-## Critical Constraints
-
-### Transaction Limits
-- **3,000 row modifications** per transaction maximum
-- **10 MiB data size** per write transaction
-- **5-minute duration** maximum per transaction
-- **Repeatable Read isolation** only (fixed, cannot change)
-
-### DDL Restrictions
-- **One DDL per transaction** - Never mix DDL statements
-- **No DDL/DML mixing** - Separate schema changes from data changes
-- **No rollback** - DDL changes are permanent
-- **Async execution** - All DDL runs asynchronously
-- **No transactions** - Execute each DDL individually
-
-### Unsupported PostgreSQL Features
-
-#### Critical Missing Features
-- **NO Foreign Key enforcement** (can define but not enforced)
-- **NO Arrays as column types** (use TEXT with serialization)
-- **NO JSON/JSONB columns** (store as TEXT)
-- **NO Triggers**
-- **NO Stored Procedures** (PL/pgSQL not supported)
-- **NO Sequences** (use UUIDs)
-- **NO TRUNCATE**
-- **NO Temporary tables**
-- **NO Materialized views**
-- **NO Extensions** (PostGIS, PGVector, etc.)
-
-#### ALTER TABLE Limitations
-- **One column at a time** - No multi-column ALTER
-- **No DEFAULT in ADD COLUMN** - Add column, then UPDATE
-- **No NOT NULL in ADD COLUMN** - Add nullable, handle in app
-- **No DROP CONSTRAINT** - Constraints are permanent
-
-#### Index Requirements
-- **MUST use CREATE INDEX ASYNC** - No synchronous creation
-- **24 indexes per table** maximum
-- **8 columns per index** maximum
-
-### Connection Management
-- **15-minute token expiry** - Generate fresh tokens
-- **SSL required** - All connections must use SSL
-- **60-minute connection limit** - Maximum connection duration
-
----
-
-## Operational Rules
-
-### Query Execution
-
 **For Ad-Hoc Queries and Data Exploration:**
 - MUST ALWAYS Execute DIRECTLY using MCP server or psql one-liners
 - SHOULD Return results immediately
@@ -215,70 +188,59 @@ const endpoint = "abc123.dsql.us-east-1.on.aws" // ❌ Never do this
 - Reusable utilities
 - EXPLICIT user request
 
-
-### Schema Design Rules
-
-- Use simple PostgreSQL types: VARCHAR, TEXT, INTEGER, BOOLEAN, TIMESTAMP
-- Store arrays as TEXT (comma-separated is recommended)
-- Store JSON objects as TEXT (JSON.stringify)
-- Always include tenant_id in tables for multi-tenant isolation
-- Create async indexes for tenant_id and common query patterns
-- Use partial indexes for sparse data (WHERE column IS NOT NULL)
-
-### Application-Layer Patterns
-
-**MANDATORY for Referential Integrity:**
-- Validate parent references before INSERT
-- Check for dependents before DELETE
-- Implement cascade logic in application code
-- Handle orphaned records in application layer
-
-**MANDATORY for Multi-Tenant Isolation:**
-- tenantId is ALWAYS first parameter in repository methods
-- ALL queries include WHERE tenant_id = ?
-- NEVER allow cross-tenant data access
-- Validate tenant ownership before operations
-
-### Migration Patterns
-
-- One DDL statement per migration step
-- Use IF NOT EXISTS for idempotency
-- Add column first, then UPDATE with defaults
-- Cannot use DEFAULT or NOT NULL in ADD COLUMN
-- Each DDL executes separately (no BEGIN/COMMIT)
-
 ---
 
-## DSQL Best Practices
+### Schema Design Rules
+- MUST use **simple PostgreSQL types:** VARCHAR, TEXT, INTEGER, BOOLEAN, TIMESTAMP
+- MUST store arrays as TEXT (comma-separated is recommended)
+- MUST store JSON objects as TEXT (JSON.stringify)
+- ALWAYS include tenant_id in tables for multi-tenant isolation
+- SHOULD create async indexes for tenant_id and common query patterns
+- PREFER partial indexes for sparse data (WHERE column IS NOT NULL)
 
-### General Tips
 
-1. **Execute directly** - Use MCP tools for queries, not temporary scripts
-2. **Read constraints first** - Check dsql.md steering file before schema changes
-3. **Validate in application** - Implement foreign key logic in your code
-4. **Serialize complex types** - Store arrays/JSON as TEXT
-5. **Batch carefully** - Keep well under 3,000 row limit
-6. **Index strategically** - Use ASYNC, focus on tenant_id and common filters
-7. **Test migrations** - Verify DDL on dev cluster before production
-8. **Monitor token expiry** - Reconnect if seeing auth errors
-9. **Use partial indexes** - For sparse data with WHERE clause
-10. **Plan for scale** - DSQL is built for massive scale, design accordingly
-
-### DDL Requirements
-- One DDL statement per operation
-- No DDL in transactions
-- All indexes must use ASYNC
+### Schema (DDL) Rules
+- REQUIRED: **at most one DDL statement** per operation
+- ALWAYS separate schema (DDL) and data (DML) changes
+- MUST use **`CREATE INDEX ASYNC`:**  No synchronous creation 
+  - MAXIMUM: **24 indexes per table** 
+  - MAXIMUM: **8 columns per index** 
+- **Asynchronous Execution:** All DDL runs asynchronously
 - To add a column with DEFAULT or NOT NULL:
   - MUST issue ADD COLUMN specifying only the column name and data type
   - MUST then issue UPDATE to populate existing rows
   - MAY then issue ALTER COLUMN to apply the constraint
-- MUST issue a separate ALTER TABLE statement for each column modification.
+- MUST issue a **separate ALTER TABLE statement for each column** modification.
 
-### Connection Limits
-- 15-minute token expiry
-- 60-minute connection maximum
-- 10,000 connections per cluster
-- SSL required
+
+### Transaction Rules
+- SHOULD modify **at most 3000 rows** per transaction
+- SHOULD have maximum **10 MiB data size** per write transaction
+- SHOULD expect **5-minute** transaction duration 
+- ALWAYS expect repeatable read isolation
+
+---
+
+### Application-Layer Patterns
+
+**MANDATORY for Referential Integrity:**
+- MUST validate parent references before INSERT
+- MUST check for dependents before DELETE
+- MUST implement cascade logic in application code
+- MUST handle orphaned records in application layer
+
+**MANDATORY for Multi-Tenant Isolation:**
+- tenantId is ALWAYS first parameter in repository methods
+- ALL queries include WHERE tenant_id = ?
+- ALWAYS validate tenant ownership before operations
+- ALWAYS reject cross-tenant data access
+
+### Migration Patterns
+
+- REQUIRED: One DDL statement per migration step
+- SHOULD Use IF NOT EXISTS for idempotency
+- SHOULD Add column first, then UPDATE with defaults
+- REQUIRED: Each DDL executes separately 
 
 ---
 
