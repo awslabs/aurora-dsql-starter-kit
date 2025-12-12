@@ -8,10 +8,10 @@ effortless scaling, multi-region viability, among other advantages.
 
 ## Best Practices
 
-- **SHOULD read guidelines first** - Check [development_guide.md](./development-guide.md) before making schema changes
+- **SHOULD read guidelines first** - Check [development_guide.md](development-guide.md) before making schema changes
 - **SHOULD Execute queries directly** - PREFER MCP tools for ad-hoc queries 
-- **REQUIRED: Follow DDL Guidelines** - Refer to [DDL Rules](#ddl-rules)
-- **SHALL repeatedly generate fresh tokens** - Refer to [Connection Limits](#connection-limits)
+- **REQUIRED: Follow DDL Guidelines** - Refer to [DDL Rules](#schema-ddl-rules)
+- **SHALL repeatedly generate fresh tokens** - Refer to [Connection Limits](#connection-rules)
 - **ALWAYS use ASYNC indexes** - `CREATE INDEX ASYNC` is mandatory
 - **ALWAYS validate references in code** - implement referential integrity at the application layer 
 - **MUST Serialize arrays/JSON as TEXT** - Store arrays/JSON as TEXT (comma separated, JSON.stringify)
@@ -23,7 +23,8 @@ effortless scaling, multi-region viability, among other advantages.
 - **SHOULD test any migrations** - Verify DDL on dev clusters before production
 - **SHOULD use partial indexes** - For sparse data with WHERE clauses
 - **Plan for Scale** - DSQL is designed to optimize for massive scales without latency drops
-- **SHOULD use connection pooling in production applications** - Refer to [Connection Pooling](#connection-pooling)
+- **Plan for Scale** - DSQL is designed to optimize for massive scales without latency drops
+- **SHOULD use connection pooling in production applications** - Refer to [Connection Pooling](#connection-pooling-recommended)
 - **SHOULD debug with the troubleshooting guide:** - Always refer to the resources and guidelines in [troubleshooting.md](./troubleshooting.md)
 
 ---

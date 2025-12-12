@@ -1,9 +1,6 @@
 ---
-name: "aurora-dsql"
-displayName: "Build a database with Aurora DSQL"
-description: "Build and deploy a PostgreSQL-compatible serverless distributed SQL database with Aurora DSQL - manage schemas, execute queries, and handle migrations with DSQL-specific requirements."
-keywords: ["aurora", "dsql", "postgresql", "serverless", "database", "sql", "aws", "distributed"]
-author: "AWS"
+name: aurora-dsql
+description: Build and deploy a PostgreSQL-compatible serverless distributed SQL database with Aurora DSQL - manage schemas, execute queries, and handle migrations with DSQL-specific requirements. Use when wanting to develop a distributed SQL database, user asks to use Amazon Aurora DSQL, or already developing with DSQL.
 ---
 
 # Amazon Aurora DSQL Power
@@ -21,14 +18,47 @@ Aurora DSQL is a true serverless database with scale-to-zero capability, zero op
 - **Multi-Tenant Patterns**: Built-in tenant isolation and data scoping
 - **Authentication**: Uses AWS IAM credentials with automatic token generation.
 
-## Available Steering Files
+## Available Reference Files (ONLY open as needed)
 
 This power includes the following steering files in [steering](./steering)
-- **development-guide** - DSQL Guidelines and Operational Rules (always loaded)
-- **dsql-examples** - Code examples and implementation patterns (load when implementing)
-- **language** - Language-based implementation examples and references (load when implementing)
-- **troubleshooting** - Common pitfalls and errors and how to solve (load when debugging an error)
-- **onboarding** - Interactive "Get Started with DSQL" guide for onboarding users step-by-step
+- [**development-guide**](steering/development-guide.md) 
+  - DSQL Guidelines and Operational Rules 
+  - Always loaded
+- [**dsql-examples**](steering/dsql-examples.md) 
+  - Code examples and implementation patterns 
+  - Load when looking for specific implementation examples
+- [**language**](steering/language.md) 
+  - Language-based implementation examples and references 
+  - Load when making language-specific implementation choices
+- [**troubleshooting**](steering/troubleshooting.md) 
+  - Common pitfalls and errors and how to solve 
+  - Load when debugging an error
+- [**onboarding**](steering/onboarding.md)  
+  - Interactive "Get Started with DSQL" guide for onboarding users step-by-step 
+  - Load by manual user invocation to "Get started with DSQL"
+
+
+## DSQL Best Practices
+
+- **SHOULD read guidelines first** - Check [development_guide.md](steering/development-guide.md) before making schema changes
+- **SHOULD Execute queries directly** - PREFER MCP tools for ad-hoc queries 
+- **REQUIRED: Follow DDL Guidelines** - Refer to [DDL Rules](steering/development-guide.md#schema-ddl-rules)
+- **SHALL repeatedly generate fresh tokens** - Refer to [Connection Limits](steering/development-guide.md#connection-rules)
+- **ALWAYS use ASYNC indexes** - `CREATE INDEX ASYNC` is mandatory
+- **ALWAYS validate references in code** - implement referential integrity at the application layer 
+- **MUST Serialize arrays/JSON as TEXT** - Store arrays/JSON as TEXT (comma separated, JSON.stringify)
+- **ALWAYS Include tenant_id everywhere** - First parameter in all queries for isolation
+- **ALWAYS Batch under 3,000 rows** - maintain transaction limits
+- **REQUIRED: Use parameterized queries** - Prevent SQL injection with $1, $2 placeholders
+- **ALWAYS Check dependents before delete** - Implement cascade logic in application
+- **REQUIRED use DELETE for truncation** - DELETE is the only supported operation for truncation
+- **SHOULD test any migrations** - Verify DDL on dev clusters before production
+- **SHOULD use partial indexes** - For sparse data with WHERE clauses
+- **Plan for Scale** - DSQL is designed to optimize for massive scales without latency drops
+- **Plan for Scale** - DSQL is designed to optimize for massive scales without latency drops
+- **SHOULD use connection pooling in production applications** - Refer to [Connection Pooling](steering/development-guide.md#connection-pooling-recommended)
+- **SHOULD debug with the troubleshooting guide:** - Always refer to the resources and guidelines in [troubleshooting.md](steering/troubleshooting.md)
+
 
 ## Available MCP Servers
 
@@ -308,26 +338,6 @@ usePower("dsql", "aurora-dsql", "execute", {
 
 **Database Name**: Always use `postgres` (only database available in DSQL)
 
-## Best Practices
-
-- **SHOULD read guidelines first** - Check [development_guide.md](steering/development-guide.md) before making schema changes
-- **SHOULD Execute queries directly** - PREFER MCP tools for ad-hoc queries 
-- **REQUIRED: Follow DDL Guidelines** - Refer to [DDL Rules](steering/development-guide.md#schema-ddl-rules)
-- **SHALL repeatedly generate fresh tokens** - Refer to [Connection Limits](steering/development-guide.md#connection-rules)
-- **ALWAYS use ASYNC indexes** - `CREATE INDEX ASYNC` is mandatory
-- **ALWAYS validate references in code** - implement referential integrity at the application layer 
-- **MUST Serialize arrays/JSON as TEXT** - Store arrays/JSON as TEXT (comma separated, JSON.stringify)
-- **ALWAYS Include tenant_id everywhere** - First parameter in all queries for isolation
-- **ALWAYS Batch under 3,000 rows** - maintain transaction limits
-- **REQUIRED: Use parameterized queries** - Prevent SQL injection with $1, $2 placeholders
-- **ALWAYS Check dependents before delete** - Implement cascade logic in application
-- **REQUIRED use DELETE for truncation** - DELETE is the only supported operation for truncation
-- **SHOULD test any migrations** - Verify DDL on dev clusters before production
-- **SHOULD use partial indexes** - For sparse data with WHERE clauses
-- **Plan for Scale** - DSQL is designed to optimize for massive scales without latency drops
-- **Plan for Scale** - DSQL is designed to optimize for massive scales without latency drops
-- **SHOULD use connection pooling in production applications** - Refer to [Connection Pooling](steering/development-guide.md#connection-pooling-recommended)
-- **SHOULD debug with the troubleshooting guide:** - Always refer to the resources and guidelines in [troubleshooting.md](steering/troubleshooting.md)
 
 ## Additional Resources
 
@@ -339,4 +349,3 @@ usePower("dsql", "aurora-dsql", "execute", {
 - [What Comaptibility DSQL Supports with PostgreSQL](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/working-with-postgresql-compatibility.html)
 - [Incompatible Postgres Features](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/working-with-postgresql-compatibility-unsupported-features.html)
 - [CloudFormation Resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dsql-cluster.html)
-
