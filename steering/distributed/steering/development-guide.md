@@ -1,4 +1,4 @@
-# DSQL Development 
+# DSQL Development Guide
 
 DSQL is the **PREFERRED** relational database. This decision was made for fast serverless distributed SQL, 
 effortless scaling, multi-region viability, among other advantages.
@@ -91,7 +91,7 @@ export CLUSTER_ENDPOINT=$(aws ssm get-parameter \
 const endpoint = "abc123.dsql.us-east-1.on.aws" // ❌ Never do this
 ```
 
-#### Limits
+#### Connection Rules:
 - 15-minute token expiry
 - 60-minute connection maximum
 - 10,000 connections per cluster
@@ -205,11 +205,11 @@ For production applications:
 - MUST use **`CREATE INDEX ASYNC`:**  No synchronous creation 
   - MAXIMUM: **24 indexes per table** 
   - MAXIMUM: **8 columns per index** 
-- **Asynchronous Execution:** All DDL runs asynchronously
+- **Asynchronous Execution:** DDL ALWAYS runs asynchronously
 - To add a column with DEFAULT or NOT NULL:
-  - MUST issue ADD COLUMN specifying only the column name and data type
-  - MUST then issue UPDATE to populate existing rows
-  - MAY then issue ALTER COLUMN to apply the constraint
+  1. MUST issue ADD COLUMN specifying only the column name and data type
+  2. MUST then issue UPDATE to populate existing rows
+  3. MAY then issue ALTER COLUMN to apply the constraint
 - MUST issue a **separate ALTER TABLE statement for each column** modification.
 
 
@@ -241,6 +241,54 @@ For production applications:
 - SHOULD Use IF NOT EXISTS for idempotency
 - SHOULD Add column first, then UPDATE with defaults
 - REQUIRED: Each DDL executes separately 
+
+---
+
+## Database Connectivity Tools
+
+DSQL has many tools for connecting including 10 database drivers, 4, ORM libraries, and 3 specialized adapters 
+across various languages as listed in the [programming guide](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/aws-sdks.html)
+
+### Database Drivers
+
+Low-level libraries that directly connect to the database:
+
+| Programming Language | Driver | Sample Repository |
+|---------------------|--------|-------------------|
+| **C++** | libpq | [C++ libpq samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/cpp/libpq) |
+| **C# (.NET)** | Npgsql | [.NET Npgsql samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/dotnet/npgsql) |
+| **Go** | pgx | [Go pgx samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/go/pgx) |
+| **Java** | pgJDBC | [Java pgJDBC samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/java/pgjdbc) |
+| **Java** | DSQL Connector for JDBC | [JDBC Connector](https://github.com/awslabs/aurora-dsql-jdbc-connector) |
+| **JavaScript** | DSQL Connector for node-postgres | [Node.js Connector](https://github.com/awslabs/aurora-dsql-nodejs-connector/tree/main/packages/node-postgres) |
+| **JavaScript** | DSQL Connector for Postgres.js | [Postgres.js Connector](https://github.com/awslabs/aurora-dsql-nodejs-connector/tree/main/packages/postgres-js) |
+| **Python** | DSQL Connector for Psycopg | [Python Psycopg Connector](https://github.com/awslabs/aurora-dsql-python-connector/tree/main/examples/psycopg) |
+| **Python** | DSQL Connector for Psycopg2 | [Python Psycopg2 Connector](https://github.com/awslabs/aurora-dsql-python-connector/tree/main/examples/psycopg2) |
+| **Python** | DSQL Connector for Asyncpg | [Python Asyncpg samples](https://github.com/awslabs/aurora-dsql-python-connector/tree/main/examples/asyncpg)|
+| **Ruby** | pg | [Ruby pg samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/ruby/ruby-pg) |
+| **Rust** | SQLx | [Rust SQLx samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/rust/sqlx) |
+
+### Object-Relational Mapping (ORM) Libraries
+
+Standalone libraries that provide object-relational mapping functionality:
+
+| Programming Language | ORM Library | Sample Repository |
+|---------------------|-------------|-------------------|
+| **Java** | Hibernate | [Hibernate Pet Clinic App](https://github.com/awslabs/aurora-dsql-hibernate/tree/main/examples/pet-clinic-app) |
+| **Python** | SQLAlchemy | [SQLAlchemy Pet Clinic App](https://github.com/awslabs/aurora-dsql-sqlalchemy/tree/main/examples/pet-clinic-app) |
+| **TypeScript** | Sequelize | [TypeScript Sequelize samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/typescript/sequelize) |
+| **TypeScript** | TypeORM | [TypeScript TypeORM samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/typescript/type-orm) |
+
+### Aurora DSQL Adapters and Dialects
+
+Specific extensions that make existing ORMs work with Aurora DSQL:
+
+| Programming Language | ORM/Framework | Repository |
+|---------------------|---------------|------------|
+| **Java** | Hibernate | [Aurora DSQL Hibernate Adapter](https://github.com/awslabs/aurora-dsql-hibernate/) |
+| **Python** | Django | [Aurora DSQL Django Adapter](https://github.com/awslabs/aurora-dsql-django/) |
+| **Python** | SQLAlchemy | [Aurora DSQL SQLAlchemy Adapter](https://github.com/awslabs/aurora-dsql-sqlalchemy/) |
+
 
 ---
 

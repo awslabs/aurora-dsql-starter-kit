@@ -5,22 +5,32 @@
 
 ## Framework and Connection Notes for Languages and Drivers
 ### Python
-ALWAYS use the [DSQL Python Connector](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/SECTION_program-with-dsql-connector-for-python.html) for automatic IAM Auth:
+PREFER using the [DSQL Python Connector](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/SECTION_program-with-dsql-connector-for-python.html) for automatic IAM Auth:
 - See [https://github.com/awslabs/aurora-dsql-python-connector](https://github.com/awslabs/aurora-dsql-python-connector)
-- See sample: [aurora-dsql-samples/python/jupyter](https://github.com/aws-samples/aurora-dsql-samples/blob/main/python/jupyter/) 
-- Compatible support in both: psycopg and psycopg2, install only the needed library 
+- Compatible support in both: psycopg, psycopg2, and asyncpg - install only the needed library 
   - **psycopg2**
     - synchronous
     - `import aurora_dsql_psycopg2 as dsql` 
-    - See [aurora-dsql-samples/python/psycopg2](https://github.com/aws-samples/aurora-dsql-samples/tree/main/python/psycopg2)
+    - See [aurora-dsql-python-connector/examples/psycopg2](https://github.com/awslabs/aurora-dsql-python-connector/tree/main/examples/psycopg2)
   - **psycopg**
     - modern async/sync
     - `import aurora_dsql_psycopg as dsql`
-    - See [aurora-dsql-samples/python/psycopg](https://github.com/aws-samples/aurora-dsql-samples/tree/main/python/psycopg)
+    - See [aurora-dsql-python-connector/examples/psycopg](https://github.com/awslabs/aurora-dsql-python-connector/tree/main/examples/psycopg)
+  - **asyncpg**
+    - full asynchronous style
+    - `import aurora_dsql_asyncpg as dsql`
+    - See [aurora-dsql-python-connector/examples/asyncopg](https://github.com/awslabs/aurora-dsql-python-connector/tree/main/examples/asyncpg)
 
 **SQLAlchemy**
 - ALWAYS use psycopg2 with SQLAlchemy
 - See [aurora-dsql-samples/python/sqlalchemy](https://github.com/aws-samples/aurora-dsql-samples/tree/main/python/sqlalchemy)
+
+**JupyterLab**
+- Still SHOULD PREFER using the python connector. 
+- Popular data science option for interactive computing environment that combines code, text, and visualizations
+- Options for Local or using Anazon SageMaker
+- REQUIRES downloading the Amazon root certificate from the official trust store
+- See [aurora-dsql-samples/python/jupyter](https://github.com/aws-samples/aurora-dsql-samples/blob/main/python/jupyter/) 
 
 ### Go
 

@@ -241,7 +241,7 @@ npm install @aws/aurora-dsql-node-postgres-connector
 
 **Python:**
 ```bash
-pip install psycopg2-binary boto3 
+pip install psycopg2-binary  
 pip install aurora-dsql-python-connector 
 ```
 
@@ -350,9 +350,10 @@ Let them know you're ready to help with more:
 2. **Distributed:** Active-active writes across multiple regions
 3. **Strong Consistency:** Immediate read-your-writes across all regions
 4. **IAM Authentication:** No password management, automatic token rotation
-5. **PostgreSQL Compatible:** Use familiar tools and drivers
+5. **PostgreSQL Compatible:** Supports a listed 10 [Database Drivers](./development-guide.md#database-drivers)
+(#database-drivers), 4 [ORMs](./development-guide.md#object-relational-mapping-orm-libraries), and 3 [Adapters/Dialects](./development-guide.md#adapters-and-dialects) as listed.
 
-**For detailed patterns and constraints, see [`./development-guide.md`](./development-guide.md)**
+**For detailed patterns, see [`./development-guide.md`](./development-guide.md)**
 
 ## Additional Resources
 
