@@ -1,10 +1,10 @@
 # Aurora DSQL Implementation Examples
 
-This file contains code examples for working with Aurora DSQL. Only load this when actively implementing database code.
+This file contains code examples for working with DSQL. Only load this when actively implementing database code.
 
 For language-specific framework selection, recommendations, and examples see [language.md](./language.md). 
 
-For constraints and mandates, see [steering.md](./steering.md).
+For developer rules, see [development-guide.md](./development-guide.md).
 
 ---
 
@@ -254,7 +254,7 @@ async function getConnection(
 }
 ```
 
-### Token Generation
+### Token Generation (NOT PREFERRED)
 ```javascript
 import { DsqlSigner } from "@aws-sdk/dsql-signer";
 
@@ -533,5 +533,5 @@ async findDescendants(tenantId: string, entityId: string): Promise<Entity[]> {
 ## References
 
 - **Developing Guide:** [development-guide.md](./development-guide.md)
-- **Onboarding Guide:**
-- **AWS Documentation:** [Aurora DSQL User Guide](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/)
+- **Onboarding Guide:** [onboarding.md](./onboarding.md)
+- **AWS Documentation:** [DSQL User Guide](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/)
