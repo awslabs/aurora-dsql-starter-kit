@@ -19,8 +19,7 @@ effortless scaling, multi-region viability, among other advantages.
 - **MUST follow correct Application Layer Patterns** - when multi-tenant isolation or application referential itegrity are required; refer to [Application Layer Patterns](#application-layer-patterns)
 - **REQUIRED use DELETE for truncation** - DELETE is the only supported operation for truncation
 - **SHOULD test any migrations** - Verify DDL on dev clusters before production
-- **SHOULD use partial indexes** - For sparse data with WHERE clauses
-- **Plan for Scale** - DSQL is designed to optimize for massive scales without latency drops
+- **Plan for Horizontal Scale** - DSQL is designed to optimize for massive scales without latency drops; refer to [Horizontal Scaling](#horizontal-scaling-best-practice)
 - **SHOULD use connection pooling in production applications** - Refer to [Connection Pooling](#connection-pooling-recommended)
 - **SHOULD debug with the troubleshooting guide:** - Always refer to the resources and guidelines in [troubleshooting.md](./troubleshooting.md)
 
@@ -28,7 +27,6 @@ effortless scaling, multi-region viability, among other advantages.
 
 
 ## Basic Development Guidelines
-
 
 ### Connection and Authentication
 
@@ -194,8 +192,6 @@ For production applications:
 - MUST store JSON objects as TEXT (JSON.stringify)
 - ALWAYS include tenant_id in tables for multi-tenant isolation
 - SHOULD create async indexes for tenant_id and common query patterns
-- PREFER partial indexes for sparse data (WHERE column IS NOT NULL)
-
 
 ### Schema (DDL) Rules
 - REQUIRED: **at most one DDL statement** per operation
@@ -288,6 +284,38 @@ Specific extensions that make existing ORMs work with Aurora DSQL:
 | **Python** | Django | [Aurora DSQL Django Adapter](https://github.com/awslabs/aurora-dsql-django/) |
 | **Python** | SQLAlchemy | [Aurora DSQL SQLAlchemy Adapter](https://github.com/awslabs/aurora-dsql-sqlalchemy/) |
 
+
+---
+
+## Horizontal Scaling: Best Practice
+
+Aurora DSQL is designed for massive horizontal scale without latency degradation.
+
+### Connection Strategy
+
+- **PREFER more concurrent connections with smaller batches** - Higher concurrency typically yields better throughput
+- **SHOULD implement connection pooling** - Reuse connections to minimize token overhead; respect 10,000 max per cluster
+- **PREFER imitial pool size 10-50 per instance** - Generate fresh tokens in pool hooks (e.g., `BeforeConnect`) for 15-minute expiration
+- **SHOULD retry internal errors with new connection** - Internal errors are retryable, but SHOULD use a new connection from the pool
+- **SHOULD implement backoff with jitter** - Avoid thundering herd; scale pools gradually
+
+### Batch Size Optimization
+
+- **PREFER batches of 500-1,000 rows** - Balance throughput and transaction limits (3,000 rows, 10 MiB, 5 minutes max)
+- **SHOULD process batches concurrently** - Use multiple connections; consider multiple threads for bulk loading
+- **Smaller batches reduce** lock contention, enable better concurrency, fail faster, distribute load evenly
+
+### AVOID Hot Keys
+
+Hot keys (frequently accessed rows) create bottlenecks. For detailed analysis, see ["How to avoid hot keys in Aurora DSQL"](https://marc-bowes.com/dsql-avoid-hot-keys.html).
+
+**Key strategies:**
+
+- **PREFER UUIDs for primary keys** - Use `gen_random_uuid()` for distributed writes; avoid sequential IDs
+  - **MUST NOT use globally incrementing sequences** - DSQL doesn't support SERIAL; random identifiers distribute better
+- **SHOULD avoid aggregate update patterns** - Year-to-date totals and running counters create hot keys via read-modify-write
+  - **RECOMMENDED: Compute aggregates via queries** - Calculate totals with SELECT when needed; eventual consistency often acceptable
+- **Accept contention only for genuine constraints** - Inventory management and account balances justify contention; sequential numbering and visit tracking don't
 
 ---
 
