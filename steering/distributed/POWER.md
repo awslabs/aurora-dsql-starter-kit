@@ -321,8 +321,7 @@ usePower("dsql", "aurora-dsql", "execute", {
 - **MUST follow correct Application Layer Patterns** - when multi-tenant isolation or application referential itegrity are required; refer to [Application Layer Patterns](steering/development-guide.md#application-layer-patterns)
 - **REQUIRED use DELETE for truncation** - DELETE is the only supported operation for truncation
 - **SHOULD test any migrations** - Verify DDL on dev clusters before production
-- **SHOULD use partial indexes** - For sparse data with WHERE clauses
-- **Plan for Scale** - DSQL is designed to optimize for massive scales without latency drops
+- **Plan for Horizontal Scale** - DSQL is designed to optimize for massive scales without latency drops; refer to [Horizontal Scaling](steering/development-guide.md#horizontal-scaling-best-practice)
 - **SHOULD use connection pooling in production applications** - Refer to [Connection Pooling](steering/development-guide.md#connection-pooling-recommended)
 - **SHOULD debug with the troubleshooting guide:** - Always refer to the resources and guidelines in [troubleshooting.md](steering/troubleshooting.md)
 

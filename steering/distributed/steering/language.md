@@ -1,4 +1,4 @@
-# DSQL Language-Specific Implementation Examples and Guids 
+# DSQL Language-Specific Implementation Examples and Guides 
 ## Tenets
 - ALWAYS prefer DSQL Connector when available
 - Follow patterns outlined in [aurora-dsql-samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/)

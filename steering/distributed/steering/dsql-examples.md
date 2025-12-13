@@ -55,11 +55,6 @@ CREATE TABLE entities (
 CREATE INDEX ASYNC idx_entities_tenant ON entities(tenant_id);
 CREATE INDEX ASYNC idx_entities_tenant_name ON entities(tenant_id, name);
 CREATE INDEX ASYNC idx_entities_created ON entities(tenant_id, created_at DESC);
-
--- Partial index for sparse data
-CREATE INDEX ASYNC idx_entities_deleted
-  ON entities(tenant_id, deleted_at)
-  WHERE deleted_at IS NOT NULL;
 ```
 
 ### ALTER TABLE Operations
