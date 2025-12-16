@@ -10,31 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://jubilant-adventure-yv9p22g.pages.github.io/api-reference.html">
+        <link rel="canonical" href="https://jubilant-adventure-yv9p22g.pages.github.io/generative-ai/jupyterlab.html">
       
       
-        <link rel="prev" href="quotas-and-limits.html">
+        <link rel="prev" href="query-editor.html">
       
       
-        <link rel="next" href="troubleshooting.html">
+        <link rel="next" href="mcp-server.html">
       
       
         
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>API Reference Overview - Aurora DSQL Documentation</title>
+        <title>Using JupyterLab with Aurora DSQL - Aurora DSQL Documentation</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -48,14 +48,14 @@
         
         
         
-        <link rel="stylesheet" href="assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <link rel="stylesheet" href="../assets/external/fonts.googleapis.com/css.49ea35f2.css">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
-      <link rel="stylesheet" href="stylesheets/extra.css">
+      <link rel="stylesheet" href="../stylesheets/extra.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#amazon-aurora-dsql-api-reference" class="md-skip">
+        <a href="#query-editors-using-jupyterlab-with-aurora-dsql" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Aurora DSQL Documentation" class="md-header__button md-logo" aria-label="Aurora DSQL Documentation" data-md-component="logo">
+    <a href=".." title="Aurora DSQL Documentation" class="md-header__button md-logo" aria-label="Aurora DSQL Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              API Reference Overview
+              Using JupyterLab with Aurora DSQL
             
           </span>
         </div>
@@ -219,11 +219,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="index.html" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
           
   
   
@@ -239,13 +241,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="api-reference.html" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../api-reference.html" class="md-tabs__link">
           
   
   
@@ -265,7 +265,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="troubleshooting.html" class="md-tabs__link">
+        <a href="../troubleshooting.html" class="md-tabs__link">
           
   
   
@@ -305,7 +305,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Aurora DSQL Documentation" class="md-nav__button md-logo" aria-label="Aurora DSQL Documentation" data-md-component="logo">
+    <a href=".." title="Aurora DSQL Documentation" class="md-nav__button md-logo" aria-label="Aurora DSQL Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -332,26 +332,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
-          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
             
   
   
@@ -369,7 +374,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -387,7 +392,7 @@
   
   
     <li class="md-nav__item">
-      <a href="index.html" class="md-nav__link">
+      <a href="../index.html" class="md-nav__link">
         
   
   
@@ -415,7 +420,7 @@
   
   
     <li class="md-nav__item">
-      <a href="what-is-amazon-aurora-dsql.html" class="md-nav__link">
+      <a href="../what-is-amazon-aurora-dsql.html" class="md-nav__link">
         
   
   
@@ -443,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/getting-started/quickstart.html" class="md-nav__link">
+      <a href="../guides/getting-started/quickstart.html" class="md-nav__link">
         
   
   
@@ -477,17 +482,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_4" >
         
           
-          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="">
             
   
   
@@ -523,7 +531,7 @@
   
   
     <li class="md-nav__item">
-      <a href="managing-clusters.html" class="md-nav__link">
+      <a href="../managing-clusters.html" class="md-nav__link">
         
   
   
@@ -551,7 +559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="single-region-clusters.html" class="md-nav__link">
+      <a href="../single-region-clusters.html" class="md-nav__link">
         
   
   
@@ -579,7 +587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="multi-region-clusters.html" class="md-nav__link">
+      <a href="../multi-region-clusters.html" class="md-nav__link">
         
   
   
@@ -621,17 +629,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_5" >
         
           
-          <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="">
             
   
   
@@ -667,7 +678,7 @@
   
   
     <li class="md-nav__item">
-      <a href="programming-with-dsql.html" class="md-nav__link">
+      <a href="../programming-with-dsql.html" class="md-nav__link">
         
   
   
@@ -695,7 +706,7 @@
   
   
     <li class="md-nav__item">
-      <a href="connectors-overview.html" class="md-nav__link">
+      <a href="../connectors-overview.html" class="md-nav__link">
         
   
   
@@ -737,17 +748,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6" >
         
           
-          <label class="md-nav__link" for="__nav_1_6" id="__nav_1_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_6" id="__nav_1_6_label" tabindex="">
             
   
   
@@ -783,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="authentication-and-authorization.html" class="md-nav__link">
+      <a href="../authentication-and-authorization.html" class="md-nav__link">
         
   
   
@@ -811,7 +825,7 @@
   
   
     <li class="md-nav__item">
-      <a href="generate-authentication-token.html" class="md-nav__link">
+      <a href="../generate-authentication-token.html" class="md-nav__link">
         
   
   
@@ -839,7 +853,7 @@
   
   
     <li class="md-nav__item">
-      <a href="database-roles-iam-authentication.html" class="md-nav__link">
+      <a href="../database-roles-iam-authentication.html" class="md-nav__link">
         
   
   
@@ -872,26 +886,31 @@
                 
   
   
+    
   
   
+  
     
     
     
     
       
       
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_7" >
         
           
-          <label class="md-nav__link" for="__nav_1_7" id="__nav_1_7_label" tabindex="0">
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_7" id="__nav_1_7_label" tabindex="">
             
   
   
@@ -909,7 +928,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -927,7 +946,7 @@
   
   
     <li class="md-nav__item">
-      <a href="generative-ai/query-editor.html" class="md-nav__link">
+      <a href="query-editor.html" class="md-nav__link">
         
   
   
@@ -952,10 +971,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="generative-ai/jupyterlab.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using JupyterLab with Aurora DSQL
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="jupyterlab.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -971,6 +1017,111 @@
   
 
       </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting started
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-local-jupyterlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using local JupyterLab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-amazon-sagemaker-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Amazon SageMaker AI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connecting-to-aurora-dsql-using-jupyterlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecting to Aurora DSQL using JupyterLab
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-notebook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example notebook
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -997,17 +1148,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_8" >
         
           
-          <label class="md-nav__link" for="__nav_1_8" id="__nav_1_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_8" id="__nav_1_8_label" tabindex="">
             
   
   
@@ -1043,7 +1197,7 @@
   
   
     <li class="md-nav__item">
-      <a href="generative-ai/mcp-server.html" class="md-nav__link">
+      <a href="mcp-server.html" class="md-nav__link">
         
   
   
@@ -1085,17 +1239,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_9" >
         
           
-          <label class="md-nav__link" for="__nav_1_9" id="__nav_1_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_9" id="__nav_1_9_label" tabindex="">
             
   
   
@@ -1131,7 +1288,7 @@
   
   
     <li class="md-nav__item">
-      <a href="considerations.html" class="md-nav__link">
+      <a href="../considerations.html" class="md-nav__link">
         
   
   
@@ -1173,17 +1330,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_10" >
         
           
-          <label class="md-nav__link" for="__nav_1_10" id="__nav_1_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_10" id="__nav_1_10_label" tabindex="">
             
   
   
@@ -1219,7 +1379,7 @@
   
   
     <li class="md-nav__item">
-      <a href="quotas-and-limits.html" class="md-nav__link">
+      <a href="../quotas-and-limits.html" class="md-nav__link">
         
   
   
@@ -1259,31 +1419,26 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   
@@ -1301,7 +1456,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1316,37 +1471,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    API Reference Overview
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="api-reference.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../api-reference.html" class="md-nav__link">
         
   
   
@@ -1362,122 +1490,6 @@
   
 
       </a>
-      
-        
-
-  
-
-<nav class="md-nav md-nav--secondary" aria-label="On this page">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      On this page
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Overview
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api-documentation-links" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API Documentation Links
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="API Documentation Links">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#actions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Actions
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#data-types" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Data Types
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#common-parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common Parameters
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#error-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Error Codes
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cli-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CLI Reference
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-documentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related Documentation
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1549,7 +1561,7 @@
   
   
     <li class="md-nav__item">
-      <a href="troubleshooting.html" class="md-nav__link">
+      <a href="../troubleshooting.html" class="md-nav__link">
         
   
   
@@ -1606,33 +1618,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#getting-started" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        Getting started
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api-documentation-links" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API Documentation Links
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="API Documentation Links">
+    <nav class="md-nav" aria-label="Getting started">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#actions" class="md-nav__link">
+  <a href="#requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Actions
+        Requirements
       
     </span>
   </a>
@@ -1640,10 +1641,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#data-types" class="md-nav__link">
+  <a href="#using-local-jupyterlab" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Data Types
+        Using local JupyterLab
       
     </span>
   </a>
@@ -1651,10 +1652,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#common-parameters" class="md-nav__link">
+  <a href="#using-amazon-sagemaker-ai" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Common Parameters
+        Using Amazon SageMaker AI
       
     </span>
   </a>
@@ -1662,10 +1663,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#error-codes" class="md-nav__link">
+  <a href="#connecting-to-aurora-dsql-using-jupyterlab" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Error Codes
+        Connecting to Aurora DSQL using JupyterLab
       
     </span>
   </a>
@@ -1678,10 +1679,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cli-reference" class="md-nav__link">
+  <a href="#example-notebook" class="md-nav__link">
     <span class="md-ellipsis">
       
-        CLI Reference
+        Example notebook
       
     </span>
   </a>
@@ -1689,10 +1690,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#related-documentation" class="md-nav__link">
+  <a href="#further-reading" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related Documentation
+        Further reading
       
     </span>
   </a>
@@ -1719,25 +1720,71 @@
   
 
 
-<h1 id="amazon-aurora-dsql-api-reference">Amazon Aurora DSQL API Reference<a class="headerlink" href="#amazon-aurora-dsql-api-reference" title="Permanent link">&para;</a></h1>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>In addition to the AWS Console and the AWS Command Line Interface (CLI), Aurora DSQL also provides an API interface. You can use the API operations to manage your resources in Aurora DSQL.</p>
-<h2 id="api-documentation-links">API Documentation Links<a class="headerlink" href="#api-documentation-links" title="Permanent link">&para;</a></h2>
-<h3 id="actions">Actions<a class="headerlink" href="#actions" title="Permanent link">&para;</a></h3>
-<p>For an alphabetical list of API operations, see <a href="https://docs.aws.amazon.com/aurora-dsql/latest/APIReference/API_Operations.html">Actions</a>.</p>
-<h3 id="data-types">Data Types<a class="headerlink" href="#data-types" title="Permanent link">&para;</a></h3>
-<p>For an alphabetical list of data types, see <a href="https://docs.aws.amazon.com/aurora-dsql/latest/APIReference/API_Types.html">Data types</a>.</p>
-<h3 id="common-parameters">Common Parameters<a class="headerlink" href="#common-parameters" title="Permanent link">&para;</a></h3>
-<p>For a list of common query parameters, see <a href="https://docs.aws.amazon.com/aurora-dsql/latest/APIReference/CommonParameters.html">Common parameters</a>.</p>
-<h3 id="error-codes">Error Codes<a class="headerlink" href="#error-codes" title="Permanent link">&para;</a></h3>
-<p>For descriptions of the error codes, see <a href="https://docs.aws.amazon.com/aurora-dsql/latest/APIReference/CommonErrors.html">Common errors</a>.</p>
-<h2 id="cli-reference">CLI Reference<a class="headerlink" href="#cli-reference" title="Permanent link">&para;</a></h2>
-<p>For more information about the AWS CLI, see AWS Command Line Interface reference for Aurora DSQL.</p>
-<h2 id="related-documentation">Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h2>
+<h1 id="query-editors-using-jupyterlab-with-aurora-dsql">Query Editors: Using JupyterLab with Aurora DSQL<a class="headerlink" href="#query-editors-using-jupyterlab-with-aurora-dsql" title="Permanent link">&para;</a></h1>
+<p>This guide provides step-by-step instructions on how to connect and query Amazon Aurora DSQL using JupyterLab with Python. JupyterLab is a popular interactive computing environment that combines code, text, and visualizations in a single document. It's widely used for data science and research applications.</p>
+<p>The instructions below will cover the basics of Aurora DSQL usage in both a local installation of JupyterLab as well as using Amazon SageMaker AI, a fully-managed machine learning service that provides a hosted environment with a UI for data workflows.</p>
+<h2 id="getting-started">Getting started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<h3 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Authentication Guide</strong>: <a href="authentication-and-authorization.html">Auth &amp; Access Overview</a></li>
-<li><strong>Getting Started</strong>: <a href="guides/getting-started/quickstart.html">Getting Started</a></li>
-<li><strong>Troubleshooting</strong>: <a href="troubleshooting.html">Troubleshooting Overview</a></li>
+<li>An Aurora DSQL cluster</li>
+<li>AWS credentials configured (local installation only)</li>
+<li>Python version 3.9 or greater (local installation only)</li>
+</ul>
+<h3 id="using-local-jupyterlab">Using local JupyterLab<a class="headerlink" href="#using-local-jupyterlab" title="Permanent link">&para;</a></h3>
+<p>To get started with JupyterLab, users must first install the application using Python's <strong>pip</strong>:</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>jupyterlab
+</code></pre></div>
+<p>JupyterLab can then be opened by running <code>jupyter lab</code>. This will open the JupyterLab application at localhost:8888, accessible in a browser. Ensure you have AWS credentials configured in your local environment before proceeding.</p>
+<h3 id="using-amazon-sagemaker-ai">Using Amazon SageMaker AI<a class="headerlink" href="#using-amazon-sagemaker-ai" title="Permanent link">&para;</a></h3>
+<p>In the AWS console, proceed to the Amazon SageMaker AI console page and then to the <strong>Notebooks</strong> section under <strong>Applications and IDEs</strong>. From there you can select <strong>Create notebook instance</strong> to begin creating a SageMaker environment. Select an instance type and platform before clicking <strong>Create notebook instance</strong>.</p>
+<p>See <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/gs-setup-working-env.html">Amazon SageMaker AI setup documentation</a> for more information on setup and instance options.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Warning: Using Amazon SageMaker AI may result in charges to your AWS account.</p>
+</div>
+<p>Once the SageMaker instance becomes active, you can open it from the <strong>Notebook instances</strong> section with <strong>Open JupyterLab</strong>. Before getting started with Aurora DSQL in your notebook you must provide access to your DSQL cluster in the SageMaker instance's IAM role. The simplest way to do so is to follow the link to the IAM role in the notebook instance page. From there you can edit the Policies attached to your SageMaker IAM role. See <a href="../authentication-and-authorization.html">Authentication and authorization</a> for more information on configuring an IAM policy to allow access to Aurora DSQL.</p>
+<h3 id="connecting-to-aurora-dsql-using-jupyterlab">Connecting to Aurora DSQL using JupyterLab<a class="headerlink" href="#connecting-to-aurora-dsql-using-jupyterlab" title="Permanent link">&para;</a></h3>
+<p>After you have set up a JupyterLab instance, the steps to connect to Aurora DSQL are the same locally and in SageMaker AI. Create an empty Python 3 notebook, in which you can add cells with Python code.</p>
+<p>In a Python cell, download the Amazon root certificate from the official trust store:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+<span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="s1">&#39;https://www.amazontrust.com/repository/AmazonRootCA1.pem&#39;</span><span class="p">,</span> <span class="s1">&#39;root.pem&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>To connect to Aurora DSQL, first install the <a href="https://github.com/awslabs/aurora-dsql-python-connector">Aurora DSQL Connector for Python</a> and the Psycopg driver in a Python cell, and then import it:</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>aurora_dsql_python_connector<span class="w"> </span>psycopg
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">aurora_dsql_psycopg</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dsql</span>
+</code></pre></div>
+<p>With the connector imported, you can then create a DSQL configuration and connect. The Aurora DSQL Python Connector will automatically handle creation of an authentication token on each connection.</p>
+<div class="highlight"><pre><span></span><code><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;host&#39;</span><span class="p">:</span> <span class="s2">&quot;your-cluster.dsql.us-east-1.on.aws&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;region&#39;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s2">&quot;admin&quot;</span>
+<span class="p">}</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">dsql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
+</code></pre></div>
+<p>Upon running your code you should now have a Psycopg connection to Aurora DSQL. You can then run queries using the Psycopg cursor and providing your SQL query. See the <a href="https://www.psycopg.org/psycopg3/docs/">Psycopg documentation</a> for more information on using Psycopg with a Postgres-compatible database. This query will result in a list of tuples in <code>results_list</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">conn</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cur</span><span class="p">:</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM table&quot;</span><span class="p">)</span>
+        <span class="n">results_list</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</code></pre></div>
+<p>You can then use Python frameworks like <a href="https://pandas.pydata.org/">Pandas</a> to analyze or visualize your query results, for example:</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>pandas
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tuples_list</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total records: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="example-notebook">Example notebook<a class="headerlink" href="#example-notebook" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/aws-samples/aurora-dsql-samples/tree/main/python/jupyter/sample.ipynb">A sample notebook using Aurora DSQL is available in the Aurora DSQL samples repository.</a></p>
+<h2 id="further-reading">Further reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://docs.aws.amazon.com/sagemaker/latest/dg/gs-setup-working-env.html">Amazon SageMaker AI setup documentation</a></li>
+<li><a href="https://github.com/awslabs/aurora-dsql-python-connector">Aurora DSQL Connector for Python</a></li>
+<li><a href="https://pandas.pydata.org/docs/user_guide/index.html">Pandas documentation</a></li>
 </ul>
 
 
@@ -1796,10 +1843,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.copy", "content.code.select", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.code.select", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>

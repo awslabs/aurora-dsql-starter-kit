@@ -10,31 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://jubilant-adventure-yv9p22g.pages.github.io/api-reference.html">
+        <link rel="canonical" href="https://jubilant-adventure-yv9p22g.pages.github.io/generative-ai/query-editor.html">
       
       
-        <link rel="prev" href="quotas-and-limits.html">
+        <link rel="prev" href="../database-roles-iam-authentication.html">
       
       
-        <link rel="next" href="troubleshooting.html">
+        <link rel="next" href="jupyterlab.html">
       
       
         
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>API Reference Overview - Aurora DSQL Documentation</title>
+        <title>Aurora DSQL Query Editor - Aurora DSQL Documentation</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -48,14 +48,14 @@
         
         
         
-        <link rel="stylesheet" href="assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <link rel="stylesheet" href="../assets/external/fonts.googleapis.com/css.49ea35f2.css">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
-      <link rel="stylesheet" href="stylesheets/extra.css">
+      <link rel="stylesheet" href="../stylesheets/extra.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#amazon-aurora-dsql-api-reference" class="md-skip">
+        <a href="#get-started-with-the-aurora-dsql-query-editor" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Aurora DSQL Documentation" class="md-header__button md-logo" aria-label="Aurora DSQL Documentation" data-md-component="logo">
+    <a href=".." title="Aurora DSQL Documentation" class="md-header__button md-logo" aria-label="Aurora DSQL Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              API Reference Overview
+              Aurora DSQL Query Editor
             
           </span>
         </div>
@@ -219,11 +219,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="index.html" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../index.html" class="md-tabs__link">
           
   
   
@@ -239,13 +241,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="api-reference.html" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../api-reference.html" class="md-tabs__link">
           
   
   
@@ -265,7 +265,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="troubleshooting.html" class="md-tabs__link">
+        <a href="../troubleshooting.html" class="md-tabs__link">
           
   
   
@@ -305,7 +305,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Aurora DSQL Documentation" class="md-nav__button md-logo" aria-label="Aurora DSQL Documentation" data-md-component="logo">
+    <a href=".." title="Aurora DSQL Documentation" class="md-nav__button md-logo" aria-label="Aurora DSQL Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -332,26 +332,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
-          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
             
   
   
@@ -369,7 +374,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -387,7 +392,7 @@
   
   
     <li class="md-nav__item">
-      <a href="index.html" class="md-nav__link">
+      <a href="../index.html" class="md-nav__link">
         
   
   
@@ -415,7 +420,7 @@
   
   
     <li class="md-nav__item">
-      <a href="what-is-amazon-aurora-dsql.html" class="md-nav__link">
+      <a href="../what-is-amazon-aurora-dsql.html" class="md-nav__link">
         
   
   
@@ -443,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/getting-started/quickstart.html" class="md-nav__link">
+      <a href="../guides/getting-started/quickstart.html" class="md-nav__link">
         
   
   
@@ -477,17 +482,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_4" >
         
           
-          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="">
             
   
   
@@ -523,7 +531,7 @@
   
   
     <li class="md-nav__item">
-      <a href="managing-clusters.html" class="md-nav__link">
+      <a href="../managing-clusters.html" class="md-nav__link">
         
   
   
@@ -551,7 +559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="single-region-clusters.html" class="md-nav__link">
+      <a href="../single-region-clusters.html" class="md-nav__link">
         
   
   
@@ -579,7 +587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="multi-region-clusters.html" class="md-nav__link">
+      <a href="../multi-region-clusters.html" class="md-nav__link">
         
   
   
@@ -621,17 +629,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_5" >
         
           
-          <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="">
             
   
   
@@ -667,7 +678,7 @@
   
   
     <li class="md-nav__item">
-      <a href="programming-with-dsql.html" class="md-nav__link">
+      <a href="../programming-with-dsql.html" class="md-nav__link">
         
   
   
@@ -695,7 +706,7 @@
   
   
     <li class="md-nav__item">
-      <a href="connectors-overview.html" class="md-nav__link">
+      <a href="../connectors-overview.html" class="md-nav__link">
         
   
   
@@ -737,17 +748,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6" >
         
           
-          <label class="md-nav__link" for="__nav_1_6" id="__nav_1_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_6" id="__nav_1_6_label" tabindex="">
             
   
   
@@ -783,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="authentication-and-authorization.html" class="md-nav__link">
+      <a href="../authentication-and-authorization.html" class="md-nav__link">
         
   
   
@@ -811,7 +825,7 @@
   
   
     <li class="md-nav__item">
-      <a href="generate-authentication-token.html" class="md-nav__link">
+      <a href="../generate-authentication-token.html" class="md-nav__link">
         
   
   
@@ -839,7 +853,7 @@
   
   
     <li class="md-nav__item">
-      <a href="database-roles-iam-authentication.html" class="md-nav__link">
+      <a href="../database-roles-iam-authentication.html" class="md-nav__link">
         
   
   
@@ -872,26 +886,31 @@
                 
   
   
+    
   
   
+  
     
     
     
     
       
       
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_7" >
         
           
-          <label class="md-nav__link" for="__nav_1_7" id="__nav_1_7_label" tabindex="0">
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_7" id="__nav_1_7_label" tabindex="">
             
   
   
@@ -909,7 +928,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -924,10 +943,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="generative-ai/query-editor.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aurora DSQL Query Editor
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="query-editor.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -943,6 +989,111 @@
   
 
       </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-the-query-editor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with the Query Editor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with the Query Editor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open-the-query-editor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open the Query Editor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect-to-a-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connect to a cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explore-cluster-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explore cluster objects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run queries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#review-results-and-execution-plans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Review results and execution plans
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -955,7 +1106,7 @@
   
   
     <li class="md-nav__item">
-      <a href="generative-ai/jupyterlab.html" class="md-nav__link">
+      <a href="jupyterlab.html" class="md-nav__link">
         
   
   
@@ -997,17 +1148,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_8" >
         
           
-          <label class="md-nav__link" for="__nav_1_8" id="__nav_1_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_8" id="__nav_1_8_label" tabindex="">
             
   
   
@@ -1043,7 +1197,7 @@
   
   
     <li class="md-nav__item">
-      <a href="generative-ai/mcp-server.html" class="md-nav__link">
+      <a href="mcp-server.html" class="md-nav__link">
         
   
   
@@ -1085,17 +1239,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_9" >
         
           
-          <label class="md-nav__link" for="__nav_1_9" id="__nav_1_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_9" id="__nav_1_9_label" tabindex="">
             
   
   
@@ -1131,7 +1288,7 @@
   
   
     <li class="md-nav__item">
-      <a href="considerations.html" class="md-nav__link">
+      <a href="../considerations.html" class="md-nav__link">
         
   
   
@@ -1173,17 +1330,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_10" >
         
           
-          <label class="md-nav__link" for="__nav_1_10" id="__nav_1_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_10" id="__nav_1_10_label" tabindex="">
             
   
   
@@ -1219,7 +1379,7 @@
   
   
     <li class="md-nav__item">
-      <a href="quotas-and-limits.html" class="md-nav__link">
+      <a href="../quotas-and-limits.html" class="md-nav__link">
         
   
   
@@ -1259,31 +1419,26 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   
@@ -1301,7 +1456,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1316,37 +1471,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    API Reference Overview
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="api-reference.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../api-reference.html" class="md-nav__link">
         
   
   
@@ -1362,122 +1490,6 @@
   
 
       </a>
-      
-        
-
-  
-
-<nav class="md-nav md-nav--secondary" aria-label="On this page">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      On this page
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Overview
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api-documentation-links" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API Documentation Links
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="API Documentation Links">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#actions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Actions
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#data-types" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Data Types
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#common-parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common Parameters
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#error-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Error Codes
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cli-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CLI Reference
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-documentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related Documentation
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1549,7 +1561,7 @@
   
   
     <li class="md-nav__item">
-      <a href="troubleshooting.html" class="md-nav__link">
+      <a href="../troubleshooting.html" class="md-nav__link">
         
   
   
@@ -1606,10 +1618,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        Prerequisites
       
     </span>
   </a>
@@ -1617,22 +1629,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#api-documentation-links" class="md-nav__link">
+  <a href="#working-with-the-query-editor" class="md-nav__link">
     <span class="md-ellipsis">
       
-        API Documentation Links
+        Working with the Query Editor
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="API Documentation Links">
+    <nav class="md-nav" aria-label="Working with the Query Editor">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#actions" class="md-nav__link">
+  <a href="#open-the-query-editor" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Actions
+        Open the Query Editor
       
     </span>
   </a>
@@ -1640,10 +1652,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#data-types" class="md-nav__link">
+  <a href="#connect-to-a-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Data Types
+        Connect to a cluster
       
     </span>
   </a>
@@ -1651,10 +1663,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#common-parameters" class="md-nav__link">
+  <a href="#explore-cluster-objects" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Common Parameters
+        Explore cluster objects
       
     </span>
   </a>
@@ -1662,10 +1674,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#error-codes" class="md-nav__link">
+  <a href="#run-queries" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Error Codes
+        Run queries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#review-results-and-execution-plans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Review results and execution plans
       
     </span>
   </a>
@@ -1674,28 +1697,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cli-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CLI Reference
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-documentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related Documentation
-      
-    </span>
-  </a>
   
 </li>
       
@@ -1719,26 +1720,69 @@
   
 
 
-<h1 id="amazon-aurora-dsql-api-reference">Amazon Aurora DSQL API Reference<a class="headerlink" href="#amazon-aurora-dsql-api-reference" title="Permanent link">&para;</a></h1>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>In addition to the AWS Console and the AWS Command Line Interface (CLI), Aurora DSQL also provides an API interface. You can use the API operations to manage your resources in Aurora DSQL.</p>
-<h2 id="api-documentation-links">API Documentation Links<a class="headerlink" href="#api-documentation-links" title="Permanent link">&para;</a></h2>
-<h3 id="actions">Actions<a class="headerlink" href="#actions" title="Permanent link">&para;</a></h3>
-<p>For an alphabetical list of API operations, see <a href="https://docs.aws.amazon.com/aurora-dsql/latest/APIReference/API_Operations.html">Actions</a>.</p>
-<h3 id="data-types">Data Types<a class="headerlink" href="#data-types" title="Permanent link">&para;</a></h3>
-<p>For an alphabetical list of data types, see <a href="https://docs.aws.amazon.com/aurora-dsql/latest/APIReference/API_Types.html">Data types</a>.</p>
-<h3 id="common-parameters">Common Parameters<a class="headerlink" href="#common-parameters" title="Permanent link">&para;</a></h3>
-<p>For a list of common query parameters, see <a href="https://docs.aws.amazon.com/aurora-dsql/latest/APIReference/CommonParameters.html">Common parameters</a>.</p>
-<h3 id="error-codes">Error Codes<a class="headerlink" href="#error-codes" title="Permanent link">&para;</a></h3>
-<p>For descriptions of the error codes, see <a href="https://docs.aws.amazon.com/aurora-dsql/latest/APIReference/CommonErrors.html">Common errors</a>.</p>
-<h2 id="cli-reference">CLI Reference<a class="headerlink" href="#cli-reference" title="Permanent link">&para;</a></h2>
-<p>For more information about the AWS CLI, see AWS Command Line Interface reference for Aurora DSQL.</p>
-<h2 id="related-documentation">Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h2>
+<h1 id="get-started-with-the-aurora-dsql-query-editor">Get started with the Aurora DSQL Query Editor<a class="headerlink" href="#get-started-with-the-aurora-dsql-query-editor" title="Permanent link">&para;</a></h1>
+<p>With the Aurora DSQL Query Editor, you can securely connect to your Aurora DSQL clusters and run SQL queries directly from the AWS Management Console without installing or configuring external clients. It provides an intuitive workspace with built-in syntax highlighting, auto-completion, and intelligent code assistance. You can quickly explore schema objects, develop and execute SQL queries, and view results, all within a single interface.</p>
+<p>This topic walks you through the steps to connect to a cluster, run queries, view results, and explore advanced capabilities such as execution plans.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Query Editor is available in all Regions where Aurora DSQL is supported. For more information, see <a href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/">AWS Regional Services</a>.</p>
+</div>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<p>Before you begin, ensure that you meet the following requirements:</p>
 <ul>
-<li><strong>Authentication Guide</strong>: <a href="authentication-and-authorization.html">Auth &amp; Access Overview</a></li>
-<li><strong>Getting Started</strong>: <a href="guides/getting-started/quickstart.html">Getting Started</a></li>
-<li><strong>Troubleshooting</strong>: <a href="troubleshooting.html">Troubleshooting Overview</a></li>
+<li>You have at least one Aurora DSQL cluster available. For more information, see <a href="../guides/getting-started/quickstart.html#step-1-create-a-single-region-cluster">Step 1: Create a Single-Region Cluster</a>.</li>
+<li>Your cluster endpoint is publicly accessible. The Query Editor does not currently support clusters that have public access blocked by resource-based policies or clusters managed through VPC endpoints. For more information, see <a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/rbp-block-public-access.html">Blocking public access with resource-based policies in Aurora DSQL</a> and <a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/privatelink-managing-clusters.html">Managing and connecting to Amazon Aurora DSQL clusters using AWS PrivateLink</a>.</li>
+<li>Your IAM user or role has the required permissions to access and connect to the cluster. For more information, see <a href="../database-roles-iam-authentication.html">Using database roles and IAM authentication</a>.</li>
 </ul>
+<h2 id="working-with-the-query-editor">Working with the Query Editor<a class="headerlink" href="#working-with-the-query-editor" title="Permanent link">&para;</a></h2>
+<h3 id="open-the-query-editor">Open the Query Editor<a class="headerlink" href="#open-the-query-editor" title="Permanent link">&para;</a></h3>
+<p><strong>To open the Query Editor:</strong></p>
+<ol>
+<li>Open the <a href="https://console.aws.amazon.com/dsql">Aurora DSQL console</a>.</li>
+<li>In the navigation pane, choose <strong>Query Editor</strong>.</li>
+</ol>
+<p>Alternatively, from the <strong>Clusters</strong> page, select the cluster you want to query and choose <strong>Connect with Query editor</strong> to launch the editor directly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Work and connection state are not saved. If you navigate away from the Aurora DSQL console, close the browser tab, or sign out, your connections, query text, and results are lost.</p>
+</div>
+<h3 id="connect-to-a-cluster">Connect to a cluster<a class="headerlink" href="#connect-to-a-cluster" title="Permanent link">&para;</a></h3>
+<p><strong>To connect to a cluster:</strong></p>
+<ol>
+<li>If no cluster connection exists, the editor displays <strong>No cluster has been connected</strong>. Choose <strong>Connect</strong> or select <strong>+</strong> (Add) in the <strong>Cluster Explorer</strong> pane to connect to an existing cluster.</li>
+<li>(Optional) Connect to multiple clusters or to the same cluster using different roles.</li>
+</ol>
+<h3 id="explore-cluster-objects">Explore cluster objects<a class="headerlink" href="#explore-cluster-objects" title="Permanent link">&para;</a></h3>
+<p>The Cluster Explorer displays all available cluster connections and lets you browse objects such as databases, schemas, tables, and views. It also provides common actions like <strong>Refresh</strong>, <strong>Create table</strong>, and other context-specific options.</p>
+<h3 id="run-queries">Run queries<a class="headerlink" href="#run-queries" title="Permanent link">&para;</a></h3>
+<p><strong>To run a query:</strong></p>
+<ol>
+<li>
+<p>In the query editor tab pane, enter your SQL statement. For example:
+   <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">public</span><span class="p">.</span><span class="n">orders</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>Verify the <strong>Active Cluster Context</strong> displayed on the upper right of the query tab. This indicates the cluster connection associated with the current query tab.</p>
+</li>
+<li>
+<p>(Optional) Use the <strong>connection</strong> dropdown to review all available connections or switch to a different cluster. Changing the connection updates where your queries in that tab are executed.</p>
+</li>
+<li>
+<p>Choose <strong>Run</strong> to execute the query.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Each query can return up to 10,000 rows in the results pane. For larger datasets, refine your query with filters or limits.</p>
+</div>
+<h3 id="review-results-and-execution-plans">Review results and execution plans<a class="headerlink" href="#review-results-and-execution-plans" title="Permanent link">&para;</a></h3>
+<p>After the query runs, review the output in the <strong>Results panel</strong> at the bottom of the editor. By default, each query execution displays the <strong>Results (Table)</strong> tab, showing tabular query output.</p>
+<p>To get the query execution plan, run <code>EXPLAIN ANALYZE</code> or <code>EXPLAIN ANALYZE VERBOSE</code> to get additional insights into query performance. For more information, see <a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/reading-dsql-explain-plans.html">Reading Aurora DSQL EXPLAIN plans</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The <code>EXPLAIN ANALYZE VERBOSE</code> command surfaces DPU usage estimates, including Compute, Read, Write, and Total DPU values, providing immediate visibility into the resources consumed by individual SQL statements.</p>
+</div>
 
 
 
@@ -1796,10 +1840,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.copy", "content.code.select", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.code.select", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>
