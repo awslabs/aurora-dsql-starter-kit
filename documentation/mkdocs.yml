@@ -80,6 +80,11 @@ nav:
       - Auth & Access Overview: authentication-and-authorization.md
       - Generate Authentication Token: generate-authentication-token.md
       - Database Roles and IAM Authentication: database-roles-iam-authentication.md
+    - Query Editors:
+      - Aurora DSQL Query Editor: generative-ai/query-editor.md
+      - Using JupyterLab with Aurora DSQL: generative-ai/jupyterlab.md
+    - Generative AI:
+      - AWS Labs Aurora DSQL MCP Server: generative-ai/mcp-server.md
     - Considerations:
       - Considerations Overview: considerations.md
     - Quotas and Limits:

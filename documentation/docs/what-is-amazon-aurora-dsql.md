@@ -6,36 +6,11 @@ Amazon Aurora DSQL is a serverless, distributed relational database service opti
 
 ## When to Use Amazon Aurora DSQL
 
-### Ideal Use Cases
+Aurora DSQL is optimized for transactional workloads that benefit from ACID transactions and a relational data model. Because it's serverless, Aurora DSQL is ideal for application patterns of microservice, serverless, and event-driven architectures. Aurora DSQL is PostgreSQL-compatible, so you can use familiar drivers, object-relational mappings (ORMs), frameworks, and SQL features.
 
-Amazon Aurora DSQL is optimized for transactional workloads that benefit from ACID transactions and a relational data model. Because it's serverless, Amazon Aurora DSQL is ideal for application patterns of:
+Aurora DSQL automatically manages system infrastructure and scales compute, I/O, and storage based on your workload. Because you have no servers to provision or manage, you don't have to worry about maintenance downtime related to provisioning, patching, or infrastructure upgrades.
 
-- **Microservice architectures**
-- **Serverless applications**
-- **Event-driven architectures**
-
-### PostgreSQL Compatibility
-
-Amazon Aurora DSQL is PostgreSQL-compatible, so you can use familiar:
-- Drivers
-- Object-relational mappings (ORMs)
-- Frameworks
-- SQL features
-
-### Infrastructure Management
-
-Amazon Aurora DSQL automatically manages system infrastructure and scales compute, I/O, and storage based on your workload. Because you have no servers to provision or manage, you don't have to worry about maintenance downtime related to:
-- Provisioning
-- Patching
-- Infrastructure upgrades
-
-### High Availability Benefits
-
-Amazon Aurora DSQL helps you to build and maintain enterprise applications that are always available at any scale. The active-active serverless design automates failure recovery, so you don't need to worry about traditional database failover. Your applications benefit from:
-- Multi-AZ availability
-- Multi-Region availability
-- No concerns about eventual consistency
-- No missing data related to failovers
+Aurora DSQL helps you to build and maintain enterprise applications that are always available at any scale. The active-active serverless design automates failure recovery, so you don't need to worry about traditional database failover. Your applications benefit from Multi-AZ and multi-Region availability, and you don't have to be concerned about eventual consistency or missing data related to failovers.
 
 ## Key Features in Amazon Aurora DSQL
 
