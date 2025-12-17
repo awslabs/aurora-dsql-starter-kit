@@ -162,8 +162,6 @@ Always use CREATE INDEX ASYNC in separate transaction
 2. Return error if dependents exist
 3. Delete record using transact if safe
 
-**Why:** DSQL doesn't support foreign keys - validation must happen in application code
-
 ### Workflow 4: Query with Tenant Isolation
 
 **Goal:** Retrieve data scoped to a specific tenant
@@ -208,4 +206,3 @@ Always use CREATE INDEX ASYNC in separate transaction
 - [Aurora DSQL Starter Kit](https://github.com/awslabs/aurora-dsql-starter-kit/tree/main)
 - [Code Samples Repository](https://github.com/aws-samples/aurora-dsql-samples)
 - [PostgreSQL Compatibility](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/working-with-postgresql-compatibility.html)
-- [Unsupported Features](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/working-with-postgresql-compatibility-unsupported-features.html)

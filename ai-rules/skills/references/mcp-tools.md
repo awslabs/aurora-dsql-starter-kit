@@ -280,19 +280,11 @@ transact([
 
 ---
 
-## Critical Constraints to Remember
+## Best Practices
 
-- **No parameterized queries** - Must use string interpolation (validate inputs!)
-- **transact takes a LIST** - Even for single statements: `["CREATE TABLE ..."]`
-- **One DDL per transaction** - ALTER TABLE must be separate from CREATE INDEX
-- **Max 3,000 rows per transaction** - Batch large operations
-- **Always CREATE INDEX ASYNC** - Synchronous index creation not supported
-- **No list_tables tool** - Use `readonly_query` with information_schema
-- **Foreign keys not supported** - Implement validation in application code
+### Follow General Developing Best Practices
 
----
-
-## Security Best Practices
+Refer to the listed [Best Practices](./development-guide.md#best-practices).
 
 ### Input Validation (Critical!)
 
@@ -332,6 +324,6 @@ sql = f"INSERT INTO entities (name) VALUES ('{name}')"
 
 ## Additional Resources
 
+- [Aurora DSQL MCP Server Documentation](https://awslabs.github.io/mcp/servers/aurora-dsql-mcp-server)
 - [Aurora DSQL MCP Server README](https://github.com/awslabs/mcp/tree/main/src/aurora-dsql-mcp-server)
 - [Aurora DSQL Documentation](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/)
-- [PostgreSQL Compatibility](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/working-with-postgresql-compatibility.html)

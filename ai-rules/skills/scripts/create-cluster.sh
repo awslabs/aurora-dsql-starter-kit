@@ -67,7 +67,7 @@ eval $CMD > /tmp/dsql-cluster-create.json
 
 # Extract cluster identifier and endpoint
 CLUSTER_ID=$(jq -r '.identifier' /tmp/dsql-cluster-create.json)
-CLUSTER_ENDPOINT=$(jq -r '.endpoint' /tmp/dsql-cluster-create.json)
+CLUSTER_ENDPOINT="${CLUSTER_ID}.dsql.${REGION}.on.aws"
 CLUSTER_ARN=$(jq -r '.arn' /tmp/dsql-cluster-create.json)
 
 echo ""
