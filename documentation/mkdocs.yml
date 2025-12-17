@@ -26,9 +26,6 @@ theme:
   features:
     - content.code.copy
     - content.code.select
-    - navigation.instant
-    - navigation.instant.prefetch
-    - navigation.instant.progress
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.sections
@@ -98,10 +95,11 @@ nav:
 plugins:
   - search
   - privacy
+  - macros
 
 validation:
   nav:
-    omitted_files: info
+    omitted_files: ignore
     not_found: warn
     absolute_links: warn
   links:

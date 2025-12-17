@@ -1,3 +1,6 @@
+{% include 'copy-page-script.md' %}
+{% include 'copy-page-button.md' %}
+
 # Query Editors: Using JupyterLab with Aurora DSQL
 
 This guide provides step-by-step instructions on how to connect and query Amazon Aurora DSQL using JupyterLab with Python. JupyterLab is a popular interactive computing environment that combines code, text, and visualizations in a single document. It's widely used for data science and research applications.

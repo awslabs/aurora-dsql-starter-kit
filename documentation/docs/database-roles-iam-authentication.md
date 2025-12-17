@@ -1,3 +1,6 @@
+{% include 'copy-page-script.md' %}
+{% include 'copy-page-button.md' %}
+
 # Database Roles and IAM Authentication
 
 ## Overview
