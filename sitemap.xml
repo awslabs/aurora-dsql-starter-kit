@@ -2,74 +2,78 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/index.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/api-reference.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/authentication-and-authorization.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
+    </url>
+    <url>
+         <loc>https://jubilant-adventure-yv9p22g.pages.github.io/backup-and-restore.html</loc>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/connectors-overview.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/considerations.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/database-roles-iam-authentication.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/generate-authentication-token.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/managing-clusters.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/multi-region-clusters.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/programming-with-dsql.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/quotas-and-limits.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/single-region-clusters.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/troubleshooting.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/what-is-amazon-aurora-dsql.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/generative-ai/jupyterlab.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/generative-ai/mcp-server.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/generative-ai/query-editor.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
     <url>
          <loc>https://jubilant-adventure-yv9p22g.pages.github.io/guides/getting-started/quickstart.html</loc>
-         <lastmod>2025-12-16</lastmod>
+         <lastmod>2025-12-17</lastmod>
     </url>
 </urlset>
