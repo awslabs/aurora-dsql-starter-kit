@@ -1161,17 +1161,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#summary-for-ai-agents" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary for AI Agents
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -2175,17 +2164,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#summary-for-ai-agents" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary for AI Agents
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -2331,20 +2309,6 @@
 <li>To learn how to manage permissions for custom database roles, see <a href="https://www.postgresql.org/docs/current/ddl-priv.html">PostgreSQL privileges</a></li>
 <li>Modifications to privileges take effect on the next transaction after Aurora DSQL successfully commits the modification transaction</li>
 </ul>
-<h2 id="summary-for-ai-agents">Summary for AI Agents<a class="headerlink" href="#summary-for-ai-agents" title="Permanent link">&para;</a></h2>
-<p><strong>Authentication Method</strong>: IAM-based authentication with temporary tokens
-<strong>Authorization Levels</strong>: Cluster-level (IAM policies) and database-level (PostgreSQL roles)
-<strong>Connection Types</strong>: Admin role (<code>dsql:DbConnectAdmin</code>) and custom roles (<code>dsql:DbConnect</code>)
-<strong>Role Types</strong>: Predefined <code>admin</code> role and custom user-created roles
-<strong>Permission Management</strong>: IAM policies for cluster access, PostgreSQL GRANT/REVOKE for database access
-<strong>Security Model</strong>: Combines AWS IAM security with PostgreSQL role-based access control
-<strong>Connection Duration</strong>: Up to 1 hour per established connection
-<strong>Key IAM Actions</strong>: 
-- Cluster management: <code>dsql:CreateCluster</code>, <code>dsql:GetCluster</code>, <code>dsql:UpdateCluster</code>, <code>dsql:DeleteCluster</code>, <code>dsql:ListClusters</code>
-- Resource management: <code>dsql:TagResource</code>, <code>dsql:ListTagsForResource</code>, <code>dsql:UntagResource</code>
-- Database connections: <code>dsql:DbConnectAdmin</code>, <code>dsql:DbConnect</code>
-<strong>Database Commands</strong>: <code>AWS IAM GRANT</code> (associate roles), <code>AWS IAM REVOKE</code> (remove associations)
-<strong>Authentication Sources</strong>: AWS Management Console, AWS CLI, AWS SDK</p>
 
 
 
