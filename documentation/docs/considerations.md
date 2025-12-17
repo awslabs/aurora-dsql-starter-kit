@@ -1,3 +1,6 @@
+{% include 'copy-page-script.md' %}
+{% include 'copy-page-button.md' %}
+
 # Considerations for Working with Amazon Aurora DSQL
 
 ## Overview

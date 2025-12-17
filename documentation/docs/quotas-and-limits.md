@@ -1,3 +1,6 @@
+{% include 'copy-page-script.md' %}
+{% include 'copy-page-button.md' %}
+
 # Cluster Quotas and Database Limits in Amazon Aurora DSQL
 
 ## Overview

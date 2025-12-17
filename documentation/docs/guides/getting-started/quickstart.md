@@ -1,3 +1,6 @@
+{% include 'copy-page-script.md' %}
+{% include 'copy-page-button.md' %}
+
 # Getting Started with Aurora DSQL
 
 Learn how to create an Aurora DSQL cluster, connect to it, and run your first queries. This guide walks you through creating single-Region and multi-Region Aurora DSQL clusters, connecting to them, and running sample SQL commands using the AWS Console and PostgreSQL-compatible tools.

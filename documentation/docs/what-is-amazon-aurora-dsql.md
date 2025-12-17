@@ -1,3 +1,6 @@
+{% include 'copy-page-script.md' %}
+{% include 'copy-page-button.md' %}
+
 # What is Amazon Aurora DSQL?
 
 ## Overview

@@ -1,3 +1,6 @@
+{% include 'copy-page-script.md' %}
+{% include 'copy-page-button.md' %}
+
 # Managing Amazon Aurora DSQL Clusters
 
 ## Overview

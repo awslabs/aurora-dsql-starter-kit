@@ -1,3 +1,6 @@
+{% include 'copy-page-script.md' %}
+{% include 'copy-page-button.md' %}
+
 # Aurora DSQL Documentation
 
 Welcome to the Amazon Aurora DSQL documentation. Aurora DSQL is a serverless, distributed relational database optimized for transactional workloads.

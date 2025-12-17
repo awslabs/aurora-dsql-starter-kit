@@ -1,3 +1,6 @@
+{% include 'copy-page-script.md' %}
+{% include 'copy-page-button.md' %}
+
 # Authentication and Authorization for Amazon Aurora DSQL
 
 ## Overview
