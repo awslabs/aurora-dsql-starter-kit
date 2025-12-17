@@ -1,0 +1,23 @@
+{
+    "name": "dsql-skill",
+    "description": "Comprehensive Aurora DSQL Skill including sample workflows, development guides and best practices, language connectors and driver samples, mcp guide, interactive onboarding, and troubleshooting.",
+    "version": "1.1.0",
+    "author": {
+        "name": "AWS Aurora DSQL Team",
+        "email": "DSQL@amazon.com"
+    },
+    "license": "MIT",
+    "repository": "https://github.com/awslabs/aurora-dsql-starter-kit",
+    "homepage": "https://github.com/awslabs/aurora-dsql-starter-kit",
+    "keywords": [
+        "aurora",
+        "dsql",
+        "distributed",
+        "postgresql",
+        "postgres",
+        "database",
+        "serverless",
+        "aws",
+        "mcp"
+    ]
+}

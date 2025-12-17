@@ -1,0 +1,36 @@
+{
+    "name": "amazon-aurora-dsql",
+    "owner": {
+        "name": "AWS Aurora DSQL Team",
+        "email": "DSQL@amazon.com",
+        "url": "https://aws.amazon.com/rds/aurora/dsql/"
+    },
+    "metadata": {
+        "description": "Official Neon database development tools for Claude Code"
+    },
+    "repository": "https://github.com/awslabs/aurora-dsql-starter-kit",
+    "homepage": "https://github.com/awslabs/aurora-dsql-starter-kit",
+    "plugins": [
+        {
+            "name": "dsql-skill",
+            "source": "./dsql-skill",
+            "description": "Comprehensive Aurora DSQL Skill including sample workflows, development guides and best practices, language connectors and driver samples, mcp guide, interactive onboarding, and troubleshooting.",
+            "version": "1.1.0",
+            "keywords": [
+                "aurora",
+                "dsql",
+                "distributed",
+                "postgresql",
+                "postgres",
+                "database",
+                "serverless",
+                "aws",
+                "mcp"
+            ],
+            "license": "MIT",
+            "author": {
+                "name": "AWS Aurora DSQL Team"
+            }
+        }
+    ]
+}
