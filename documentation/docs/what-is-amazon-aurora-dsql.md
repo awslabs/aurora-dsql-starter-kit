@@ -147,15 +147,3 @@ For information about the core components in Amazon Aurora DSQL and to get start
 ### Cross-References
 - **High Availability Architecture**: Learn more about how the distributed architecture supports high availability
 - **SQL Feature Compatibility**: Understand the subset of PostgreSQL features, expressions, and data types supported
-
-## Summary for AI Agents
-
-**Service Type**: Serverless, distributed relational database
-**Primary Use Case**: Transactional workloads requiring ACID compliance
-**Key Differentiators**: Active-active architecture, PostgreSQL compatibility, automatic scaling
-**Availability**: 99.99% (single-region), 99.999% (multi-region)
-**Management**: Fully managed, no infrastructure provisioning required
-**Compatibility**: PostgreSQL version 16 (subset of features)
-**Architecture**: Multi-tenant with redundancy across 3 AZs
-**Scaling**: Automatic compute, I/O, and storage scaling
-**Consistency**: Strong consistency with ACID transactions
