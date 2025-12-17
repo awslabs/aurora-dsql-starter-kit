@@ -1,105 +1,117 @@
-/* Custom CSS for Aurora DSQL Documentation */
-
 :root {
-  --md-primary-fg-color: #FF9900;
-  --md-primary-fg-color--light: #FFB84D;
-  --md-primary-fg-color--dark: #CC7A00;
+  --md-primary-fg-color: #FF6600;
+  --md-primary-fg-color--light: #FF8533;
+  --md-primary-fg-color--dark: #CC5200;
 }
 
-/* AWS Orange theme for light mode */
-[data-md-color-scheme="default"] {
-  --md-primary-fg-color: #FF9900;
-  --md-primary-fg-color--light: #FFB84D;
-  --md-primary-fg-color--dark: #CC7A00;
+/* Make all headers black and bold */
+.md-content h1,
+.md-content h2,
+.md-content h3,
+.md-content h4,
+.md-content h5,
+.md-content h6 {
+  color: #000000 !important;
+  font-weight: bold !important;
 }
 
-/* AWS Orange theme for dark mode */
-[data-md-color-scheme="slate"] {
-  --md-primary-fg-color: #FF9900;
-  --md-primary-fg-color--light: #FFB84D;
-  --md-primary-fg-color--dark: #CC7A00;
+/* Make all header anchor links black and bold */
+.md-content h1 a,
+.md-content h2 a,
+.md-content h3 a,
+.md-content h4 a,
+.md-content h5 a,
+.md-content h6 a {
+  color: #000000 !important;
+  font-weight: bold !important;
 }
 
-/* Code block styling */
-.highlight pre {
-  border-radius: 6px;
+/* Dark mode support - keep headers white and bold in dark mode */
+[data-md-color-scheme="slate"] .md-content h1,
+[data-md-color-scheme="slate"] .md-content h2,
+[data-md-color-scheme="slate"] .md-content h3,
+[data-md-color-scheme="slate"] .md-content h4,
+[data-md-color-scheme="slate"] .md-content h5,
+[data-md-color-scheme="slate"] .md-content h6 {
+  color: #ffffff !important;
+  font-weight: bold !important;
 }
 
-/* Improve table styling */
-table {
+[data-md-color-scheme="slate"] .md-content h1 a,
+[data-md-color-scheme="slate"] .md-content h2 a,
+[data-md-color-scheme="slate"] .md-content h3 a,
+[data-md-color-scheme="slate"] .md-content h4 a,
+[data-md-color-scheme="slate"] .md-content h5 a,
+[data-md-color-scheme="slate"] .md-content h6 a {
+  color: #ffffff !important;
+  font-weight: bold !important;
+}
+
+/* Table styling with borders */
+.md-content table {
   border-collapse: collapse;
-  width: 100%;
-  margin: 1em 0;
+  border: 1px solid #ddd;
 }
 
-table th {
-  background-color: var(--md-primary-fg-color);
+.md-content table th,
+.md-content table td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+}
+
+.md-content table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+/* Dark mode table styling */
+[data-md-color-scheme="slate"] .md-content table {
+  border: 1px solid #444;
+}
+
+[data-md-color-scheme="slate"] .md-content table th,
+[data-md-color-scheme="slate"] .md-content table td {
+  border: 1px solid #444;
+}
+
+[data-md-color-scheme="slate"] .md-content table th {
+  background-color: #2d2d2d;
+}
+
+/* Floating copy button */
+#floating-copy-btn {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1000;
+  background: orange;
   color: white;
-  font-weight: 600;
-  padding: 12px;
-  text-align: left;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
 }
 
-table td {
-  padding: 10px 12px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+#floating-copy-btn:hover {
+  background: #ff8c00;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transform: translateY(-2px);
 }
 
-[data-md-color-scheme="slate"] table td {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+#floating-copy-btn:active {
+  transform: translateY(0);
 }
 
-/* Admonition styling */
-.admonition {
-  border-radius: 6px;
-  margin: 1.5em 0;
-}
-
-/* Link styling */
-a {
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* Navigation improvements */
-.md-nav__link--active {
-  font-weight: 600;
-}
-
-/* Make User Guide large in header tab with black color */
-.md-nav--primary > .md-nav__list > .md-nav__item:first-child > .md-nav__link {
-  font-size: 1.5em !important;
-  font-weight: 700 !important;
-  padding: 0.6em 0 !important;
-  letter-spacing: 0.5px !important;
-  line-height: 1.3 !important;
-  color: var(--md-typeset-color) !important;
-}
-
-/* Make all section headers large like User Guide */
-.md-nav--primary .md-nav__item:nth-child(4) > .md-nav__link,
-.md-nav--primary .md-nav__item:nth-child(5) > .md-nav__link,
-.md-nav--primary .md-nav__item:nth-child(6) > .md-nav__link,
-.md-nav--primary .md-nav__item:nth-child(7) > .md-nav__link,
-.md-nav--primary .md-nav__item:nth-child(8) > .md-nav__link,
-.md-nav--primary .md-nav__item:nth-child(9) > .md-nav__link,
-.md-nav--primary .md-nav__item:nth-child(10) > .md-nav__link {
-  font-size: 1.5em !important;
-  font-weight: 700 !important;
-  padding: 0.6em 0 !important;
-  letter-spacing: 0.5px !important;
-  line-height: 1.3 !important;
-  margin-top: 1em !important;
-}
-
-/* Reset all other navigation items to normal */
-.md-nav .md-nav .md-nav__link {
-  font-size: inherit !important;
-  font-weight: inherit !important;
-  color: inherit !important;
-  text-transform: none !important;
-  letter-spacing: normal !important;
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  #floating-copy-btn {
+    top: 60px;
+    right: 10px;
+    padding: 10px 15px;
+    font-size: 12px;
+  }
 }
