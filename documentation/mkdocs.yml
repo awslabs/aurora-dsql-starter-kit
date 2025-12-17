@@ -85,6 +85,7 @@ nav:
       - Using JupyterLab with Aurora DSQL: generative-ai/jupyterlab.md
     - Generative AI:
       - AWS Labs Aurora DSQL MCP Server: generative-ai/mcp-server.md
+    - Backup and Restore: backup-and-restore.md
     - Considerations:
       - Considerations Overview: considerations.md
     - Quotas and Limits:
