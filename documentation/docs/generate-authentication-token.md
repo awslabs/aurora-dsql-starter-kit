@@ -95,44 +95,13 @@ You can generate the token in the following ways:
 
 --8<-- "samples/authentication-tokens/python_generate_token.py"
 
-For a complete working example, see the [Python authentication token sample](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/python_generate_token.py).
-
 ### C++ SDK
 
 You can generate the token in the following ways:
 - **Admin role**: Use `GenerateDBConnectAdminAuthToken`
 - **Custom database role**: Use `GenerateDBConnectAuthToken`
 
-```cpp
-#include <aws/core/Aws.h>
-#include <aws/dsql/DSQLClient.h>
-#include <iostream>
-
-using namespace Aws;
-using namespace Aws::DSQL;
-
-std::string generateToken(String yourClusterEndpoint, String region) {
-    Aws::SDKOptions options;
-    Aws::InitAPI(options);
-    DSQLClientConfiguration clientConfig;
-    clientConfig.region = region;
-    DSQLClient client{clientConfig};
-    std::string token = "";
-    
-    // If you are not using the admin role to connect, use GenerateDBConnectAuthToken instead
-    const auto presignedString = client.GenerateDBConnectAdminAuthToken(yourClusterEndpoint, region);
-    if (presignedString.IsSuccess()) {
-        token = presignedString.GetResult();
-    } else {
-        std::cerr << "Token generation failed." << std::endl;
-    }
-
-    std::cout << token << std::endl;
-
-    Aws::ShutdownAPI(options);
-    return token;
-}
-```
+--8<-- "samples/authentication-tokens/cpp_generate_token.cpp"
 
 ### JavaScript SDK
 
@@ -142,8 +111,6 @@ You can generate the token in the following ways:
 
 --8<-- "samples/authentication-tokens/javascript_generate_token.js"
 
-For a complete working example, see the [JavaScript authentication token sample](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/javascript_generate_token.js).
-
 ### Java SDK
 
 You can generate the token in the following ways:
@@ -152,34 +119,13 @@ You can generate the token in the following ways:
 
 --8<-- "samples/authentication-tokens/GenerateToken.java"
 
-For a complete working example, see the [Java authentication token sample](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/GenerateToken.java).
-
 ### Rust SDK
 
 You can generate the token in the following ways:
 - **Admin role**: Use `db_connect_admin_auth_token`
 - **Custom database role**: Use `db_connect_auth_token`
 
-```rust
-use aws_config::{BehaviorVersion, Region};
-use aws_sdk_dsql::auth_token::{AuthTokenGenerator, Config};
-
-async fn generate_token(your_cluster_endpoint: String, region: String) -> String {
-    let sdk_config = aws_config::load_defaults(BehaviorVersion::latest()).await;
-    let signer = AuthTokenGenerator::new(
-        Config::builder()
-            .hostname(&your_cluster_endpoint)
-            .region(Region::new(region))
-            .build()
-            .unwrap(),
-    );
-
-    // Use `db_connect_auth_token` if you are _not_ logging in as `admin` user
-    let token = signer.db_connect_admin_auth_token(&sdk_config).await.unwrap();
-    println!("{}", token);
-    token.to_string()
-}
-```
+--8<-- "samples/authentication-tokens/rust_generate_token.rs"
 
 ### Ruby SDK
 
@@ -187,27 +133,7 @@ You can generate the token in the following ways:
 - **Admin role**: Use `generate_db_connect_admin_auth_token`
 - **Custom database role**: Use `generate_db_connect_auth_token`
 
-```ruby
-require 'aws-sdk-dsql'
-
-def generate_token(your_cluster_endpoint, region)
-  credentials = Aws::SharedCredentials.new()
-
-  begin
-      token_generator = Aws::DSQL::AuthTokenGenerator.new({
-          :credentials => credentials
-      })
-      
-      # if you're not using admin role, use generate_db_connect_auth_token instead
-      token = token_generator.generate_db_connect_admin_auth_token({
-          :endpoint => your_cluster_endpoint,
-          :region => region
-      })
-  rescue => error
-    puts error.full_message
-  end
-end
-```
+--8<-- "samples/authentication-tokens/ruby_generate_token.rb"
 
 ### .NET SDK
 
@@ -217,19 +143,7 @@ You can generate the token in the following ways:
 - **Admin role**: Use `DbConnectAdmin`
 - **Custom database role**: Use `DbConnect`
 
-```csharp
-using Amazon;
-using Amazon.DSQL.Util;
-using Amazon.Runtime;
-
-var yourClusterEndpoint = "insert-dsql-cluster-endpoint";
-
-AWSCredentials credentials = FallbackCredentialsFactory.GetCredentials();
-
-var token = DSQLAuthTokenGenerator.GenerateDbConnectAdminAuthToken(credentials, RegionEndpoint.USEast1, yourClusterEndpoint);
-
-Console.WriteLine(token);
-```
+--8<-- "samples/authentication-tokens/dotnet_generate_token.cs"
 
 ### Golang SDK
 
@@ -239,72 +153,5 @@ In the following code example, specify the `action` based on the PostgreSQL user
 - **Admin role**: Use the `DbConnectAdmin` action
 - **Custom database role**: Use the `DbConnect` action
 
-```go
-func GenerateDbConnectAdminAuthToken(yourClusterEndpoint string, region string, action string) (string, error) {
-	// Fetch credentials
-	sess, err := session.NewSession()
-	if err != nil {
-		return "", err
-	}
+--8<-- "samples/authentication-tokens/go_generate_token.go"
 
-	creds, err := sess.Config.Credentials.Get()
-	if err != nil {
-		return "", err
-	}
-	staticCredentials := credentials.NewStaticCredentials(
-		creds.AccessKeyID,
-		creds.SecretAccessKey,
-		creds.SessionToken,
-	)
-
-	// The scheme is arbitrary and is only needed because validation of the URL requires one.
-	endpoint := "https://" + yourClusterEndpoint
-	req, err := http.NewRequest("GET", endpoint, nil)
-	if err != nil {
-		return "", err
-	}
-	values := req.URL.Query()
-	values.Set("Action", action)
-	req.URL.RawQuery = values.Encode()
-
-	signer := v4.Signer{
-		Credentials: staticCredentials,
-	}
-	_, err = signer.Presign(req, nil, "dsql", region, 15*time.Minute, time.Now())
-	if err != nil {
-		return "", err
-	}
-
-	url := req.URL.String()[len("https://"):]
-
-	return url, nil
-}
-```
-
-## Complete Code Examples
-
-For complete, runnable examples with error handling, environment variable setup, and usage instructions, see the [Aurora DSQL Authentication Token Samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens).
-
-The samples repository includes:
-
-| Language | File | Description |
-|----------|------|-------------|
-| **Python** | [`python_generate_token.py`](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/python_generate_token.py) | Complete Python example using boto3 |
-| **JavaScript** | [`javascript_generate_token.js`](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/javascript_generate_token.js) | Complete JavaScript example using AWS SDK v3 |
-| **Java** | [`GenerateToken.java`](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/GenerateToken.java) | Complete Java example using AWS SDK v2 |
-| **CLI** | [`cli_examples.sh`](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/cli_examples.sh) | CLI examples for all platforms |
-
-Each sample includes:
-- ✅ **Error handling** - Proper exception management
-- ✅ **Environment variables** - Configurable cluster endpoints and regions  
-- ✅ **Both token types** - Admin and custom role examples
-- ✅ **Usage instructions** - Step-by-step setup and execution
-- ✅ **Integration examples** - How to use tokens with database connections
-
-## Next Steps
-
-Once you have generated an authentication token:
-
-1. **Connect to your cluster** - Use the token as a password with any PostgreSQL-compatible client
-2. **Explore programming examples** - See [Programming with Aurora DSQL](programming-with-dsql.md) for database operation examples
-3. **Set up database roles** - Learn about [Database Roles and IAM Authentication](database-roles-iam-authentication.md)
