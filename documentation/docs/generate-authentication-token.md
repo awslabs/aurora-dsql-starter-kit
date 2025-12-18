@@ -62,9 +62,7 @@ aws dsql generate-db-connect-admin-auth-token \
 
 4. For a complete connection example that generates the token and connects in one step:
 
-```bash
---8<-- "samples/authentication-tokens/cli_examples.sh:cli-psql-connection"
-```
+--8<-- "samples/authentication-tokens/cli_examples.sh"
 
 5. When the connection is established, you'll see the PostgreSQL prompt: `postgres=>`
 
@@ -79,15 +77,8 @@ The following example uses these attributes to generate an authentication token 
 - **your_cluster_endpoint**: The endpoint of the cluster (format: `your_cluster_identifier.dsql.region.on.aws`)
 - **region**: The AWS Region, such as `us-east-2` or `us-east-1`
 
-**Linux and macOS:**
-```bash
---8<-- "samples/authentication-tokens/cli_examples.sh:cli-admin-token-linux"
-```
-
-**Windows:**
-```bash
---8<-- "samples/authentication-tokens/cli_examples.sh:cli-admin-token-windows"
-```
+**CLI Examples:**
+--8<-- "samples/authentication-tokens/cli_examples.sh"
 
 ## Using the SDKs to Generate a Token
 
@@ -102,9 +93,7 @@ You can generate the token in the following ways:
 - **Admin role**: Use `generate_db_connect_admin_auth_token`
 - **Custom database role**: Use `generate_connect_auth_token`
 
-```python
 --8<-- "samples/authentication-tokens/python_generate_token.py"
-```
 
 For a complete working example, see the [Python authentication token sample](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/python_generate_token.py).
 
@@ -151,9 +140,7 @@ You can generate the token in the following ways:
 - **Admin role**: Use `getDbConnectAdminAuthToken`
 - **Custom database role**: Use `getDbConnectAuthToken`
 
-```javascript
---8<-- "samples/authentication-tokens/javascript_generate_token.js:javascript-admin-token"
-```
+--8<-- "samples/authentication-tokens/javascript_generate_token.js"
 
 For a complete working example, see the [JavaScript authentication token sample](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/javascript_generate_token.js).
 
@@ -163,9 +150,7 @@ You can generate the token in the following ways:
 - **Admin role**: Use `generateDbConnectAdminAuthToken`
 - **Custom database role**: Use `generateDbConnectAuthToken`
 
-```java
---8<-- "samples/authentication-tokens/GenerateToken.java:java-admin-token"
-```
+--8<-- "samples/authentication-tokens/GenerateToken.java"
 
 For a complete working example, see the [Java authentication token sample](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/GenerateToken.java).
 
