@@ -1,0 +1,57 @@
+name: Auto-update samples submodule
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:  # Manual trigger
+  repository_dispatch:
+    types: [samples-updated]
+
+jobs:
+  update-submodule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout starter-kit
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Update samples submodule to latest main
+        run: |
+          cd documentation/docs/samples
+          git fetch origin main
+          git checkout origin/main
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet documentation/docs/samples; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set up Python
+        if: steps.changes.outputs.changed == 'true'
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install MkDocs dependencies
+        if: steps.changes.outputs.changed == 'true'
+        run: pip install mkdocs-material mkdocs-macros-plugin
+
+      - name: Validate MkDocs build
+        if: steps.changes.outputs.changed == 'true'
+        working-directory: documentation
+        run: mkdocs build
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add documentation/docs/samples
+          git commit -m "chore: auto-update samples submodule"
+          git push
