@@ -2040,13 +2040,19 @@ function fallbackCopy(text, btn) {
 <p>Run the following command to generate an authentication token for the <code>admin</code> role:</p>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin-auth-token<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--expires-in<span class="w"> </span><span class="m">3600</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="w"> </span>us-east-1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--hostname<span class="w"> </span>your_cluster_endpoint
 </code></pre></div>
 <p><strong>Note</strong>: If you're not connecting as <code>admin</code>, use <code>generate-db-connect-auth-token</code> instead.</p>
 <ol>
 <li>Use the following command to use <code>psql</code> to start a connection to your cluster:</li>
 </ol>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code><span class="nv">PGSSLMODE</span><span class="o">=</span>require<span class="w"> </span><span class="se">\</span>
+psql<span class="w"> </span>--dbname<span class="w"> </span>postgres<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--username<span class="w"> </span>admin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--host<span class="w"> </span>cluster_endpoint
 </code></pre></div>
 <ol>
 <li>
@@ -2066,10 +2072,16 @@ function fallbackCopy(text, btn) {
 - <strong>your_cluster_endpoint</strong>: The endpoint of the cluster (format: <code>your_cluster_identifier.dsql.region.on.aws</code>)
 - <strong>region</strong>: The AWS Region, such as <code>us-east-2</code> or <code>us-east-1</code></p>
 <p><strong>Linux and macOS:</strong>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin-auth-token<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="w"> </span>region<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--expires-in<span class="w"> </span><span class="m">3600</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--hostname<span class="w"> </span>your_cluster_endpoint
 </code></pre></div></p>
 <p><strong>Windows:</strong>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin-auth-token<span class="w"> </span>^
+<span class="w">  </span>--region<span class="o">=</span>region<span class="w"> </span>^
+<span class="w">  </span>--expires-in<span class="o">=</span><span class="m">3600</span><span class="w"> </span>^
+<span class="w">  </span>--hostname<span class="o">=</span>your_cluster_endpoint
 </code></pre></div></p>
 <h2 id="using-the-sdks-to-generate-a-token">Using the SDKs to Generate a Token<a class="headerlink" href="#using-the-sdks-to-generate-a-token" title="Permanent link">&para;</a></h2>
 <p>You can generate an authentication token for your cluster when it is in <code>ACTIVE</code> status. The SDK examples use the following attributes to generate an authentication token for the <code>admin</code> role:</p>
@@ -2081,51 +2093,202 @@ function fallbackCopy(text, btn) {
 <p>You can generate the token in the following ways:
 - <strong>Admin role</strong>: Use <code>generate_db_connect_admin_auth_token</code>
 - <strong>Custom database role</strong>: Use <code>generate_connect_auth_token</code></p>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_token</span><span class="p">(</span><span class="n">your_cluster_endpoint</span><span class="p">,</span> <span class="n">region</span><span class="p">):</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">&quot;dsql&quot;</span><span class="p">,</span> <span class="n">region_name</span><span class="o">=</span><span class="n">region</span><span class="p">)</span>
+    <span class="c1"># use `generate_db_connect_auth_token` instead if you are not connecting as admin.</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">generate_db_connect_admin_auth_token</span><span class="p">(</span><span class="n">your_cluster_endpoint</span><span class="p">,</span> <span class="n">region</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">token</span>
 </code></pre></div>
 <h3 id="c-sdk">C++ SDK<a class="headerlink" href="#c-sdk" title="Permanent link">&para;</a></h3>
 <p>You can generate the token in the following ways:
 - <strong>Admin role</strong>: Use <code>GenerateDBConnectAdminAuthToken</code>
 - <strong>Custom database role</strong>: Use <code>GenerateDBConnectAuthToken</code></p>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;aws/core/Aws.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;aws/dsql/DSQLClient.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">Aws</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">Aws</span><span class="o">::</span><span class="nn">DSQL</span><span class="p">;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="nf">generateToken</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">region</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Aws</span><span class="o">::</span><span class="n">SDKOptions</span><span class="w"> </span><span class="n">options</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Aws</span><span class="o">::</span><span class="n">InitAPI</span><span class="p">(</span><span class="n">options</span><span class="p">);</span>
+<span class="w">    </span><span class="n">DSQLClientConfiguration</span><span class="w"> </span><span class="n">clientConfig</span><span class="p">;</span>
+<span class="w">    </span><span class="n">clientConfig</span><span class="p">.</span><span class="n">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">region</span><span class="p">;</span>
+<span class="w">    </span><span class="n">DSQLClient</span><span class="w"> </span><span class="n">client</span><span class="p">{</span><span class="n">clientConfig</span><span class="p">};</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// If you are not using the admin role to connect, use GenerateDBConnectAuthToken instead</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">presignedString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">GenerateDBConnectAdminAuthToken</span><span class="p">(</span><span class="n">yourClusterEndpoint</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">presignedString</span><span class="p">.</span><span class="n">IsSuccess</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">presignedString</span><span class="p">.</span><span class="n">GetResult</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Token generation failed.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">Aws</span><span class="o">::</span><span class="n">ShutdownAPI</span><span class="p">(</span><span class="n">options</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">token</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="javascript-sdk">JavaScript SDK<a class="headerlink" href="#javascript-sdk" title="Permanent link">&para;</a></h3>
 <p>You can generate the token in the following ways:
 - <strong>Admin role</strong>: Use <code>getDbConnectAdminAuthToken</code>
 - <strong>Custom database role</strong>: Use <code>getDbConnectAuthToken</code></p>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">DsqlSigner</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;@aws-sdk/dsql-signer&quot;</span><span class="p">;</span>
+
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">generateToken</span><span class="p">(</span><span class="nx">yourClusterEndpoint</span><span class="p">,</span><span class="w"> </span><span class="nx">region</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">signer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">DsqlSigner</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">hostname</span><span class="o">:</span><span class="w"> </span><span class="nx">yourClusterEndpoint</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">region</span><span class="p">,</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Use `getDbConnectAuthToken` if you are _not_ logging in as the `admin` user</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">signer</span><span class="p">.</span><span class="nx">getDbConnectAdminAuthToken</span><span class="p">();</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">token</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">token</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&quot;Failed to generate token: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
+<span class="w">      </span><span class="k">throw</span><span class="w"> </span><span class="nx">error</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="java-sdk">Java SDK<a class="headerlink" href="#java-sdk" title="Permanent link">&para;</a></h3>
 <p>You can generate the token in the following ways:
 - <strong>Admin role</strong>: Use <code>generateDbConnectAdminAuthToken</code>
 - <strong>Custom database role</strong>: Use <code>generateDbConnectAuthToken</code></p>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">software.amazon.awssdk.services.dsql.DsqlUtilities</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">software.amazon.awssdk.regions.Region</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GenerateAuthToken</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">generateToken</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="p">,</span><span class="w"> </span><span class="n">Region</span><span class="w"> </span><span class="n">region</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">DsqlUtilities</span><span class="w"> </span><span class="n">utilities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DsqlUtilities</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">region</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">credentialsProvider</span><span class="p">(</span><span class="n">DefaultCredentialsProvider</span><span class="p">.</span><span class="na">create</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Use `generateDbConnectAuthToken` if you are _not_ logging in as `admin` user </span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utilities</span><span class="p">.</span><span class="na">generateDbConnectAdminAuthToken</span><span class="p">(</span><span class="n">builder</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">builder</span><span class="p">.</span><span class="na">hostname</span><span class="p">(</span><span class="n">yourClusterEndpoint</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">region</span><span class="p">(</span><span class="n">region</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">token</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">token</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="rust-sdk">Rust SDK<a class="headerlink" href="#rust-sdk" title="Permanent link">&para;</a></h3>
 <p>You can generate the token in the following ways:
 - <strong>Admin role</strong>: Use <code>db_connect_admin_auth_token</code>
 - <strong>Custom database role</strong>: Use <code>db_connect_auth_token</code></p>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">aws_config</span><span class="p">::{</span><span class="n">BehaviorVersion</span><span class="p">,</span><span class="w"> </span><span class="n">Region</span><span class="p">};</span>
+<span class="k">use</span><span class="w"> </span><span class="n">aws_sdk_dsql</span><span class="p">::</span><span class="n">auth_token</span><span class="p">::{</span><span class="n">AuthTokenGenerator</span><span class="p">,</span><span class="w"> </span><span class="n">Config</span><span class="p">};</span>
+
+<span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">generate_token</span><span class="p">(</span><span class="n">your_cluster_endpoint</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">sdk_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aws_config</span><span class="p">::</span><span class="n">load_defaults</span><span class="p">(</span><span class="n">BehaviorVersion</span><span class="p">::</span><span class="n">latest</span><span class="p">()).</span><span class="k">await</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">signer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AuthTokenGenerator</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+<span class="w">        </span><span class="n">Config</span><span class="p">::</span><span class="n">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="n">hostname</span><span class="p">(</span><span class="o">&amp;</span><span class="n">your_cluster_endpoint</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="n">region</span><span class="p">(</span><span class="n">Region</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">region</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="n">build</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Use `db_connect_auth_token` if you are _not_ logging in as `admin` user</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">signer</span><span class="p">.</span><span class="n">db_connect_admin_auth_token</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sdk_config</span><span class="p">).</span><span class="k">await</span><span class="p">.</span><span class="n">unwrap</span><span class="p">();</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">token</span><span class="p">);</span>
+<span class="w">    </span><span class="n">token</span><span class="p">.</span><span class="n">to_string</span><span class="p">()</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="ruby-sdk">Ruby SDK<a class="headerlink" href="#ruby-sdk" title="Permanent link">&para;</a></h3>
 <p>You can generate the token in the following ways:
 - <strong>Admin role</strong>: Use <code>generate_db_connect_admin_auth_token</code>
 - <strong>Custom database role</strong>: Use <code>generate_db_connect_auth_token</code></p>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code><span class="nb">require</span><span class="w"> </span><span class="s1">&#39;aws-sdk-dsql&#39;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_token</span><span class="p">(</span><span class="n">your_cluster_endpoint</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">)</span>
+<span class="w">  </span><span class="n">credentials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Aws</span><span class="o">::</span><span class="no">SharedCredentials</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+
+<span class="w">  </span><span class="k">begin</span>
+<span class="w">      </span><span class="n">token_generator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Aws</span><span class="o">::</span><span class="no">DSQL</span><span class="o">::</span><span class="no">AuthTokenGenerator</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+<span class="w">          </span><span class="ss">:credentials</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">credentials</span>
+<span class="w">      </span><span class="p">})</span>
+
+<span class="w">      </span><span class="c1"># if you&#39;re not using admin role, use generate_db_connect_auth_token instead</span>
+<span class="w">      </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">token_generator</span><span class="o">.</span><span class="n">generate_db_connect_admin_auth_token</span><span class="p">({</span>
+<span class="w">          </span><span class="ss">:endpoint</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">your_cluster_endpoint</span><span class="p">,</span>
+<span class="w">          </span><span class="ss">:region</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">region</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">  </span><span class="k">rescue</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">error</span>
+<span class="w">    </span><span class="nb">puts</span><span class="w"> </span><span class="n">error</span><span class="o">.</span><span class="n">full_message</span>
+<span class="w">  </span><span class="k">end</span>
+<span class="k">end</span>
 </code></pre></div>
 <h3 id="net-sdk">.NET SDK<a class="headerlink" href="#net-sdk" title="Permanent link">&para;</a></h3>
 <p><strong>Note</strong>: The official SDK for .NET doesn't include a built-in API call to generate an authentication token for Aurora DSQL. Instead, you must use <code>DSQLAuthTokenGenerator</code>, which is a utility class.</p>
 <p>You can generate the token in the following ways:
 - <strong>Admin role</strong>: Use <code>DbConnectAdmin</code>
 - <strong>Custom database role</strong>: Use <code>DbConnect</code></p>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">Amazon</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">Amazon.DSQL.Util</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">Amazon.Runtime</span><span class="p">;</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;insert-dsql-cluster-endpoint&quot;</span><span class="p">;</span>
+
+<span class="n">AWSCredentials</span><span class="w"> </span><span class="n">credentials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FallbackCredentialsFactory</span><span class="p">.</span><span class="n">GetCredentials</span><span class="p">();</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DSQLAuthTokenGenerator</span><span class="p">.</span><span class="n">GenerateDbConnectAdminAuthToken</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span><span class="w"> </span><span class="n">RegionEndpoint</span><span class="p">.</span><span class="n">USEast1</span><span class="p">,</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="p">);</span>
+
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">token</span><span class="p">);</span>
 </code></pre></div>
 <h3 id="golang-sdk">Golang SDK<a class="headerlink" href="#golang-sdk" title="Permanent link">&para;</a></h3>
 <p><strong>Note</strong>: The Golang SDK doesn't provide a built-in method for generating a pre-signed token. You must manually construct the signed request.</p>
 <p>In the following code example, specify the <code>action</code> based on the PostgreSQL user:
 - <strong>Admin role</strong>: Use the <code>DbConnectAdmin</code> action
 - <strong>Custom database role</strong>: Use the <code>DbConnect</code> action</p>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">GenerateDbConnectAdminAuthToken</span><span class="p">(</span><span class="nx">yourClusterEndpoint</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">region</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Fetch credentials</span>
+<span class="w">    </span><span class="nx">sess</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">session</span><span class="p">.</span><span class="nx">NewSession</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">creds</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sess</span><span class="p">.</span><span class="nx">Config</span><span class="p">.</span><span class="nx">Credentials</span><span class="p">.</span><span class="nx">Get</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">staticCredentials</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">credentials</span><span class="p">.</span><span class="nx">NewStaticCredentials</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">creds</span><span class="p">.</span><span class="nx">AccessKeyID</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">creds</span><span class="p">.</span><span class="nx">SecretAccessKey</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">creds</span><span class="p">.</span><span class="nx">SessionToken</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="c1">// The scheme is arbitrary and is only needed because validation of the URL requires one.</span>
+<span class="w">    </span><span class="nx">endpoint</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;https://&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">yourClusterEndpoint</span>
+<span class="w">    </span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">NewRequest</span><span class="p">(</span><span class="s">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">endpoint</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">values</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">Query</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">values</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="s">&quot;Action&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">req</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">RawQuery</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">values</span><span class="p">.</span><span class="nx">Encode</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">signer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">v4</span><span class="p">.</span><span class="nx">Signer</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">Credentials</span><span class="p">:</span><span class="w"> </span><span class="nx">staticCredentials</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">signer</span><span class="p">.</span><span class="nx">Presign</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dsql&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">region</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Minute</span><span class="p">,</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">())</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">url</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">String</span><span class="p">()[</span><span class="nb">len</span><span class="p">(</span><span class="s">&quot;https://&quot;</span><span class="p">):]</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
 </code></pre></div>
 
 
