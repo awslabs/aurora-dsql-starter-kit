@@ -52,10 +52,7 @@ Before you can generate an authentication token using CloudShell, make sure that
 3. Run the following command to generate an authentication token for the `admin` role:
 
 ```bash
-aws dsql generate-db-connect-admin-auth-token \
-  --expires-in 3600 \
-  --region us-east-1 \
-  --hostname your_cluster_endpoint
+--8<-- "samples/cli/authentication/generate_token.sh:cloudshell-admin-token"
 ```
 
 **Note**: If you're not connecting as `admin`, use `generate-db-connect-auth-token` instead.
@@ -63,10 +60,7 @@ aws dsql generate-db-connect-admin-auth-token \
 4. Use the following command to use `psql` to start a connection to your cluster:
 
 ```bash
-PGSSLMODE=require \
-psql --dbname postgres \
-  --username admin \
-  --host cluster_endpoint
+--8<-- "samples/cli/authentication/generate_token.sh:cloudshell-psql-connection"
 ```
 
 5. When prompted for a password, paste the generated token
@@ -86,18 +80,12 @@ The following example uses these attributes to generate an authentication token 
 
 **Linux and macOS:**
 ```bash
-aws dsql generate-db-connect-admin-auth-token \
-  --region region \
-  --expires-in 3600 \
-  --hostname your_cluster_endpoint
+--8<-- "samples/cli/authentication/generate_token.sh:cli-linux-macos"
 ```
 
 **Windows:**
 ```bash
-aws dsql generate-db-connect-admin-auth-token ^
-  --region=region ^
-  --expires-in=3600 ^
-  --hostname=your_cluster_endpoint
+--8<-- "samples/cli/authentication/generate_token.sh:cli-windows"
 ```
 
 ## Using the SDKs to Generate a Token
@@ -114,12 +102,7 @@ You can generate the token in the following ways:
 - **Custom database role**: Use `generate_connect_auth_token`
 
 ```python
-def generate_token(your_cluster_endpoint, region):
-    client = boto3.client("dsql", region_name=region)
-    # use `generate_db_connect_auth_token` instead if you are not connecting as admin.
-    token = client.generate_db_connect_admin_auth_token(your_cluster_endpoint, region)
-    print(token)
-    return token
+--8<-- "samples/python/authentication/src/generate_token.py:python-generate-token"
 ```
 
 ### C++ SDK
@@ -129,34 +112,7 @@ You can generate the token in the following ways:
 - **Custom database role**: Use `GenerateDBConnectAuthToken`
 
 ```cpp
-#include <aws/core/Aws.h>
-#include <aws/dsql/DSQLClient.h>
-#include <iostream>
-
-using namespace Aws;
-using namespace Aws::DSQL;
-
-std::string generateToken(String yourClusterEndpoint, String region) {
-    Aws::SDKOptions options;
-    Aws::InitAPI(options);
-    DSQLClientConfiguration clientConfig;
-    clientConfig.region = region;
-    DSQLClient client{clientConfig};
-    std::string token = "";
-    
-    // If you are not using the admin role to connect, use GenerateDBConnectAuthToken instead
-    const auto presignedString = client.GenerateDBConnectAdminAuthToken(yourClusterEndpoint, region);
-    if (presignedString.IsSuccess()) {
-        token = presignedString.GetResult();
-    } else {
-        std::cerr << "Token generation failed." << std::endl;
-    }
-
-    std::cout << token << std::endl;
-
-    Aws::ShutdownAPI(options);
-    return token;
-}
+--8<-- "samples/cpp/authentication/src/GenerateToken.cpp:cpp-generate-token"
 ```
 
 ### JavaScript SDK
@@ -166,23 +122,7 @@ You can generate the token in the following ways:
 - **Custom database role**: Use `getDbConnectAuthToken`
 
 ```javascript
-import { DsqlSigner } from "@aws-sdk/dsql-signer";
-
-async function generateToken(yourClusterEndpoint, region) {
-  const signer = new DsqlSigner({
-    hostname: yourClusterEndpoint,
-    region,
-  });
-  try {
-    // Use `getDbConnectAuthToken` if you are _not_ logging in as the `admin` user
-    const token = await signer.getDbConnectAdminAuthToken();
-    console.log(token);
-    return token;
-  } catch (error) {
-      console.error("Failed to generate token: ", error);
-      throw error;
-  }
-}
+--8<-- "samples/javascript/authentication/src/generate_token.js:javascript-generate-token"
 ```
 
 ### Java SDK
@@ -192,27 +132,7 @@ You can generate the token in the following ways:
 - **Custom database role**: Use `generateDbConnectAuthToken`
 
 ```java
-import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
-import software.amazon.awssdk.services.dsql.DsqlUtilities;
-import software.amazon.awssdk.regions.Region;
-
-public class GenerateAuthToken { 
-    public static String generateToken(String yourClusterEndpoint, Region region) {
-        DsqlUtilities utilities = DsqlUtilities.builder()
-                .region(region)
-                .credentialsProvider(DefaultCredentialsProvider.create())
-                .build();
-
-        // Use `generateDbConnectAuthToken` if you are _not_ logging in as `admin` user 
-        String token = utilities.generateDbConnectAdminAuthToken(builder -> {
-            builder.hostname(yourClusterEndpoint)
-                    .region(region);
-        });
-
-        System.out.println(token);
-        return token;
-    }
-}
+--8<-- "samples/java/authentication/src/main/java/org/example/GenerateToken.java:java-generate-token"
 ```
 
 ### Rust SDK
@@ -222,24 +142,7 @@ You can generate the token in the following ways:
 - **Custom database role**: Use `db_connect_auth_token`
 
 ```rust
-use aws_config::{BehaviorVersion, Region};
-use aws_sdk_dsql::auth_token::{AuthTokenGenerator, Config};
-
-async fn generate_token(your_cluster_endpoint: String, region: String) -> String {
-    let sdk_config = aws_config::load_defaults(BehaviorVersion::latest()).await;
-    let signer = AuthTokenGenerator::new(
-        Config::builder()
-            .hostname(&your_cluster_endpoint)
-            .region(Region::new(region))
-            .build()
-            .unwrap(),
-    );
-
-    // Use `db_connect_auth_token` if you are _not_ logging in as `admin` user
-    let token = signer.db_connect_admin_auth_token(&sdk_config).await.unwrap();
-    println!("{}", token);
-    token.to_string()
-}
+--8<-- "samples/rust/authentication/src/bin/generate_token.rs:rust-generate-token"
 ```
 
 ### Ruby SDK
@@ -249,25 +152,7 @@ You can generate the token in the following ways:
 - **Custom database role**: Use `generate_db_connect_auth_token`
 
 ```ruby
-require 'aws-sdk-dsql'
-
-def generate_token(your_cluster_endpoint, region)
-  credentials = Aws::SharedCredentials.new()
-
-  begin
-      token_generator = Aws::DSQL::AuthTokenGenerator.new({
-          :credentials => credentials
-      })
-      
-      # if you're not using admin role, use generate_db_connect_auth_token instead
-      token = token_generator.generate_db_connect_admin_auth_token({
-          :endpoint => your_cluster_endpoint,
-          :region => region
-      })
-  rescue => error
-    puts error.full_message
-  end
-end
+--8<-- "samples/ruby/authentication/lib/generate_token.rb:ruby-generate-token"
 ```
 
 ### .NET SDK
@@ -279,17 +164,7 @@ You can generate the token in the following ways:
 - **Custom database role**: Use `DbConnect`
 
 ```csharp
-using Amazon;
-using Amazon.DSQL.Util;
-using Amazon.Runtime;
-
-var yourClusterEndpoint = "insert-dsql-cluster-endpoint";
-
-AWSCredentials credentials = FallbackCredentialsFactory.GetCredentials();
-
-var token = DSQLAuthTokenGenerator.GenerateDbConnectAdminAuthToken(credentials, RegionEndpoint.USEast1, yourClusterEndpoint);
-
-Console.WriteLine(token);
+--8<-- "samples/dotnet/authentication/examples/GenerateToken/GenerateToken.cs:dotnet-generate-token"
 ```
 
 ### Golang SDK
@@ -301,43 +176,5 @@ In the following code example, specify the `action` based on the PostgreSQL user
 - **Custom database role**: Use the `DbConnect` action
 
 ```go
-func GenerateDbConnectAdminAuthToken(yourClusterEndpoint string, region string, action string) (string, error) {
-	// Fetch credentials
-	sess, err := session.NewSession()
-	if err != nil {
-		return "", err
-	}
-
-	creds, err := sess.Config.Credentials.Get()
-	if err != nil {
-		return "", err
-	}
-	staticCredentials := credentials.NewStaticCredentials(
-		creds.AccessKeyID,
-		creds.SecretAccessKey,
-		creds.SessionToken,
-	)
-
-	// The scheme is arbitrary and is only needed because validation of the URL requires one.
-	endpoint := "https://" + yourClusterEndpoint
-	req, err := http.NewRequest("GET", endpoint, nil)
-	if err != nil {
-		return "", err
-	}
-	values := req.URL.Query()
-	values.Set("Action", action)
-	req.URL.RawQuery = values.Encode()
-
-	signer := v4.Signer{
-		Credentials: staticCredentials,
-	}
-	_, err = signer.Presign(req, nil, "dsql", region, 15*time.Minute, time.Now())
-	if err != nil {
-		return "", err
-	}
-
-	url := req.URL.String()[len("https://"):]
-
-	return url, nil
-}
+--8<-- "samples/go/authentication/cmd/generate_token/generate_token.go:go-generate-token"
 ```
