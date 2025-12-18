@@ -60,18 +60,13 @@ aws dsql generate-db-connect-admin-auth-token \
 
 **Note**: If you're not connecting as `admin`, use `generate-db-connect-auth-token` instead.
 
-4. Use the following command to use `psql` to start a connection to your cluster:
+4. For a complete connection example that generates the token and connects in one step:
 
 ```bash
-PGSSLMODE=require \
-psql --dbname postgres \
-  --username admin \
-  --host cluster_endpoint
+--8<-- "samples/authentication-tokens/cli_examples.sh:cli-psql-connection"
 ```
 
-5. When prompted for a password, paste the generated token
-
-6. Press **Enter** to see the PostgreSQL prompt: `postgres=>`
+5. When the connection is established, you'll see the PostgreSQL prompt: `postgres=>`
 
 ## Using the AWS CLI to Generate an Authentication Token
 
@@ -86,18 +81,12 @@ The following example uses these attributes to generate an authentication token 
 
 **Linux and macOS:**
 ```bash
-aws dsql generate-db-connect-admin-auth-token \
-  --region region \
-  --expires-in 3600 \
-  --hostname your_cluster_endpoint
+--8<-- "samples/authentication-tokens/cli_examples.sh:cli-admin-token-linux"
 ```
 
 **Windows:**
 ```bash
-aws dsql generate-db-connect-admin-auth-token ^
-  --region=region ^
-  --expires-in=3600 ^
-  --hostname=your_cluster_endpoint
+--8<-- "samples/authentication-tokens/cli_examples.sh:cli-admin-token-windows"
 ```
 
 ## Using the SDKs to Generate a Token
@@ -114,13 +103,10 @@ You can generate the token in the following ways:
 - **Custom database role**: Use `generate_connect_auth_token`
 
 ```python
-def generate_token(your_cluster_endpoint, region):
-    client = boto3.client("dsql", region_name=region)
-    # use `generate_db_connect_auth_token` instead if you are not connecting as admin.
-    token = client.generate_db_connect_admin_auth_token(your_cluster_endpoint, region)
-    print(token)
-    return token
+--8<-- "samples/authentication-tokens/python_generate_token.py"
 ```
+
+For a complete working example, see the [Python authentication token sample](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/python_generate_token.py).
 
 ### C++ SDK
 
@@ -166,24 +152,10 @@ You can generate the token in the following ways:
 - **Custom database role**: Use `getDbConnectAuthToken`
 
 ```javascript
-import { DsqlSigner } from "@aws-sdk/dsql-signer";
-
-async function generateToken(yourClusterEndpoint, region) {
-  const signer = new DsqlSigner({
-    hostname: yourClusterEndpoint,
-    region,
-  });
-  try {
-    // Use `getDbConnectAuthToken` if you are _not_ logging in as the `admin` user
-    const token = await signer.getDbConnectAdminAuthToken();
-    console.log(token);
-    return token;
-  } catch (error) {
-      console.error("Failed to generate token: ", error);
-      throw error;
-  }
-}
+--8<-- "samples/authentication-tokens/javascript_generate_token.js:javascript-admin-token"
 ```
+
+For a complete working example, see the [JavaScript authentication token sample](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/javascript_generate_token.js).
 
 ### Java SDK
 
@@ -192,28 +164,10 @@ You can generate the token in the following ways:
 - **Custom database role**: Use `generateDbConnectAuthToken`
 
 ```java
-import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
-import software.amazon.awssdk.services.dsql.DsqlUtilities;
-import software.amazon.awssdk.regions.Region;
-
-public class GenerateAuthToken { 
-    public static String generateToken(String yourClusterEndpoint, Region region) {
-        DsqlUtilities utilities = DsqlUtilities.builder()
-                .region(region)
-                .credentialsProvider(DefaultCredentialsProvider.create())
-                .build();
-
-        // Use `generateDbConnectAuthToken` if you are _not_ logging in as `admin` user 
-        String token = utilities.generateDbConnectAdminAuthToken(builder -> {
-            builder.hostname(yourClusterEndpoint)
-                    .region(region);
-        });
-
-        System.out.println(token);
-        return token;
-    }
-}
+--8<-- "samples/authentication-tokens/GenerateToken.java:java-admin-token"
 ```
+
+For a complete working example, see the [Java authentication token sample](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/GenerateToken.java).
 
 ### Rust SDK
 
@@ -341,3 +295,31 @@ func GenerateDbConnectAdminAuthToken(yourClusterEndpoint string, region string, 
 	return url, nil
 }
 ```
+
+## Complete Code Examples
+
+For complete, runnable examples with error handling, environment variable setup, and usage instructions, see the [Aurora DSQL Authentication Token Samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens).
+
+The samples repository includes:
+
+| Language | File | Description |
+|----------|------|-------------|
+| **Python** | [`python_generate_token.py`](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/python_generate_token.py) | Complete Python example using boto3 |
+| **JavaScript** | [`javascript_generate_token.js`](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/javascript_generate_token.js) | Complete JavaScript example using AWS SDK v3 |
+| **Java** | [`GenerateToken.java`](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/GenerateToken.java) | Complete Java example using AWS SDK v2 |
+| **CLI** | [`cli_examples.sh`](https://github.com/aws-samples/aurora-dsql-samples/tree/main/authentication-tokens/cli_examples.sh) | CLI examples for all platforms |
+
+Each sample includes:
+- ✅ **Error handling** - Proper exception management
+- ✅ **Environment variables** - Configurable cluster endpoints and regions  
+- ✅ **Both token types** - Admin and custom role examples
+- ✅ **Usage instructions** - Step-by-step setup and execution
+- ✅ **Integration examples** - How to use tokens with database connections
+
+## Next Steps
+
+Once you have generated an authentication token:
+
+1. **Connect to your cluster** - Use the token as a password with any PostgreSQL-compatible client
+2. **Explore programming examples** - See [Programming with Aurora DSQL](programming-with-dsql.md) for database operation examples
+3. **Set up database roles** - Learn about [Database Roles and IAM Authentication](database-roles-iam-authentication.md)
