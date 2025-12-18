@@ -1,0 +1,3 @@
+[submodule "documentation/docs/samples"]
+	path = documentation/docs/samples
+	url = https://github.com/aws-samples/aurora-dsql-samples.git
