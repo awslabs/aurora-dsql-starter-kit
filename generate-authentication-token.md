@@ -46,6 +46,7 @@ Before you can generate an authentication token using CloudShell, make sure that
 1. Run the following command to generate an authentication token for the `admin` role:
 
 ```
+# Use `generate-db-connect-auth-token` if you are _not_ logging in as `admin` user
 aws dsql generate-db-connect-admin-auth-token \
   --expires-in 3600 \
   --region us-east-1 \
@@ -81,6 +82,7 @@ The following example uses these attributes to generate an authentication token 
 **Linux and macOS:**
 
 ```
+# Use `generate-db-connect-auth-token` if you are _not_ logging in as `admin` user
 aws dsql generate-db-connect-admin-auth-token \
   --region region \
   --expires-in 3600 \
@@ -90,6 +92,7 @@ aws dsql generate-db-connect-admin-auth-token \
 **Windows:**
 
 ```
+# Use `generate-db-connect-auth-token` if you are _not_ logging in as `admin` user
 aws dsql generate-db-connect-admin-auth-token ^
   --region=region ^
   --expires-in=3600 ^
@@ -111,6 +114,8 @@ You can generate the token in the following ways:
 - **Custom database role**: Use `generate_connect_auth_token`
 
 ```
+import boto3
+
 def generate_token(your_cluster_endpoint, region):
     client = boto3.client("dsql", region_name=region)
     # use `generate_db_connect_auth_token` instead if you are not connecting as admin.
@@ -290,6 +295,7 @@ var yourClusterEndpoint = "insert-dsql-cluster-endpoint";
 
 AWSCredentials credentials = FallbackCredentialsFactory.GetCredentials();
 
+// Use `DSQLAuthTokenGenerator.GenerateDbConnectAuthToken` if you are _not_ logging in as `admin` user
 var token = DSQLAuthTokenGenerator.GenerateDbConnectAdminAuthToken(credentials, RegionEndpoint.USEast1, yourClusterEndpoint);
 
 Console.WriteLine(token);
@@ -305,43 +311,30 @@ In the following code example, specify the `action` based on the PostgreSQL user
 - **Custom database role**: Use the `DbConnect` action
 
 ```
-func GenerateDbConnectAdminAuthToken(yourClusterEndpoint string, region string, action string) (string, error) {
-    // Fetch credentials
-    sess, err := session.NewSession()
+import (
+    "context"
+    "time"
+
+    "github.com/aws/aws-sdk-go-v2/config"
+    "github.com/aws/aws-sdk-go-v2/feature/dsql/auth"
+)
+
+func GenerateDbConnectAdminAuthToken(ctx context.Context, clusterEndpoint, region string, expiry time.Duration) (string, error) {
+    cfg, err := config.LoadDefaultConfig(ctx)
     if err != nil {
         return "", err
     }
 
-    creds, err := sess.Config.Credentials.Get()
-    if err != nil {
-        return "", err
+    tokenOptions := func(options *auth.TokenOptions) {
+        options.ExpiresIn = expiry
     }
-    staticCredentials := credentials.NewStaticCredentials(
-        creds.AccessKeyID,
-        creds.SecretAccessKey,
-        creds.SessionToken,
-    )
 
-    // The scheme is arbitrary and is only needed because validation of the URL requires one.
-    endpoint := "https://" + yourClusterEndpoint
-    req, err := http.NewRequest("GET", endpoint, nil)
-    if err != nil {
-        return "", err
-    }
-    values := req.URL.Query()
-    values.Set("Action", action)
-    req.URL.RawQuery = values.Encode()
-
-    signer := v4.Signer{
-        Credentials: staticCredentials,
-    }
-    _, err = signer.Presign(req, nil, "dsql", region, 15*time.Minute, time.Now())
+    // Use `auth.GenerateDbConnectAuthToken` if you are _not_ logging in as `admin` user
+    token, err := auth.GenerateDBConnectAdminAuthToken(ctx, clusterEndpoint, region, cfg.Credentials, tokenOptions)
     if err != nil {
         return "", err
     }
 
-    url := req.URL.String()[len("https://"):]
-
-    return url, nil
+    return token, nil
 }
 ```

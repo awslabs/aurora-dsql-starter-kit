@@ -1642,9 +1642,7 @@ connections should be used where possible to ensure data security during transmi
    ```bash
    java -version</p>
 <ul>
-<li>Build Tool (Maven or Gradle)</li>
-<li><em>Maven</em>: Ensure Maven is installed if that is your preferred option. You can download it from the <a href="https://maven.apache.org/download.cgi">official website</a>.</li>
-<li><em>Gradle</em>: Ensure Gradle is installed if that is your preferred option. You can download it from the <a href="https://gradle.org/install/">official website</a>.</li>
+<li>Gradle: This example uses the Gradle wrapper included in the repository, so no separate installation is required.</li>
 <li>AWS SDK: Ensure that you setup the latest version of the AWS Java SDK <a href="https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/setup.html">official website</a></li>
 <li>You must have an Aurora DSQL cluster. For information about creating an Aurora DSQL cluster, see the
   <a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/getting-started.html">Getting started with Aurora DSQL</a>
@@ -1675,19 +1673,11 @@ connections should be used where possible to ensure data security during transmi
 <span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_ENDPOINT</span><span class="o">=</span><span class="s2">&quot;&lt;your endpoint&gt;&quot;</span>
 </code></pre></div>
 <p>Run the example:</p>
-<ul>
-<li>
-<p><em>Maven</em>:</p>
-<div class="highlight"><pre><span></span><code>mvn<span class="w"> </span>compile
-mvn<span class="w"> </span><span class="nb">test</span>
+<div class="highlight"><pre><span></span><code>./gradlew<span class="w"> </span>run
 </code></pre></div>
-</li>
-<li>
-<p><em>Gradle</em>:</p>
-<div class="highlight"><pre><span></span><code>gradle<span class="w"> </span>run
+<p>Run the tests:</p>
+<div class="highlight"><pre><span></span><code>./gradlew<span class="w"> </span><span class="nb">test</span>
 </code></pre></div>
-</li>
-</ul>
 <p>The example contains comments explaining the code and the operations being performed.</p>
 <h2 id="additional-resources">Additional resources<a class="headerlink" href="#additional-resources" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1698,7 +1688,7 @@ mvn<span class="w"> </span><span class="nb">test</span>
 </ul>
 <hr />
 <p>Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</p>
-<p>SPDX-License-Identifier: MIT-0</p>
+<p>SPDX-License-Identifier: Apache-2.0</p>
 
 
 

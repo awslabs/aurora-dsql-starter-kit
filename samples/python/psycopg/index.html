@@ -1513,17 +1513,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tls-connection-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        TLS connection configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#run-the-example" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1540,17 +1529,6 @@
     <span class="md-ellipsis">
       
         Prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#download-the-amazon-root-certificate-from-the-official-trust-store" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Download the Amazon root certificate from the official trust store
       
     </span>
   </a>
@@ -1623,12 +1601,11 @@ to connect to an Aurora DSQL cluster and perform basic database operations.</p>
 your PostgreSQL-compatible applications. Psycopg is a popular PostgreSQL adapter for Python that allows
 you to interact with PostgreSQL databases using Python code.</p>
 <h2 id="about-the-code-example">About the code example<a class="headerlink" href="#about-the-code-example" title="Permanent link">&para;</a></h2>
+<p>This example uses the <a href="https://github.com/awslabs/aurora-dsql-python-connector">Aurora DSQL Python Connector</a> which automatically handles IAM token generation for authentication.</p>
 <p>The example demonstrates a flexible connection approach that works for both admin and non-admin users:</p>
 <ul>
-<li>When connecting as an <strong>admin user</strong>, the example uses the <code>public</code> schema and generates an admin authentication
-  token.</li>
-<li>When connecting as a <strong>non-admin user</strong>, the example uses a custom <code>myschema</code> schema and generates a standard
-  authentication token.</li>
+<li>When connecting as an <strong>admin user</strong>, the example uses the <code>public</code> schema and generates an admin authentication token.</li>
+<li>When connecting as a <strong>non-admin user</strong>, the example uses a custom <code>myschema</code> schema and generates a standard authentication token.</li>
 </ul>
 <p>The code automatically detects the user type and adjusts its behavior accordingly.</p>
 <h2 id="important">⚠️ Important<a class="headerlink" href="#important" title="Permanent link">&para;</a></h2>
@@ -1639,18 +1616,6 @@ you to interact with PostgreSQL databases using Python code.</p>
   <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#grant-least-privilege">Grant least privilege</a>.</li>
 <li>This code is not tested in every AWS Region. For more information, see
   <a href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services">AWS Regional Services</a>.</li>
-</ul>
-<h2 id="tls-connection-configuration">TLS connection configuration<a class="headerlink" href="#tls-connection-configuration" title="Permanent link">&para;</a></h2>
-<p>This example uses direct TLS connections where supported, and verifies the server certificate is trusted. Verified SSL
-connections should be used where possible to ensure data security during transmission.</p>
-<ul>
-<li>Driver versions following the release of PostgreSQL 17 support direct TLS connections, bypassing the traditional
-  PostgreSQL connection preamble</li>
-<li>Direct TLS connections provide improved connection performance and enhanced security</li>
-<li>Not all PostgreSQL drivers support direct TLS connections yet, or only in recent versions following PostgreSQL 17</li>
-<li>Ensure your installed driver version supports direct TLS negotiation, or use a version that is at least as recent as
-  the one used in this sample</li>
-<li>If your driver doesn't support direct TLS connections, you may need to use the traditional preamble connection instead</li>
 </ul>
 <h2 id="run-the-example">Run the example<a class="headerlink" href="#run-the-example" title="Permanent link">&para;</a></h2>
 <h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
@@ -1668,10 +1633,6 @@ connections should be used where possible to ensure data security during transmi
   <a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/using-database-and-iam-roles.html">Using database roles with IAM roles</a>
   guide.</li>
 </ul>
-<h3 id="download-the-amazon-root-certificate-from-the-official-trust-store">Download the Amazon root certificate from the official trust store<a class="headerlink" href="#download-the-amazon-root-certificate-from-the-official-trust-store" title="Permanent link">&para;</a></h3>
-<p>Download the Amazon root certificate from the official trust store:</p>
-<div class="highlight"><pre><span></span><code>wget https://www.amazontrust.com/repository/AmazonRootCA1.pem -O root.pem
-</code></pre></div>
 <h3 id="set-up-environment-for-examples">Set up environment for examples<a class="headerlink" href="#set-up-environment-for-examples" title="Permanent link">&para;</a></h3>
 <ol>
 <li>Create and activate a Python virtual environment:</li>
@@ -1705,20 +1666,18 @@ connections should be used where possible to ensure data security during transmi
 
 <span class="c1"># e.g. &quot;foo0bar1baz2quux3quuux4.dsql.us-east-1.on.aws&quot;</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_ENDPOINT</span><span class="o">=</span><span class="s2">&quot;&lt;your endpoint&gt;&quot;</span>
-
-<span class="c1"># e.g. &quot;us-east-1&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">REGION</span><span class="o">=</span><span class="s2">&quot;&lt;your region&gt;&quot;</span>
 </code></pre></div>
 <p>Run the example:</p>
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/example.py
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/example_preferred.py
 </code></pre></div>
 <p>The example contains comments explaining the code and the operations being performed.</p>
 <h2 id="additional-resources">Additional resources<a class="headerlink" href="#additional-resources" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/what-is-aurora-dsql.html">Amazon Aurora DSQL Documentation</a></li>
+<li><a href="https://github.com/awslabs/aurora-dsql-python-connector">Aurora DSQL Python Connector</a></li>
 <li><a href="https://www.psycopg.org/psycopg3/docs/">Psycopg Documentation</a></li>
-<li><a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html">AWS SDK for Python (Boto3) Documentation</a></li>
 </ul>
+<p><strong>Note:</strong> The connector automatically extracts the region from the cluster endpoint, defaults to the <code>postgres</code> database, and handles SSL configuration.</p>
 <hr />
 <p>Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</p>
 <p>SPDX-License-Identifier: MIT-0</p>

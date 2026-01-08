@@ -2040,7 +2040,8 @@ function fallbackCopy(text, btn) {
 <p>Run the following command to generate an authentication token for the <code>admin</code> role:</p>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin-auth-token<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Use `generate-db-connect-auth-token` if you are _not_ logging in as `admin` user</span>
+aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin-auth-token<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--expires-in<span class="w"> </span><span class="m">3600</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--region<span class="w"> </span>us-east-1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--hostname<span class="w"> </span>your_cluster_endpoint
@@ -2072,13 +2073,15 @@ psql<span class="w"> </span>--dbname<span class="w"> </span>postgres<span class=
 - <strong>your_cluster_endpoint</strong>: The endpoint of the cluster (format: <code>your_cluster_identifier.dsql.region.on.aws</code>)
 - <strong>region</strong>: The AWS Region, such as <code>us-east-2</code> or <code>us-east-1</code></p>
 <p><strong>Linux and macOS:</strong>
-<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin-auth-token<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Use `generate-db-connect-auth-token` if you are _not_ logging in as `admin` user</span>
+aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin-auth-token<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--region<span class="w"> </span>region<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--expires-in<span class="w"> </span><span class="m">3600</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--hostname<span class="w"> </span>your_cluster_endpoint
 </code></pre></div></p>
 <p><strong>Windows:</strong>
-<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin-auth-token<span class="w"> </span>^
+<div class="highlight"><pre><span></span><code><span class="c1"># Use `generate-db-connect-auth-token` if you are _not_ logging in as `admin` user</span>
+aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin-auth-token<span class="w"> </span>^
 <span class="w">  </span>--region<span class="o">=</span>region<span class="w"> </span>^
 <span class="w">  </span>--expires-in<span class="o">=</span><span class="m">3600</span><span class="w"> </span>^
 <span class="w">  </span>--hostname<span class="o">=</span>your_cluster_endpoint
@@ -2093,7 +2096,9 @@ psql<span class="w"> </span>--dbname<span class="w"> </span>postgres<span class=
 <p>You can generate the token in the following ways:
 - <strong>Admin role</strong>: Use <code>generate_db_connect_admin_auth_token</code>
 - <strong>Custom database role</strong>: Use <code>generate_connect_auth_token</code></p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_token</span><span class="p">(</span><span class="n">your_cluster_endpoint</span><span class="p">,</span> <span class="n">region</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">boto3</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_token</span><span class="p">(</span><span class="n">your_cluster_endpoint</span><span class="p">,</span> <span class="n">region</span><span class="p">):</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">&quot;dsql&quot;</span><span class="p">,</span> <span class="n">region_name</span><span class="o">=</span><span class="n">region</span><span class="p">)</span>
     <span class="c1"># use `generate_db_connect_auth_token` instead if you are not connecting as admin.</span>
     <span class="n">token</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">generate_db_connect_admin_auth_token</span><span class="p">(</span><span class="n">your_cluster_endpoint</span><span class="p">,</span> <span class="n">region</span><span class="p">)</span>
@@ -2241,6 +2246,7 @@ psql<span class="w"> </span>--dbname<span class="w"> </span>postgres<span class=
 
 <span class="n">AWSCredentials</span><span class="w"> </span><span class="n">credentials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FallbackCredentialsFactory</span><span class="p">.</span><span class="n">GetCredentials</span><span class="p">();</span>
 
+<span class="c1">// Use `DSQLAuthTokenGenerator.GenerateDbConnectAuthToken` if you are _not_ logging in as `admin` user</span>
 <span class="kt">var</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DSQLAuthTokenGenerator</span><span class="p">.</span><span class="n">GenerateDbConnectAdminAuthToken</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span><span class="w"> </span><span class="n">RegionEndpoint</span><span class="p">.</span><span class="n">USEast1</span><span class="p">,</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="p">);</span>
 
 <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">token</span><span class="p">);</span>
@@ -2250,44 +2256,31 @@ psql<span class="w"> </span>--dbname<span class="w"> </span>postgres<span class=
 <p>In the following code example, specify the <code>action</code> based on the PostgreSQL user:
 - <strong>Admin role</strong>: Use the <code>DbConnectAdmin</code> action
 - <strong>Custom database role</strong>: Use the <code>DbConnect</code> action</p>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">GenerateDbConnectAdminAuthToken</span><span class="p">(</span><span class="nx">yourClusterEndpoint</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">region</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// Fetch credentials</span>
-<span class="w">    </span><span class="nx">sess</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">session</span><span class="p">.</span><span class="nx">NewSession</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;context&quot;</span>
+<span class="w">    </span><span class="s">&quot;time&quot;</span>
+
+<span class="w">    </span><span class="s">&quot;github.com/aws/aws-sdk-go-v2/config&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/aws/aws-sdk-go-v2/feature/dsql/auth&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">GenerateDbConnectAdminAuthToken</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">clusterEndpoint</span><span class="p">,</span><span class="w"> </span><span class="nx">region</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">expiry</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">cfg</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">LoadDefaultConfig</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="nx">creds</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sess</span><span class="p">.</span><span class="nx">Config</span><span class="p">.</span><span class="nx">Credentials</span><span class="p">.</span><span class="nx">Get</span><span class="p">()</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="nx">tokenOptions</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">options</span><span class="w"> </span><span class="o">*</span><span class="nx">auth</span><span class="p">.</span><span class="nx">TokenOptions</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">options</span><span class="p">.</span><span class="nx">ExpiresIn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">expiry</span>
 <span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="nx">staticCredentials</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">credentials</span><span class="p">.</span><span class="nx">NewStaticCredentials</span><span class="p">(</span>
-<span class="w">        </span><span class="nx">creds</span><span class="p">.</span><span class="nx">AccessKeyID</span><span class="p">,</span>
-<span class="w">        </span><span class="nx">creds</span><span class="p">.</span><span class="nx">SecretAccessKey</span><span class="p">,</span>
-<span class="w">        </span><span class="nx">creds</span><span class="p">.</span><span class="nx">SessionToken</span><span class="p">,</span>
-<span class="w">    </span><span class="p">)</span>
 
-<span class="w">    </span><span class="c1">// The scheme is arbitrary and is only needed because validation of the URL requires one.</span>
-<span class="w">    </span><span class="nx">endpoint</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;https://&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">yourClusterEndpoint</span>
-<span class="w">    </span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">NewRequest</span><span class="p">(</span><span class="s">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">endpoint</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="nx">values</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">Query</span><span class="p">()</span>
-<span class="w">    </span><span class="nx">values</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="s">&quot;Action&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">req</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">RawQuery</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">values</span><span class="p">.</span><span class="nx">Encode</span><span class="p">()</span>
-
-<span class="w">    </span><span class="nx">signer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">v4</span><span class="p">.</span><span class="nx">Signer</span><span class="p">{</span>
-<span class="w">        </span><span class="nx">Credentials</span><span class="p">:</span><span class="w"> </span><span class="nx">staticCredentials</span><span class="p">,</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">signer</span><span class="p">.</span><span class="nx">Presign</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dsql&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">region</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Minute</span><span class="p">,</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">())</span>
+<span class="w">    </span><span class="c1">// Use `auth.GenerateDbConnectAuthToken` if you are _not_ logging in as `admin` user</span>
+<span class="w">    </span><span class="nx">token</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">auth</span><span class="p">.</span><span class="nx">GenerateDBConnectAdminAuthToken</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">clusterEndpoint</span><span class="p">,</span><span class="w"> </span><span class="nx">region</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="p">.</span><span class="nx">Credentials</span><span class="p">,</span><span class="w"> </span><span class="nx">tokenOptions</span><span class="p">)</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="nx">url</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">String</span><span class="p">()[</span><span class="nb">len</span><span class="p">(</span><span class="s">&quot;https://&quot;</span><span class="p">):]</span>
-
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">token</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span>
 <span class="p">}</span>
 </code></pre></div>
 

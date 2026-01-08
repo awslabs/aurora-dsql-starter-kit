@@ -1601,12 +1601,11 @@ The example shows you how to connect to an Aurora DSQL cluster and perform basic
 your PostgreSQL-compatible applications. <code>Postgres.js</code> is a lightweight PostgreSQL client for Node.js that allows
 you to interact with PostgreSQL databases using JavaScript code.</p>
 <h2 id="about-the-code-example">About the code example<a class="headerlink" href="#about-the-code-example" title="Permanent link">&para;</a></h2>
+<p>This example uses the <a href="https://github.com/awslabs/aurora-dsql-nodejs-connector">Aurora DSQL Node.js Connector</a> which automatically handles IAM token generation for authentication.</p>
 <p>The example demonstrates a flexible connection approach that works for both admin and non-admin users:</p>
 <ul>
-<li>When connecting as an <strong>admin user</strong>, the example uses the <code>public</code> schema and generates an admin authentication
-  token.</li>
-<li>When connecting as a <strong>non-admin user</strong>, the example uses a custom <code>myschema</code> schema and generates a standard
-  authentication token.</li>
+<li>When connecting as an <strong>admin user</strong>, the example uses the <code>public</code> schema and generates an admin authentication token.</li>
+<li>When connecting as a <strong>non-admin user</strong>, the example uses a custom <code>myschema</code> schema and generates a standard authentication token.</li>
 </ul>
 <p>The code automatically detects the user type and adjusts its behavior accordingly.</p>
 <h2 id="important">⚠️ Important<a class="headerlink" href="#important" title="Permanent link">&para;</a></h2>
@@ -1658,9 +1657,6 @@ you to interact with PostgreSQL databases using JavaScript code.</p>
 
 <span class="c1"># e.g. &quot;foo0bar1baz2quux3quuux4.dsql.us-east-1.on.aws&quot;</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_ENDPOINT</span><span class="o">=</span><span class="s2">&quot;&lt;your endpoint&gt;&quot;</span>
-
-<span class="c1"># e.g. &quot;us-east-1&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">REGION</span><span class="o">=</span><span class="s2">&quot;&lt;your region&gt;&quot;</span>
 </code></pre></div>
 <p>Run the example:</p>
 <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>install
@@ -1677,9 +1673,10 @@ interactions.</p>
 <h2 id="additional-resources">Additional resources<a class="headerlink" href="#additional-resources" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/what-is-aurora-dsql.html">Amazon Aurora DSQL Documentation</a></li>
+<li><a href="https://github.com/awslabs/aurora-dsql-nodejs-connector/tree/main/packages/postgres-js">Aurora DSQL Node.js Connector</a></li>
 <li><a href="https://github.com/porsager/postgres">Postgres.js Documentation</a></li>
-<li><a href="https://docs.aws.amazon.com/sdk-for-javascript/">AWS SDK for JavaScript Documentation</a></li>
 </ul>
+<p><strong>Note:</strong> The connector automatically extracts the region from the cluster endpoint and defaults to the <code>postgres</code> database.</p>
 <hr />
 <p>Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</p>
 <p>SPDX-License-Identifier: MIT-0</p>

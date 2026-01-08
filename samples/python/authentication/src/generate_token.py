@@ -1,6 +1,10 @@
 # Python SDK examples for generating Aurora DSQL authentication tokens
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
 
 # --8<-- [start:python-generate-token]
+import boto3
+
 def generate_token(your_cluster_endpoint, region):
     client = boto3.client("dsql", region_name=region)
     # use `generate_db_connect_auth_token` instead if you are not connecting as admin.

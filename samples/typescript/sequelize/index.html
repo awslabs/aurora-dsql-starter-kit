@@ -1552,62 +1552,44 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sequelize-pet-clinic-with-dsql" class="md-nav__link">
+  <a href="#usage-notes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sequelize Pet Clinic with DSQL
+        Usage notes
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Sequelize Pet Clinic with DSQL">
+    <nav class="md-nav" aria-label="Usage notes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#connect-to-an-aurora-dsql-cluster" class="md-nav__link">
+  <a href="#connecting-to-dsql" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Connect to an Aurora DSQL cluster
+        Connecting to DSQL
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Connect to an Aurora DSQL cluster">
-      <ul class="md-nav__list">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connection-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection configuration
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#connection-pooling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Connection Pooling
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-models" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Create models
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Create models">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-uuid-as-primary-key" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using UUID as Primary Key
+        Connection pooling
       
     </span>
   </a>
@@ -1615,10 +1597,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#sequelizesync-does-not-work-with-dsql" class="md-nav__link">
+  <a href="#table-creation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sequelize.sync() does not work with DSQL
+        Table creation
       
     </span>
   </a>
@@ -1626,18 +1608,57 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#model-definitions" class="md-nav__link">
+  <a href="#primary-keys" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Model definitions
+        Primary keys
       
     </span>
   </a>
   
 </li>
         
-      </ul>
-    </nav>
+          <li class="md-nav__item">
+  <a href="#relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationships
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unsupported-data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unsupported data types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unsupported-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unsupported methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#locking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Locking
+      
+    </span>
+  </a>
   
 </li>
         
@@ -1742,9 +1763,6 @@ It should output something similar to <code>Version 5.6.x</code> or higher.</p>
 
 <span class="c1"># e.g. &quot;foo0bar1baz2quux3quuux4.dsql.us-east-1.on.aws&quot;</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_ENDPOINT</span><span class="o">=</span><span class="s2">&quot;&lt;your endpoint&gt;&quot;</span>
-
-<span class="c1"># e.g. &quot;us-east-1&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">REGION</span><span class="o">=</span><span class="s2">&quot;&lt;your region&gt;&quot;</span>
 </code></pre></div>
 <p>Run the example:</p>
 <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>install
@@ -1752,196 +1770,119 @@ npm<span class="w"> </span>run<span class="w"> </span>build
 npm<span class="w"> </span>run<span class="w"> </span>start
 </code></pre></div>
 <p>The example contains comments explaining the code and the operations being performed.</p>
-<h2 id="sequelize-pet-clinic-with-dsql">Sequelize Pet Clinic with DSQL<a class="headerlink" href="#sequelize-pet-clinic-with-dsql" title="Permanent link">&para;</a></h2>
-<h3 id="connect-to-an-aurora-dsql-cluster">Connect to an Aurora DSQL cluster<a class="headerlink" href="#connect-to-an-aurora-dsql-cluster" title="Permanent link">&para;</a></h3>
-<p>The example below shows how to create a Sequelize instance and connect to a DSQL cluster. It handles token generation,
-creating a new token for each connection to DSQL. This ensures that the token is always valid. This is done using Sequelize hooks
-to modify the password before each connection is created. It also has a hook after connecting to set the search path
-to the correct schema if we are using the non-admin user. When using Sequelize with the Postgres dialect option Sequelize
-uses <a href="https://node-postgres.com/">node-postgres</a> to connect.</p>
-<blockquote>
-<p><strong>Note</strong></p>
-<p>In the dialect options you must set <code>clientMinMessages</code> to ignore, or an error will occur.</p>
-</blockquote>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">DsqlSigner</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;@aws-sdk/dsql-signer&quot;</span><span class="p">;</span>
-<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Sequelize</span><span class="p">,</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">,</span><span class="w"> </span><span class="nx">Model</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;sequelize&#39;</span><span class="p">;</span>
+<h2 id="usage-notes">Usage notes<a class="headerlink" href="#usage-notes" title="Permanent link">&para;</a></h2>
+<h3 id="connecting-to-dsql">Connecting to DSQL<a class="headerlink" href="#connecting-to-dsql" title="Permanent link">&para;</a></h3>
+<p>DSQL is PostgreSQL-compatible, so use the <code>postgres</code> dialect. The <a href="https://github.com/awslabs/aurora-dsql-nodejs-connector/blob/main/packages/node-postgres/README.md">Aurora DSQL Connector for node-postgres</a> handles IAM token generation automatically. Inject the connector into Sequelize via the <code>dialectModule</code> option.</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">AuroraDSQLClient</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@aws/aurora-dsql-node-postgres-connector&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">pg</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;pg&#39;</span><span class="p">;</span>
 
-<span class="kd">const</span><span class="w"> </span><span class="nx">ADMIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="p">;</span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">NON_ADMIN_SCHEMA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;myschema&quot;</span><span class="p">;</span>
-
-<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getSequelizeConnection</span><span class="p">()</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">Sequelize</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
-
-<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">clusterEndpoint</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">CLUSTER_ENDPOINT</span><span class="o">!</span><span class="p">;</span>
-<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">CLUSTER_USER</span><span class="o">!</span><span class="p">;</span>
-<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">region</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REGION</span><span class="o">!</span><span class="p">;</span>
-
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Sequelize</span><span class="p">(</span><span class="s2">&quot;postgres&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">host</span><span class="o">:</span><span class="w"> </span><span class="kt">clusterEndpoint</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="kt">5432</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">dialect</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;postgres&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Indicates to use node-postgres and Postgres Sequelize configuration</span>
-<span class="w">    </span><span class="nx">logging</span><span class="o">:</span><span class="w"> </span><span class="kt">console.log</span><span class="p">,</span><span class="w"> </span><span class="c1">// Set to console.log to see SQL queries</span>
-<span class="w">    </span><span class="nx">define</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nx">timestamps</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">dialectOptions</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nx">user</span><span class="o">:</span><span class="w"> </span><span class="kt">user</span><span class="p">,</span>
-<span class="w">      </span><span class="nx">clientMinMessages</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// This is essential</span>
-<span class="w">      </span><span class="nx">skipIndexes</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span>
-<span class="w">      </span><span class="nx">ssl</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">mode</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;verify-full&#39;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">pool</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Connection pool configuration options</span>
-<span class="w">      </span><span class="nx">max</span><span class="o">:</span><span class="w"> </span><span class="kt">5</span><span class="p">,</span>
-<span class="w">      </span><span class="nx">min</span><span class="o">:</span><span class="w"> </span><span class="kt">0</span><span class="p">,</span>
-<span class="w">      </span><span class="nx">acquire</span><span class="o">:</span><span class="w"> </span><span class="kt">30000</span><span class="p">,</span>
-<span class="w">      </span><span class="nx">idle</span><span class="o">:</span><span class="w"> </span><span class="kt">10000</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">hooks</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nx">beforeConnect</span><span class="o">:</span><span class="w"> </span><span class="kt">async</span><span class="w"> </span><span class="p">(</span><span class="nx">config</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="c1">// This runs before a connection is established, creating a fresh token.</span>
-<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">getPasswordToken</span><span class="p">(</span><span class="nx">clusterEndpoint</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="nx">region</span><span class="p">);</span>
-<span class="w">        </span><span class="nx">config</span><span class="p">.</span><span class="nx">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">token</span><span class="p">;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nx">afterConnect</span><span class="o">:</span><span class="w"> </span><span class="kt">async</span><span class="w"> </span><span class="p">(</span><span class="nx">connection</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">user</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="nx">ADMIN</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="nx">connection</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">any</span><span class="p">).</span><span class="nx">query</span><span class="p">(</span><span class="sb">`SET search_path TO </span><span class="si">${</span><span class="nx">NON_ADMIN_SCHEMA</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">})</span>
-<span class="p">}</span>
-
-<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getPasswordToken</span><span class="p">(</span><span class="nx">endpoint</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">region</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">signer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">DsqlSigner</span><span class="p">({</span>
-<span class="w">    </span><span class="nx">hostname</span><span class="o">:</span><span class="w"> </span><span class="kt">endpoint</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">region</span><span class="p">,</span>
-<span class="w">  </span><span class="p">});</span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">user</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">ADMIN</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">signer</span><span class="p">.</span><span class="nx">getDbConnectAdminAuthToken</span><span class="p">();</span>
-<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="p">(</span><span class="nx">signer</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">any</span><span class="p">).</span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">user</span><span class="p">;</span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">signer</span><span class="p">.</span><span class="nx">getDbConnectAuthToken</span><span class="p">();</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">token</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">sequelize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Sequelize</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">host</span><span class="o">:</span><span class="w"> </span><span class="kt">clusterEndpoint</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">username</span><span class="o">:</span><span class="w"> </span><span class="kt">user</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">database</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;postgres&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">dialect</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;postgres&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">dialectModule</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="nx">pg</span><span class="p">,</span><span class="w"> </span><span class="nx">Client</span><span class="o">:</span><span class="w"> </span><span class="kt">AuroraDSQLClient</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>For non-admin users, set the search path to their granted schema using an <code>afterConnect</code> hook. Non-admin users cannot be granted access to the <code>public</code> schema.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">hooks</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">afterConnect</span><span class="o">:</span><span class="w"> </span><span class="kt">async</span><span class="w"> </span><span class="p">(</span><span class="nx">connection</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">connection</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s1">&#39;SET search_path TO myschema&#39;</span><span class="p">);</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="connection-pooling">Connection Pooling<a class="headerlink" href="#connection-pooling" title="Permanent link">&para;</a></h4>
-<p>In Sequelize, <a href="https://sequelize.org/docs/v6/other-topics/connection-pool/">connection pooling</a> can be used by specifying
-a connection pool configuration in the constructor, as seen in the <code>pool</code> parameter. In the example above, a new token is created
-for each connection opened in the connection pool. Note that DSQL connections will automatically close after one hour. The 
-connection pool will open new connections as needed.</p>
-<h3 id="create-models">Create models<a class="headerlink" href="#create-models" title="Permanent link">&para;</a></h3>
-<h4 id="using-uuid-as-primary-key">Using UUID as Primary Key<a class="headerlink" href="#using-uuid-as-primary-key" title="Permanent link">&para;</a></h4>
-<p>DSQL does not support serialized primary keys or identity columns (auto-incrementing integers) that are commonly used in traditional relational databases. Instead, it is recommended to use UUID (Universally Unique Identifier) as the primary key for your entities.</p>
-<p>Here's how to define a UUID primary key in your entity class:
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">primaryKey</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="kt">DataTypes.UUIDV4</span><span class="w"> </span><span class="p">},</span>
-</code></pre></div></p>
-<h4 id="sequelizesync-does-not-work-with-dsql">Sequelize.sync() does not work with DSQL<a class="headerlink" href="#sequelizesync-does-not-work-with-dsql" title="Permanent link">&para;</a></h4>
-<p>Attempting to create or modify tables using <code>Sequelize.sync()</code> will result in an error. This can be worked around by creating tables in advance separately using the <code>QueryInterface</code>. The <code>QueryInterface.createTable()</code> function allows table creation, and <code>QueryInterface.query()</code> allows arbitrary SQL statements to be executed, including schema modification or index creation. Note that if you create tables directly using the Query Interface, you still need to initialize the model, as shown in the example below. This initializes the model in memory for Sequelize execution, whereas the Query Interface interacts with the database.</p>
-<h4 id="model-definitions">Model definitions<a class="headerlink" href="#model-definitions" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nx">Owner</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Model</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">city</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">telephone</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
-<span class="p">}</span>
+<h3 id="connection-configuration">Connection configuration<a class="headerlink" href="#connection-configuration" title="Permanent link">&para;</a></h3>
+<p>Sequelize sets <code>client_min_messages</code> by default, which causes the error <code>setting configuration parameter "client_min_messages" not supported</code>. Disable this by setting <code>clientMinMessages: 'ignore'</code> in dialect options.</p>
+<div class="highlight"><pre><span></span><code><span class="ow">new</span><span class="w"> </span><span class="nx">Sequelize</span><span class="p">({</span>
+<span class="w">  </span><span class="c1">// ...</span>
+<span class="w">  </span><span class="nx">dialect</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;postgres&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">dialectOptions</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">clientMinMessages</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre></div>
+<h3 id="connection-pooling">Connection pooling<a class="headerlink" href="#connection-pooling" title="Permanent link">&para;</a></h3>
+<p>Connection pooling can be configured in the Sequelize constructor. The DSQL connector generates a new authentication token for each connection. DSQL connections close after one hour; the pool automatically opens new connections as needed.</p>
+<div class="highlight"><pre><span></span><code><span class="ow">new</span><span class="w"> </span><span class="nx">Sequelize</span><span class="p">({</span>
+<span class="w">  </span><span class="c1">// ...</span>
+<span class="w">  </span><span class="nx">pool</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">max</span><span class="o">:</span><span class="w"> </span><span class="kt">5</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">min</span><span class="o">:</span><span class="w"> </span><span class="kt">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">acquire</span><span class="o">:</span><span class="w"> </span><span class="kt">30000</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">idle</span><span class="o">:</span><span class="w"> </span><span class="kt">10000</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre></div>
+<h3 id="table-creation">Table creation<a class="headerlink" href="#table-creation" title="Permanent link">&para;</a></h3>
+<p><code>Sequelize.sync()</code> and <code>Model.sync()</code> are not supported because DSQL returns index metadata in a format that Sequelize v6 cannot parse (the <code>INCLUDE</code> clause in index definitions causes parsing failures). Use <code>QueryInterface.createTable()</code> to create tables, then initialize models in memory with <code>Model.init()</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Instead of: await Model.sync();</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">queryInterface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sequelize</span><span class="p">.</span><span class="nx">getQueryInterface</span><span class="p">();</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">queryInterface</span><span class="p">.</span><span class="nx">createTable</span><span class="p">(</span><span class="s1">&#39;owner&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">primaryKey</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="kt">DataTypes.UUIDV4</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">30</span><span class="p">),</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
 
-<span class="kd">class</span><span class="w"> </span><span class="nx">Pet</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Model</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">birthDate</span><span class="o">:</span><span class="w"> </span><span class="kt">Date</span><span class="p">;</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">ownerId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">class</span><span class="w"> </span><span class="nx">VetSpecialties</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Model</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">vetId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">specialtyId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">class</span><span class="w"> </span><span class="nx">Specialty</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Model</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">class</span><span class="w"> </span><span class="nx">Vet</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Model</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">Specialties?</span><span class="o">:</span><span class="w"> </span><span class="kt">Specialty</span><span class="p">[];</span>
-<span class="w">  </span><span class="kr">declare</span><span class="w"> </span><span class="nx">setSpecialties</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">specialties</span><span class="o">:</span><span class="w"> </span><span class="kt">Specialty</span><span class="p">[])</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="ow">void</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">createTables</span><span class="p">(</span><span class="nx">sequelize</span><span class="o">:</span><span class="w"> </span><span class="kt">Sequelize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="c1">// Create tables in DB - workaround for Sequelize.sync()</span>
-<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">queryInterface</span><span class="p">.</span><span class="nx">createTable</span><span class="p">(</span><span class="s1">&#39;owner&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">primaryKey</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="kt">DataTypes.UUIDV4</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">30</span><span class="p">),</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">city</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">80</span><span class="p">),</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">telephone</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">20</span><span class="p">),</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="kt">null</span><span class="w"> </span><span class="p">}</span>
-<span class="w">  </span><span class="p">});</span>
-
-<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">queryInterface</span><span class="p">.</span><span class="nx">createTable</span><span class="p">(</span><span class="s1">&#39;pet&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">primaryKey</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="kt">DataTypes.UUIDV4</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">30</span><span class="p">),</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">birthDate</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">DATEONLY</span><span class="p">,</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">ownerId</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="w"> </span><span class="p">}</span>
-<span class="w">  </span><span class="p">});</span>
-
-<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">queryInterface</span><span class="p">.</span><span class="nx">createTable</span><span class="p">(</span><span class="s1">&#39;specialty&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">80</span><span class="p">),</span><span class="w"> </span><span class="nx">primaryKey</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">field</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;name&#39;</span><span class="w"> </span><span class="p">}</span>
-<span class="w">  </span><span class="p">});</span>
-
-<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">queryInterface</span><span class="p">.</span><span class="nx">createTable</span><span class="p">(</span><span class="s1">&#39;vet&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">primaryKey</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="kt">DataTypes.UUIDV4</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">30</span><span class="p">),</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">}</span>
-<span class="w">  </span><span class="p">});</span>
-
-<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">queryInterface</span><span class="p">.</span><span class="nx">createTable</span><span class="p">(</span><span class="s1">&#39;vetSpecialties&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">primaryKey</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="kt">DataTypes.UUIDV4</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">vetId</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">specialtyId</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">80</span><span class="p">),</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="w"> </span><span class="p">}</span>
-<span class="w">  </span><span class="p">});</span>
-
-<span class="w">  </span><span class="c1">// Initialize Sequelize models in memory</span>
-<span class="w">  </span><span class="nx">Owner</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
-<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">primaryKey</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="kt">DataTypes.UUIDV4</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">30</span><span class="p">),</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">city</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">80</span><span class="p">),</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">telephone</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">20</span><span class="p">),</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="kt">null</span><span class="w"> </span><span class="p">}</span>
-<span class="w">  </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">sequelize</span><span class="p">,</span><span class="w"> </span><span class="nx">tableName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;owner&#39;</span><span class="w"> </span><span class="p">});</span>
-
-<span class="w">  </span><span class="nx">Pet</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
-<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">primaryKey</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="kt">DataTypes.UUIDV4</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">30</span><span class="p">),</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">birthDate</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">DATEONLY</span><span class="p">,</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">ownerId</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="w"> </span><span class="p">}</span>
-<span class="w">  </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">sequelize</span><span class="p">,</span><span class="w"> </span><span class="nx">tableName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;pet&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">});</span>
-
-<span class="w">  </span><span class="nx">VetSpecialties</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
-<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">primaryKey</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="kt">DataTypes.UUIDV4</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">vetId</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">specialtyId</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">80</span><span class="p">),</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="w"> </span><span class="p">}</span>
-<span class="w">  </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">sequelize</span><span class="p">,</span><span class="w"> </span><span class="nx">tableName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;vetSpecialties&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">});</span>
-
-<span class="w">  </span><span class="nx">Specialty</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
-<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">80</span><span class="p">),</span><span class="w"> </span><span class="nx">primaryKey</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">field</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;name&#39;</span><span class="w"> </span><span class="p">}</span>
-<span class="w">  </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">sequelize</span><span class="p">,</span><span class="w"> </span><span class="nx">tableName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;specialty&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">});</span>
-
-<span class="w">  </span><span class="nx">Vet</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
-<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">primaryKey</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="kt">DataTypes.UUIDV4</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mf">30</span><span class="p">),</span><span class="w"> </span><span class="nx">allowNull</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">}</span>
-<span class="w">  </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">sequelize</span><span class="p">,</span><span class="w"> </span><span class="nx">tableName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;vet&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">});</span>
-
-<span class="w">  </span><span class="c1">// Create relationships, note that constraints must be set to false.</span>
-<span class="w">  </span><span class="nx">Pet</span><span class="p">.</span><span class="nx">belongsTo</span><span class="p">(</span><span class="nx">Owner</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">foreignKey</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;ownerId&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">constraints</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">});</span>
-<span class="w">  </span><span class="nx">Owner</span><span class="p">.</span><span class="nx">hasMany</span><span class="p">(</span><span class="nx">Pet</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">foreignKey</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;ownerId&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">constraints</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">});</span>
-<span class="w">  </span><span class="nx">Vet</span><span class="p">.</span><span class="nx">belongsToMany</span><span class="p">(</span><span class="nx">Specialty</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">through</span><span class="o">:</span><span class="w"> </span><span class="kt">VetSpecialties</span><span class="p">,</span><span class="w"> </span><span class="nx">foreignKey</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;vetId&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">otherKey</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;specialtyId&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">constraints</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">});</span>
-<span class="w">  </span><span class="nx">Specialty</span><span class="p">.</span><span class="nx">belongsToMany</span><span class="p">(</span><span class="nx">Vet</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">through</span><span class="o">:</span><span class="w"> </span><span class="kt">VetSpecialties</span><span class="p">,</span><span class="w"> </span><span class="nx">foreignKey</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;specialtyId&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">otherKey</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;vetId&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">constraints</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="p">,</span><span class="w"> </span><span class="kr">as</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Specialties&#39;</span><span class="w"> </span><span class="p">});</span>
+<span class="c1">// Then initialize the model in memory</span>
+<span class="nx">Owner</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span><span class="w"> </span><span class="cm">/* same attributes */</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">sequelize</span><span class="p">,</span><span class="w"> </span><span class="nx">tableName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;owner&#39;</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+<h3 id="primary-keys">Primary keys<a class="headerlink" href="#primary-keys" title="Permanent link">&para;</a></h3>
+<p>SERIAL and identity columns are not supported. Using <code>autoIncrement: true</code> results in a <code>type "serial" does not exist</code> error. Use UUID primary keys instead.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">UUID</span><span class="p">,</span><span class="w"> </span><span class="nx">primaryKey</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="o">:</span><span class="w"> </span><span class="kt">DataTypes.UUIDV4</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<h3 id="relationships">Relationships<a class="headerlink" href="#relationships" title="Permanent link">&para;</a></h3>
+<p>When defining relationships, set <code>constraints: false</code>. Sequelize attempts to create foreign key constraints by default, which are not supported. ORM-level relationships are retained but are not enforced by the database.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">Pet</span><span class="p">.</span><span class="nx">belongsTo</span><span class="p">(</span><span class="nx">Owner</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">foreignKey</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;ownerId&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">constraints</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">});</span>
+<span class="nx">Owner</span><span class="p">.</span><span class="nx">hasMany</span><span class="p">(</span><span class="nx">Pet</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">foreignKey</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;ownerId&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">constraints</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+<h3 id="unsupported-data-types">Unsupported data types<a class="headerlink" href="#unsupported-data-types" title="Permanent link">&para;</a></h3>
+<p><strong>JSON/JSONB</strong>: <code>DataTypes.JSON</code> and <code>DataTypes.JSONB</code> are not supported. Use <code>DataTypes.TEXT</code> in your table definition, with getter/setter in <code>Model.init()</code> for serialization. JSON query operators are not available with this approach.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">metadata</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">TEXT</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">get</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">getDataValue</span><span class="p">(</span><span class="s1">&#39;metadata&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">val</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">set</span><span class="p">(</span><span class="nx">val</span><span class="o">:</span><span class="w"> </span><span class="kt">object</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">setDataValue</span><span class="p">(</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">val</span><span class="p">));</span>
+<span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<p><strong>ENUM</strong>: <code>DataTypes.ENUM</code> is not supported. Use <code>DataTypes.STRING</code> in your table definition, with validation in <code>Model.init()</code>. Validation is enforced at the application level, not the database.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">validate</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">isIn</span><span class="o">:</span><span class="w"> </span><span class="p">[[</span><span class="s1">&#39;pending&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;active&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;completed&#39;</span><span class="p">]]</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="unsupported-methods">Unsupported methods<a class="headerlink" href="#unsupported-methods" title="Permanent link">&para;</a></h3>
+<p><strong>findOrCreate</strong>: <code>Model.findOrCreate()</code> internally uses PL/pgSQL, which is not supported. Use <code>upsert</code> or manual <code>findOne</code> + <code>create</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Instead of: await User.findOrCreate({ where: { email }, defaults: { name } });</span>
+
+<span class="c1">// Option 1: upsert (overwrites name if record exists)</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">user</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">User</span><span class="p">.</span><span class="nx">upsert</span><span class="p">({</span><span class="w"> </span><span class="nx">email</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="p">});</span>
+
+<span class="c1">// Option 2: manual approach (preserves existing name)</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">User</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span><span class="w"> </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">email</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">});</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">user</span><span class="p">)</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">User</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span><span class="w"> </span><span class="nx">email</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+<p><strong>truncate</strong>: <code>Model.truncate()</code> is not supported. Use <code>destroy</code> with empty where clause.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Instead of: await Model.truncate();</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">Model</span><span class="p">.</span><span class="nx">destroy</span><span class="p">({</span><span class="w"> </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+<h3 id="locking">Locking<a class="headerlink" href="#locking" title="Permanent link">&para;</a></h3>
+<p>Aurora DSQL uses optimistic concurrency control (OCC), meaning transactions proceed without locks and conflicts are detected at commit time. The <code>SELECT FOR UPDATE</code> clause modifies this behavior by flagging read rows for concurrency checks, which is useful for managing write skew scenarios.</p>
+<p>In Sequelize, only <code>Transaction.LOCK.UPDATE</code> is supported. The query must include an equality predicate on the primary key. Queries that lock by non-key columns will fail.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Works: lock by primary key</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">Model</span><span class="p">.</span><span class="nx">findByPk</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">lock</span><span class="o">:</span><span class="w"> </span><span class="kt">Transaction.LOCK.UPDATE</span><span class="p">,</span><span class="w"> </span><span class="nx">transaction</span><span class="w"> </span><span class="p">});</span>
+
+<span class="c1">// Does not work: lock by non-key column</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">Model</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span><span class="w"> </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nx">lock</span><span class="o">:</span><span class="w"> </span><span class="kt">Transaction.LOCK.UPDATE</span><span class="p">,</span><span class="w"> </span><span class="nx">transaction</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+<p>For more details on concurrency control in Aurora DSQL, see <a href="https://aws.amazon.com/blogs/database/concurrency-control-in-amazon-aurora-dsql/">Concurrency control in Amazon Aurora DSQL</a>.</p>
 <h2 id="additional-resources">Additional resources<a class="headerlink" href="#additional-resources" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/what-is-aurora-dsql.html">Amazon Aurora DSQL Documentation</a></li>
+<li><a href="https://github.com/awslabs/aurora-dsql-nodejs-connector/blob/main/packages/node-postgres/README.md">Aurora DSQL Connector for node-postgres</a></li>
 <li><a href="https://sequelize.org/docs/v6/">Sequelize Documentation</a></li>
 <li><a href="https://docs.aws.amazon.com/sdk-for-javascript/">AWS SDK for JavaScript Documentation</a></li>
 </ul>

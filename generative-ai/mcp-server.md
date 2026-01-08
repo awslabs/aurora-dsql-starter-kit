@@ -40,12 +40,18 @@ An AWS Labs Model Context Protocol (MCP) server for Aurora DSQL.
 
 ## Installation
 
-### Using `uv`
+For most tools, updating the configuration by following the [Default Installation](#default-installation-updating-the-relevant-mcp-config-file) instructions should be sufficient.
+
+Separate instructions are outlined for [Claude Code](#claude-code) and [Codex](#codex).
+
+### Default Installation: Updating the Relevant MCP Config File
+
+#### Using `uv`
 
 1. Install `uv` from [Astral](https://docs.astral.sh/uv/getting-started/installation/) or the [GitHub README](https://github.com/astral-sh/uv#installation)
 1. Install Python using `uv python install 3.10`
 
-Configure the MCP server in your MCP client configuration (e.g., for Amazon Q Developer CLI, edit `~/.aws/amazonq/mcp.json`):
+Configure the MCP server in your MCP client configuration ([Finding the MCP Config File](#finding-the-mcp-client-configuration-file))
 
 ```
 {
@@ -73,7 +79,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Amazon Q De
 }
 ```
 
-### Windows Installation
+#### Windows Installation
 
 For Windows users, the MCP server configuration format is slightly different:
 
@@ -102,9 +108,143 @@ For Windows users, the MCP server configuration format is slightly different:
 }
 ```
 
+#### Finding the MCP Client Configuration File
+
+For some of the most common Agentic development tools, you can find your MCP client configurations at the following file paths:
+
+- Kiro:
+- User Config: `~/.kiro/settings/mcp.json`
+- Workspace Config: `/path/to/workspace/.kiro/settings/mcp.json`
+- Claude Code: Refer to [Claude Code Installation](#claude-code) for detailed setup help
+- User Config: `~/.claude.json` in `"mcpServers"`
+- Project Config: `/path/to/project/.mcp.json`
+- Local Config: `~/.claude.json` in `"projects" -> "path/to/project" -> "mcpServers"`
+- Cursor:
+- Global: `~/.cursor/mcp.json`
+- Project: `/path/to/project/.cursor/mcp.json`
+- Codex: `~/.codex/config.toml`
+- Each MCP server is configured with a [mcp_servers.] table in the config file. Refer to the [Custom Codex Installation Instructions](#codex)
+- Warp:
+- File Editing: `~/.warp/mcp_settings.json`
+- Application Editor: `Settings > AI > Manage MCP Servers` and paste json
+- Amazon Q Developer CLI: `~/.aws/amazonq/mcp.json`
+- Cline: Usually a nested VS Code path - `~/.vscode-server/path/to/cline_mcp_settings.json`
+
+### Claude Code
+
+#### Prerequisites
+
+**Important:** MCP server management is only available through the Claude Code CLI terminal experience, not the VS Code native panel mode.
+
+Install the Claude Code CLI first by following Claude’s [native installation recommended process](https://code.claude.com/docs/en/setup#native-install-recommended).
+
+#### Choosing the Right Scope
+
+Claude Code offers 3 different scopes: local (default), project, and user and details which scope to choose based on credential sensitivity and need to share. Refer to the Claude Code documentation on [MCP Installation Scopes](https://code.claude.com/docs/en/mcp#mcp-installation-scopes)for more details.
+
+1. **Local-scoped** servers represent the default configuration level and are stored in `~/.claude.json` under your project’s path. They’re **both** private to you and only accessible within the current project directory. This is the default `scope` when creating MCP servers.
+1. **Project-scoped** servers **enable team collaboration** while still only being accessible in a project directory. Project-scoped servers add a `.mcp.json` file at your project’s root directory. This file is designed to be checked into version control, ensuring all team members have access to the same MCP tools and services. When you add a project-scoped server, Claude Code automatically creates or updates this file with the appropriate configuration structure.
+1. **User-scoped** servers are stored in `~/.claude.json` and **provide cross-project accessibility**, making them available across all projects on your machine while remaining **private to your user account.**
+
+#### Using the Claude CLI (recommended)
+
+Using an interactive `claude` CLI session enables an improved troubleshooting experience, so this is the recommended path.
+
+```
+claude mcp add amazon-aurora-dsql \
+  --scope [one of local, project, or user] \
+  --env FASTMCP_LOG_LEVEL="ERROR" \
+  -- uvx "awslabs.aurora-dsql-mcp-server@latest" \
+  --cluster_endpoint "[dsql-cluster-id].dsql.[region].on.aws" \
+  --region "[dsql cluster region, eg. us-east-1]" \
+  --database_user "[your-username]"
+```
+
+##### **Troubleshooting: Using Claude Code with Bedrock on a different AWS Account**
+
+If you've configured Claude Code with a Bedrock AWS account or profile that is distinct from the profile needed to connect to your dsql cluster, you'll need to provide additional environment arguments:
+
+```
+  --env AWS_PROFILE="[dsql profile, eg. default]" \
+  --env AWS_REGION="[dsql cluster region, eg. us-east-1]" \
+```
+
+#### Direct Modification in the Configuration File
+
+Claude Code Requires alphanumeric naming, so we recommend naming your server: `aurora-dsql-mcp-server`.
+
+##### Local-Scope
+
+Update `~/.claude.json` within the project-specific `mcpServers` field:
+
+```
+{
+  "projects": {
+    "/path/to/project": {
+      "mcpServers": {}
+    }
+  }
+}
+```
+
+##### Project-Scope
+
+Update `/path/to/project/root/.mcp.json` in the `mcpServers` field:
+
+```
+{
+  "mcpServers": {}
+}
+```
+
+##### User-Scope
+
+Update `~/.claude.json` within the project-specific `mcpServers` field:
+
+```
+{
+  "mcpServers": {}
+}
+```
+
+### Codex
+
+#### Option 1: Codex CLI
+
+If you have the Codex CLI installed, you can use the codex mcp command to configure your MCP servers.
+
+```
+codex mcp add amazon-aurora-dsql \
+  --env FASTMCP_LOG_LEVEL="ERROR" \
+  -- uvx "awslabs.aurora-dsql-mcp-server@latest" \
+  --cluster_endpoint "[dsql-cluster-id].dsql.[region].on.aws" \
+  --region "[dsql cluster region, eg. us-east-1]" \
+  --database_user "[your-username]"
+```
+
+#### Option 2: config.toml
+
+For more fine grained control over MCP server options, you can manually edit the ~/.codex/config.toml configuration file. Each MCP server is configured with a `[mcp_servers.<server-name>]` table in the config file.
+
+```
+[mcp_servers.amazon-aurora-dsql]
+command = "uvx"
+args = [
+  "awslabs.aurora-dsql-mcp-server@latest",
+  "--cluster_endpoint", "<DSQL_CLUSTER_ID>.dsql.<AWS_REGION>.on.aws",
+  "--region", "<AWS_REGION>",
+  "--database_user", "<DATABASE_USERNAME>"
+]
+
+[mcp_servers.amazon-aurora-dsql.env]
+FASTMCP_LOG_LEVEL = "ERROR"
+```
+
 ### Verifying Installation
 
-For Amazon Q Developer CLI, run `/mcp` to see the status of the MCP server.
+For Amazon Q Developer CLI, Kiro CLI, Claude CLI/TUI, or Codex CLI/TUI, run `/mcp` to see the status of the MCP server.
+
+For the Kiro IDE, you can also navigate to the Kiro Panel's `MCP SERVERS` tab which shows all configured MCP servers and their connection status indicators.
 
 ## Server Configuration Options
 
