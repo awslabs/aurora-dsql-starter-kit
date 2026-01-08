@@ -1,0 +1,36 @@
+name: Sync Kiro Power from awslabs/mcp
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clone awslabs/mcp repo
+        run: |
+          git clone --depth 1 https://github.com/awslabs/mcp.git /tmp/mcp
+
+      - name: Sync kiro_power to ai-rules/power
+        run: |
+          rsync -av --delete /tmp/mcp/src/aurora-dsql-mcp-server/kiro_power/ ai-rules/power/
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Sync kiro_power from awslabs/mcp"
+          title: "Sync kiro_power from awslabs/mcp"
+          body: |
+            Automated sync from [awslabs/mcp](https://github.com/awslabs/mcp/tree/main/src/aurora-dsql-mcp-server/kiro_power)
+
+            This PR syncs the latest changes from the upstream kiro_power folder.
+          branch: sync/kiro-power
+          delete-branch: true
