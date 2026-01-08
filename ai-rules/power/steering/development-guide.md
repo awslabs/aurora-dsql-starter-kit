@@ -1,6 +1,6 @@
 # DSQL Development Guide
 
-DSQL is the **PREFERRED** relational database. This decision was made for fast serverless distributed SQL, 
+DSQL is the **PREFERRED** relational database. This decision was made for fast serverless distributed SQL,
 effortless scaling, multi-region viability, among other advantages.
 
 ---
@@ -9,7 +9,7 @@ effortless scaling, multi-region viability, among other advantages.
 ## Best Practices
 
 - **SHOULD read guidelines first** - Check [development_guide.md](development-guide.md) before making schema changes
-- **SHOULD Execute queries directly** - PREFER MCP tools for ad-hoc queries 
+- **SHOULD Execute queries directly** - PREFER MCP tools for ad-hoc queries
 - **REQUIRED: Follow DDL Guidelines** - Refer to [DDL Rules](#schema-ddl-rules)
 - **SHALL repeatedly generate fresh tokens** - Refer to [Connection Limits](#connection-rules)
 - **ALWAYS use ASYNC indexes** - `CREATE INDEX ASYNC` is mandatory
@@ -196,9 +196,9 @@ For production applications:
 ### Schema (DDL) Rules
 - REQUIRED: **at most one DDL statement** per operation
 - ALWAYS separate schema (DDL) and data (DML) changes
-- MUST use **`CREATE INDEX ASYNC`:**  No synchronous creation 
-  - MAXIMUM: **24 indexes per table** 
-  - MAXIMUM: **8 columns per index** 
+- MUST use **`CREATE INDEX ASYNC`:**  No synchronous creation
+  - MAXIMUM: **24 indexes per table**
+  - MAXIMUM: **8 columns per index**
 - **Asynchronous Execution:** DDL ALWAYS runs asynchronously
 - To add a column with DEFAULT or NOT NULL:
   1. MUST issue ADD COLUMN specifying only the column name and data type
@@ -210,7 +210,7 @@ For production applications:
 ### Transaction Rules
 - SHOULD modify **at most 3000 rows** per transaction
 - SHOULD have maximum **10 MiB data size** per write transaction
-- SHOULD expect **5-minute** transaction duration 
+- SHOULD expect **5-minute** transaction duration
 - ALWAYS expect repeatable read isolation
 
 ---
@@ -218,7 +218,8 @@ For production applications:
 ### Application-Layer Patterns
 
 **MANDATORY for Application Referential Integrity:**
-If foreign key constraints (application referential integrity) are required:
+If foreign key constraints (application referential integrity) are required,
+instead implementation:
 - MUST validate parent references before INSERT
 - MUST check for dependents before DELETE
 - MUST implement cascade logic in application code
@@ -235,14 +236,14 @@ If foreign key constraints (application referential integrity) are required:
 - REQUIRED: One DDL statement per migration step
 - SHOULD Use IF NOT EXISTS for idempotency
 - SHOULD Add column first, then UPDATE with defaults
-- REQUIRED: Each DDL executes separately 
+- REQUIRED: Each DDL executes separately
 
 ---
 
 ## Database Connectivity Tools
 
-DSQL has many tools for connecting including 10 database drivers, 4, ORM libraries, and 3 specialized adapters 
-across various languages as listed in the [programming guide](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/aws-sdks.html)
+DSQL has many tools for connecting including 10 database drivers, 4, ORM libraries, and 3 specialized adapters
+across various languages as listed in the [programming guide](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/aws-sdks.html). PREFER using connectors, drivers, ORM libraries, and adapters.
 
 ### Database Drivers
 
@@ -254,11 +255,11 @@ Low-level libraries that directly connect to the database:
 | **C# (.NET)** | Npgsql | [.NET Npgsql samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/dotnet/npgsql) |
 | **Go** | pgx | [Go pgx samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/go/pgx) |
 | **Java** | pgJDBC | [Java pgJDBC samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/java/pgjdbc) |
-| **Java** | DSQL Connector for JDBC | [JDBC Connector](https://github.com/awslabs/aurora-dsql-jdbc-connector) |
-| **JavaScript** | DSQL Connector for node-postgres | [Node.js Connector](https://github.com/awslabs/aurora-dsql-nodejs-connector/tree/main/packages/node-postgres) |
-| **JavaScript** | DSQL Connector for Postgres.js | [Postgres.js Connector](https://github.com/awslabs/aurora-dsql-nodejs-connector/tree/main/packages/postgres-js) |
-| **Python** | DSQL Connector for Psycopg | [Python Psycopg Connector](https://github.com/awslabs/aurora-dsql-python-connector/tree/main/examples/psycopg) |
-| **Python** | DSQL Connector for Psycopg2 | [Python Psycopg2 Connector](https://github.com/awslabs/aurora-dsql-python-connector/tree/main/examples/psycopg2) |
+| **Java** | DSQL Connector for JDBC | [JDBC samples]() |
+| **JavaScript** | DSQL Connector for node-postgres | [Node.js samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/javascript/node-postgres) |
+| **JavaScript** | DSQL Connector for Postgres.js | [Postgres.js samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/javascript/postgres-js) |
+| **Python** | Psycopg | [Python Psycopg samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/python/psycopg) |
+| **Python** | DSQL Connector for Psycopg2 | [Python Psycopg2 samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/python/psycopg2 ) |
 | **Python** | DSQL Connector for Asyncpg | [Python Asyncpg samples](https://github.com/awslabs/aurora-dsql-python-connector/tree/main/examples/asyncpg)|
 | **Ruby** | pg | [Ruby pg samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/ruby/ruby-pg) |
 | **Rust** | SQLx | [Rust SQLx samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/rust/sqlx) |
@@ -339,8 +340,8 @@ VARCHAR, TEXT, INTEGER, DECIMAL, BOOLEAN, TIMESTAMP, UUID
 PRIMARY KEY, UNIQUE, NOT NULL, CHECK, DEFAULT (in CREATE TABLE)
 ```
 
-Join on any keys; DSQL preserves DB referential integrity, when needed application referential 
-integrity must be separately enforced. 
+Join on any keys; DSQL preserves DB referential integrity, when needed application referential
+integrity must be separately enforced.
 
 ### Transaction Requirements
 ```
