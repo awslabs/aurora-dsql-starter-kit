@@ -1,9 +1,9 @@
 ---
-name: "aurora-dsql"
+name: "amazon-aurora-dsql"
 displayName: "Build a database with Aurora DSQL"
 description: "Build and deploy a PostgreSQL-compatible serverless distributed SQL database with Aurora DSQL - manage schemas, execute queries, and handle migrations with DSQL-specific requirements."
 keywords: ["aurora", "dsql", "postgresql", "serverless", "database", "sql", "aws", "distributed"]
-author: "Rolf Koski & AWS"
+author: "AWS"
 ---
 
 # Amazon Aurora DSQL Power
@@ -15,303 +15,260 @@ The Amazon Aurora DSQL Power provides access to Aurora DSQL, a serverless, Postg
 Aurora DSQL is a true serverless database with scale-to-zero capability, zero operations overhead, and consumption-based pricing. It uses the PostgreSQL wire protocol but has specific limitations around foreign keys, array types, JSON columns, and transaction sizes.
 
 **Key capabilities:**
-- **Direct Query Execution**: Run SQL queries directly against your DSQL cluster
+- **Direct Query Execution**: Run SQL queries directly against your DSQL cluster via MCP tools
 - **Schema Management**: Create tables, indexes, and manage DDL operations
-- **Migration Support**: Execute schema migrations with DSQL constraints
+- **Migration Support**: Execute schema migrations safely with proper transaction handling
 - **Multi-Tenant Patterns**: Built-in tenant isolation and data scoping
-- **Authentication**: Uses AWS IAM credentials with automatic token generation.
+- **IAM Authentication**: Automatic token generation using AWS credentials
+
+---
 
 ## Available Steering Files
 
 This power includes the following steering files in [steering](./steering)
-- **development-guide** - DSQL Guidelines and Operational Rules (always loaded)
-- **dsql-examples** - Code examples and implementation patterns (load when implementing)
-- **language** - Language-based implementation examples and references (load when implementing)
-- **troubleshooting** - Common pitfalls and errors and how to solve (load when debugging an error)
-- **onboarding** - Interactive "Get Started with DSQL" guide for onboarding users step-by-step
+- **development-guide**
+  - ALWAYS load before implementing schema changes or database operations
+  - MAY load when planning database application design
+  - DSQL Guidelines and Operational Rules
+- **language**
+  - MUST load when making language-specific implementation choices
+  - Driver selection, framework patterns, connection code for various languages
+- **dsql-examples**
+  - CAN Load when looking for specific implementation examples
+  - Specific examples and implementation patterns
+- **troubleshooting**
+  - SHOULD Load when debugging errors or unexpected behavior
+  - Common pitfalls and errors and how to solve
+- **onboarding**
+  - SHOULD load when user requests to try the power, "Get started with DSQL" or similar phrase
+  - Interactive "Get Started with DSQL" guide for onboarding users step-by-step
+- **mcp-setup**
+  - SHOULD load when MCP server isn't configured and MCP operation is being invoked
+  - Guides the user through updated MCP server configuration
 
-## Available MCP Servers
+---
 
-### aurora-dsql
-**Package:** `awslabs.aurora-dsql-mcp-server@latest`
-**Connection:** uvx-based MCP server
-**Authentication:** AWS IAM credentials with automatic token generation
+## Available MCP Tools
 
-**Configuration Required:**
-- `CLUSTER` - Your DSQL cluster identifier
-- `REGION` - AWS region (e.g., us-east-1)
-- `AWS_PROFILE` - AWS CLI profile name (optional, uses default if not set)
+The `aurora-dsql` MCP server provides these tools:
 
-**Tools:**
+**Database Operations:**
+1. **readonly_query** - Execute SELECT queries (returns rows and metadata)
+2. **transact** - Execute DDL/DML statements in transaction (takes list of SQL statements)
+3. **get_schema** - Get table structure for a specific table
 
-1. **query** - Execute SQL queries against Aurora DSQL
-   - Required: `sql` (string) - SQL query to execute
-   - Optional: `parameters` (array) - Parameterized query values
-   - Returns: Query results with rows and metadata
-   - Use for: SELECT queries, data exploration, ad-hoc analysis
+**Documentation & Knowledge:**
+4. **dsql_search_documentation** - Search Aurora DSQL documentation
+5. **dsql_read_documentation** - Read specific documentation pages
+6. **dsql_recommend** - Get DSQL best practice recommendations
 
-2. **execute** - Execute SQL statements (DDL/DML)
-   - Required: `sql` (string) - SQL statement to execute
-   - Optional: `parameters` (array) - Parameterized values
-   - Returns: Execution result with affected rows
-   - Use for: INSERT, UPDATE, DELETE, CREATE TABLE, ALTER TABLE
-
-3. **list_tables** - List all tables in the database
-   - Optional: `schema` (string) - Schema name (default: public)
-   - Returns: Array of table names
-   - Use for: Schema exploration, validation
-
-4. **describe_table** - Get table schema details
-   - Required: `table_name` (string) - Name of table to describe
-   - Optional: `schema` (string) - Schema name (default: public)
-   - Returns: Column definitions, types, constraints, indexes
-   - Use for: Understanding table structure, planning migrations
-
-### aws-core (Optional)
-**Package:** `awslabs.core-mcp-server@latest`
-**Connection:** uvx-based MCP server
-**Authentication:** AWS IAM credentials
-
-Provides additional AWS context and documentation access for DSQL operations.
-
-
-## Tool Usage Examples
-
-### Querying Data
-
-**Simple SELECT query:**
-```javascript
-usePower("dsql", "aurora-dsql", "query", {
-  "sql": "SELECT * FROM entities WHERE tenant_id = $1 LIMIT 10",
-  "parameters": ["tenant-123"]
-})
-// Returns: { rows: [...], rowCount: 10 }
-```
-
-**Aggregate query:**
-```javascript
-usePower("dsql", "aurora-dsql", "query", {
-  "sql": "SELECT tenant_id, COUNT(*) as count FROM objectives GROUP BY tenant_id"
-})
-```
-
-**Join query:**
-```javascript
-usePower("dsql", "aurora-dsql", "query", {
-  "sql": `
-    SELECT e.entity_id, e.name, o.title
-    FROM entities e
-    INNER JOIN objectives o ON e.entity_id = o.entity_id
-    WHERE e.tenant_id = $1
-  `,
-  "parameters": ["tenant-123"]
-})
-```
-
-### Schema Operations
-
-**Create table with proper DSQL types:**
-```javascript
-usePower("dsql", "aurora-dsql", "execute", {
-  "sql": `
-    CREATE TABLE IF NOT EXISTS entities (
-      entity_id VARCHAR(255) PRIMARY KEY,
-      tenant_id VARCHAR(255) NOT NULL,
-      name VARCHAR(255) NOT NULL,
-      tags TEXT,
-      metadata TEXT,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-  `
-})
-```
-
-**Create async index (REQUIRED):**
-```javascript
-usePower("dsql", "aurora-dsql", "execute", {
-  "sql": "CREATE INDEX ASYNC idx_entities_tenant ON entities(tenant_id)"
-})
-```
-
-**Add column (one at a time):**
-```javascript
-// Step 1: Add column
-usePower("dsql", "aurora-dsql", "execute", {
-  "sql": "ALTER TABLE entities ADD COLUMN status VARCHAR(50)"
-})
-
-// Step 2: Set default values
-usePower("dsql", "aurora-dsql", "execute", {
-  "sql": "UPDATE entities SET status = 'active' WHERE status IS NULL"
-})
-```
-
-### Data Manipulation
-
-**Insert with tenant isolation:**
-```javascript
-usePower("dsql", "aurora-dsql", "execute", {
-  "sql": `
-    INSERT INTO entities (entity_id, tenant_id, name, tags)
-    VALUES ($1, $2, $3, $4)
-  `,
-  "parameters": ["entity-456", "tenant-123", "My Entity", "tag1,tag2,tag3"]
-})
-```
-
-**Batch update:**
-```javascript
-usePower("dsql", "aurora-dsql", "execute", {
-  "sql": `
-    UPDATE entities
-    SET status = 'archived', updated_at = CURRENT_TIMESTAMP
-    WHERE tenant_id = $1 AND created_at < $2
-  `,
-  "parameters": ["tenant-123", "2024-01-01"]
-})
-```
-
-**Delete with validation:**
-```javascript
-// First check for dependents
-const dependents = await usePower("dsql", "aurora-dsql", "query", {
-  "sql": "SELECT COUNT(*) FROM objectives WHERE entity_id = $1 AND tenant_id = $2",
-  "parameters": ["entity-456", "tenant-123"]
-})
-
-// Then delete if safe
-if (dependents.rows[0].count === 0) {
-  usePower("dsql", "aurora-dsql", "execute", {
-    "sql": "DELETE FROM entities WHERE entity_id = $1 AND tenant_id = $2",
-    "parameters": ["entity-456", "tenant-123"]
-  })
-}
-```
-
-### Schema Exploration
-
-**List all tables:**
-```javascript
-usePower("dsql", "aurora-dsql", "list_tables", {})
-// Returns: ["entities", "objectives", "key_results", ...]
-```
-
-**Describe table structure:**
-```javascript
-usePower("dsql", "aurora-dsql", "describe_table", {
-  "table_name": "entities"
-})
-// Returns: { columns: [...], indexes: [...], constraints: [...] }
-```
-
-## Combining Tools (Workflows)
-
-### Workflow 1: Create Multi-Tenant Schema
-
-```javascript
-// Step 1: Create main table
-usePower("dsql", "aurora-dsql", "execute", {
-  "sql": `
-    CREATE TABLE IF NOT EXISTS entities (
-      entity_id VARCHAR(255) PRIMARY KEY,
-      tenant_id VARCHAR(255) NOT NULL,
-      name VARCHAR(255) NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-  `
-})
-
-// Step 2: Create tenant index (ASYNC required)
-usePower("dsql", "aurora-dsql", "execute", {
-  "sql": "CREATE INDEX ASYNC idx_entities_tenant ON entities(tenant_id)"
-})
-
-// Step 3: Create composite index for common queries
-usePower("dsql", "aurora-dsql", "execute", {
-  "sql": "CREATE INDEX ASYNC idx_entities_tenant_created ON entities(tenant_id, created_at DESC)"
-})
-
-// Step 4: Verify schema
-usePower("dsql", "aurora-dsql", "describe_table", {
-  "table_name": "entities"
-})
-```
-
-### Workflow 2: Safe Data Migration
-
-```javascript
-// Step 1: Add new column
-usePower("dsql", "aurora-dsql", "execute", {
-  "sql": "ALTER TABLE entities ADD COLUMN status VARCHAR(50)"
-})
-
-// Step 2: Populate with default (in batches if needed)
-usePower("dsql", "aurora-dsql", "execute", {
-  "sql": "UPDATE entities SET status = 'active' WHERE status IS NULL AND tenant_id = $1",
-  "parameters": ["tenant-123"]
-})
-
-// Step 3: Verify migration
-const result = await usePower("dsql", "aurora-dsql", "query", {
-  "sql": "SELECT COUNT(*) as total, COUNT(status) as with_status FROM entities WHERE tenant_id = $1",
-  "parameters": ["tenant-123"]
-})
-
-// Step 4: Create index for new column
-usePower("dsql", "aurora-dsql", "execute", {
-  "sql": "CREATE INDEX ASYNC idx_entities_status ON entities(tenant_id, status)"
-})
-```
-
-### Workflow 3: Application-Layer Foreign Key Validation
-
-```javascript
-// Step 1: Validate parent exists
-const parent = await usePower("dsql", "aurora-dsql", "query", {
-  "sql": "SELECT entity_id FROM entities WHERE entity_id = $1 AND tenant_id = $2",
-  "parameters": ["parent-123", "tenant-123"]
-})
-
-if (parent.rows.length === 0) {
-  throw new Error("Invalid parent reference")
-}
-
-// Step 2: Insert child record
-usePower("dsql", "aurora-dsql", "execute", {
-  "sql": `
-    INSERT INTO objectives (objective_id, entity_id, tenant_id, title)
-    VALUES ($1, $2, $3, $4)
-  `,
-  "parameters": ["obj-456", "parent-123", "tenant-123", "My Objective"]
-})
-```
+---
 
 ## Configuration
 
-**Authentication Required**: AWS IAM credentials
+Currently the Aurora DSQL MCP Server REQUIRES an existing DSQL cluster which
+all operations are executed atop. If the user requires complete onboarding
+guidance for creating a cluster, refer to the [onboarding guide](steering/onboarding.md).
 
-**Environment Variables:**
-- `CLUSTER` - Your DSQL cluster identifier (e.g., "abc123def456")
-- `REGION` - AWS region (e.g., "us-east-1")
-- `AWS_PROFILE` - AWS CLI profile (optional, uses default if not set)
+- **Package:** `awslabs.aurora-dsql-mcp-server@latest`
 
 **Setup Steps:**
 1. Create Aurora DSQL cluster in AWS Console
 2. Note your cluster identifier from the console
-3. Ensure AWS credentials are configured (`aws configure`)
-4. Install this power and configure environment variables
-5. Test connection with `list_tables` tool
+3. Ensure AWS Credentials are configured from CLI: `aws configure`
+4. Configure environment variables in MCP server settings:
+   - `CLUSTER` - Your DSQL cluster identifier (e.g., "abcdefghijklmnopqrstuvwxyz")
+   - `REGION` - AWS region (e.g., "us-east-1")
+   - `AWS_PROFILE` - AWS CLI profile (optional)
+5. Ensure profile has required IAM permissions:
+   - `dsql:DbConnect` - Connect to DSQL cluster
+   - `dsql:DbConnectAdmin` - Admin access for DDL operations
+6. Test connection with `readonly_query` on `information_schema` as
+   detailed in basic operations.
 
-**Permissions Required:**
-- `dsql:DbConnect` - Connect to DSQL cluster
-- `dsql:DbConnectAdmin` - Admin access for DDL operations
+**Database Name:** Always use `postgres` (only database available in DSQL)
 
-**Database Name**: Always use `postgres` (only database available in DSQL)
+---
+
+## Basic Operations
+
+### 1. Schema Exploration
+Use `readonly_query` with `information_schema` to list tables and explore database structure. Use
+`get_schema` to understand specific table structures including columns, types, and indexes.
+
+### 2. Query Data
+Use `readonly_query` for SELECT queries. Always include `tenant_id` in WHERE clause for multi-tenant
+applications. Use parameterized queries with `$1, $2` placeholders to prevent SQL injection.
+
+### 3. Execute Schema Changes
+Use `transact` tool with a list of SQL statements. Follow one-DDL-per-transaction rule. Always use
+`CREATE INDEX ASYNC` in separate transaction. Each DDL operation should be in its own `transact`
+call.
+
+### 4. Data Modifications
+Use `transact` for INSERT, UPDATE, DELETE operations. Respect transaction limits: 3,000 rows max,
+10 MiB max data size, 5 minutes max duration. Batch large operations appropriately.
+
+---
+
+## Common Workflows
+
+### Workflow 1: Create Multi-Tenant Schema
+
+**Goal:** Create a new table with proper tenant isolation and indexing
+
+**Steps:**
+1. Create main table with `tenant_id` column using `transact`
+2. Create async index on `tenant_id` in separate `transact` call
+3. Create composite indexes for common query patterns (separate `transact` calls)
+4. Verify schema with `get_schema`
+
+**Critical rules:**
+- Include `tenant_id` in all tables
+- Use `CREATE INDEX ASYNC` (never synchronous)
+- Each DDL in its own `transact` call
+- Store arrays/JSON as TEXT
+
+**Example:**
+```sql
+-- Step 1: Create table
+transact([
+  "CREATE TABLE entities (
+     entity_id VARCHAR(255) PRIMARY KEY,
+     tenant_id VARCHAR(255) NOT NULL,
+     name VARCHAR(255) NOT NULL
+   )"
+])
+
+-- Step 2: Create tenant index
+transact(["CREATE INDEX ASYNC idx_entities_tenant ON entities(tenant_id)"])
+
+-- Step 3: Verify schema
+get_schema("entities")
+```
+
+### Workflow 2: Safe Data Migration
+
+**Goal:** Add a new column with defaults safely across all rows
+
+**Steps:**
+1. Add column using `transact`: `transact(["ALTER TABLE ... ADD COLUMN ..."])`
+2. Populate existing rows with UPDATE in separate `transact` calls (batched under 3,000 rows)
+3. Verify migration with `readonly_query` using COUNT
+4. Create async index for new column using `transact` if needed
+
+**Critical rules:**
+- Add column first, populate later (never add DEFAULT in ALTER TABLE)
+- Batch updates under 3,000 rows per transaction
+- Each ALTER TABLE in its own transaction
+- Verify data before creating indexes
+
+**Example:**
+```sql
+-- Step 1: Add column
+transact(["ALTER TABLE entities ADD COLUMN status VARCHAR(50)"])
+
+-- Step 2: Populate with defaults (batched by tenant)
+transact([
+  "UPDATE entities
+   SET status = 'active'
+   WHERE status IS NULL AND tenant_id = $1"
+], parameters=["tenant-123"])
+
+-- Step 3: Verify migration
+readonly_query(
+  "SELECT COUNT(*) as total, COUNT(status) as with_status
+   FROM entities
+   WHERE tenant_id = $1",
+  parameters=["tenant-123"]
+)
+
+-- Step 4: Create index
+transact(["CREATE INDEX ASYNC idx_entities_status ON entities(tenant_id, status)"])
+```
+
+### Workflow 3: Application-Layer Referential Integrity
+
+**Goal:** Safely insert/delete records with parent-child relationships
+
+**Steps for INSERT:**
+1. Validate parent exists with `readonly_query`
+2. Throw error if parent not found
+3. Insert child record using `transact` with parent reference
+
+**Steps for DELETE:**
+1. Check for dependent records with `readonly_query` (COUNT)
+2. Return error if dependents exist
+3. Delete record using `transact` if safe
+
+**Critical rules:**
+- Always validate references before mutations
+- Check for dependents before deletion
+- All checks include `tenant_id` in WHERE clause
+- Use parameterized queries
+
+**Example:**
+```sql
+-- Step 1: Validate parent exists
+readonly_query(
+  "SELECT entity_id
+   FROM entities
+   WHERE entity_id = $1 AND tenant_id = $2",
+  parameters=["parent-123", "tenant-123"]
+)
+
+-- Step 2: If parent exists, insert child
+transact([
+  "INSERT INTO objectives (objective_id, entity_id, tenant_id, title)
+   VALUES ($1, $2, $3, $4)"
+], parameters=["obj-456", "parent-123", "tenant-123", "My Objective"])
+```
+
+### Workflow 4: Multi-Tenant Query Patterns
+
+**Goal:** Retrieve data scoped to a specific tenant safely
+
+**Steps:**
+1. Always include `tenant_id` in WHERE clause
+2. Use parameterized queries with validated inputs
+3. Execute with `readonly_query`
+4. Never allow cross-tenant data access
+
+**Critical rules:**
+- ALL queries include `WHERE tenant_id = $1`
+- Use parameterized queries (never string interpolation)
+- Validate tenant_id before query execution
+- Reject cross-tenant access at application layer
+
+**Example:**
+```sql
+-- Simple tenant-scoped query
+readonly_query(
+  "SELECT *
+   FROM orders
+   WHERE tenant_id = $1 AND status = $2",
+  parameters=["tenant-123", "active"]
+)
+
+-- Aggregation with tenant isolation
+readonly_query(
+  "SELECT e.name, COUNT(o.order_id) as order_count
+   FROM entities e
+   LEFT JOIN orders o ON e.entity_id = o.entity_id
+   WHERE e.tenant_id = $1
+   GROUP BY e.name",
+  parameters=["tenant-123"]
+)
+```
+
+---
+
 
 ## Best Practices
 
 - **SHOULD read guidelines first** - Check [development_guide.md](steering/development-guide.md) before making schema changes
-- **SHOULD Execute queries directly** - PREFER MCP tools for ad-hoc queries 
+- **SHOULD use preferred language patterns** - Check [language.md](steering/language.md)
+- **SHOULD Execute queries directly** - PREFER MCP tools for ad-hoc queries
 - **REQUIRED: Follow DDL Guidelines** - Refer to [DDL Rules](steering/development-guide.md#schema-ddl-rules)
 - **SHALL repeatedly generate fresh tokens** - Refer to [Connection Limits](steering/development-guide.md#connection-rules)
 - **ALWAYS use ASYNC indexes** - `CREATE INDEX ASYNC` is mandatory
@@ -325,14 +282,13 @@ usePower("dsql", "aurora-dsql", "execute", {
 - **SHOULD use connection pooling in production applications** - Refer to [Connection Pooling](steering/development-guide.md#connection-pooling-recommended)
 - **SHOULD debug with the troubleshooting guide:** - Always refer to the resources and guidelines in [troubleshooting.md](steering/troubleshooting.md)
 
+---
+
 ## Additional Resources
 
 - [Aurora DSQL Documentation](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/)
-- [Aurora DSQL Starter Kit](https://github.com/awslabs/aurora-dsql-starter-kit/tree/main)
 - [Code Samples Repository](https://github.com/aws-samples/aurora-dsql-samples)
+- [PostgreSQL Compatibility](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/working-with-postgresql-compatibility.html)
+- [Incompatible Features](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/working-with-postgresql-compatibility-unsupported-features.html)
 - [IAM Authentication Guide](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/using-database-and-iam-roles.html)
-- [Getting Started Guide](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/getting-started.html)
-- [What Comaptibility DSQL Supports with PostgreSQL](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/working-with-postgresql-compatibility.html)
-- [Incompatible Postgres Features](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/working-with-postgresql-compatibility-unsupported-features.html)
 - [CloudFormation Resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dsql-cluster.html)
-

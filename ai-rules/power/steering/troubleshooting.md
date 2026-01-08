@@ -1,7 +1,7 @@
 # Troubleshooting in DSQL
 
-This file contains common additional errors encountered while working with DSQL and 
-guidelines for how to solve them. 
+This file contains common additional errors encountered while working with DSQL and
+guidelines for how to solve them.
 
 Before referring to any listed errors, refer to the complete [DSQL troubleshooting guide](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/troubleshooting.html#troubleshooting-connections)
 
@@ -31,7 +31,7 @@ Before referring to any listed errors, refer to the complete [DSQL troubleshooti
 
 **Problem**: Non-admin users get permission denied errors.
 
-**Solution**: 
+**Solution**:
 - Admin users must explicitly grant schema access to non-admin users
 - Non-admin users must create and use custom schemas (not `public`)
 - Link database roles to IAM roles for authentication
@@ -112,7 +112,3 @@ CREATE INDEX ASYNC idx_name ON table(column);
 **Solution**:
 - Use officially tested drivers from [aws-samples/aurora-dsql-samples](https://github.com/aws-samples/aurora-dsql-samples)
 - Test client compatibility before production deployment
-
-
-
-

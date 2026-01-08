@@ -1,4 +1,4 @@
-# DSQL Language-Specific Implementation Examples and Guides 
+# DSQL Language-Specific Implementation Examples and Guides
 ## Tenets
 - ALWAYS prefer DSQL Connector when available
 - Follow patterns outlined in [aurora-dsql-samples](https://github.com/aws-samples/aurora-dsql-samples/tree/main/)
@@ -6,16 +6,15 @@
 ## Framework and Connection Notes for Languages and Drivers
 ### Python
 PREFER using the [DSQL Python Connector](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/SECTION_program-with-dsql-connector-for-python.html) for automatic IAM Auth:
-- See [https://github.com/awslabs/aurora-dsql-python-connector](https://github.com/awslabs/aurora-dsql-python-connector)
-- Compatible support in both: psycopg, psycopg2, and asyncpg - install only the needed library 
-  - **psycopg2**
-    - synchronous
-    - `import aurora_dsql_psycopg2 as dsql` 
-    - See [aurora-dsql-python-connector/examples/psycopg2](https://github.com/awslabs/aurora-dsql-python-connector/tree/main/examples/psycopg2)
+- Compatible support in both: psycopg, psycopg2, and asyncpg - install only the needed library
   - **psycopg**
     - modern async/sync
     - `import aurora_dsql_psycopg as dsql`
-    - See [aurora-dsql-python-connector/examples/psycopg](https://github.com/awslabs/aurora-dsql-python-connector/tree/main/examples/psycopg)
+    - [psycopg sample](https://github.com/aws-samples/aurora-dsql-samples/tree/main/python/psycopg)
+  - **psycopg2**
+    - synchronous
+    - `import aurora_dsql_psycopg2 as dsql`
+    - [psycopg2 sample](https://github.com/aws-samples/aurora-dsql-samples/tree/main/python/psycopg2)
   - **asyncpg**
     - full asynchronous style
     - `import aurora_dsql_asyncpg as dsql`
@@ -26,11 +25,11 @@ PREFER using the [DSQL Python Connector](https://docs.aws.amazon.com/aurora-dsql
 - See [aurora-dsql-samples/python/sqlalchemy](https://github.com/aws-samples/aurora-dsql-samples/tree/main/python/sqlalchemy)
 
 **JupyterLab**
-- Still SHOULD PREFER using the python connector. 
+- Still SHOULD PREFER using the python connector.
 - Popular data science option for interactive computing environment that combines code, text, and visualizations
 - Options for Local or using Anazon SageMaker
 - REQUIRES downloading the Amazon root certificate from the official trust store
-- See [aurora-dsql-samples/python/jupyter](https://github.com/aws-samples/aurora-dsql-samples/blob/main/python/jupyter/) 
+- See [aurora-dsql-samples/python/jupyter](https://github.com/aws-samples/aurora-dsql-samples/blob/main/python/jupyter/)
 
 ### Go
 
@@ -46,12 +45,12 @@ PREFER using [node-postgres](https://docs.aws.amazon.com/aurora-dsql/latest/user
 
 **node-postgres (pg)** (recommended)
 - Use `@aws/aurora-dsql-node-postgres-connector` for automatic IAM auth
-- See [aurora-dsql-samples/javascript/node-postgres](https://github.com/awslabs/aurora-dsql-nodejs-connector/tree/main/packages/node-postgres)
+- See [aurora-dsql-samples/javascript/node-postgres](https://github.com/aws-samples/aurora-dsql-samples/tree/main/javascript/node-postgres)
 
 **postgres.js** (recommended)
 - Lightweight alternative with `@aws/aurora-dsql-node-postgres-connector`
 - Good for serverless environments
-- See [aurora-dsql-samples/javascript/postgres-js](https://github.com/awslabs/aurora-dsql-nodejs-connector/tree/main/packages/postgres-js)
+- See [aurora-dsql-samples/javascript/postgres-js](https://github.com/aws-samples/aurora-dsql-samples/tree/main/javascript/postgres-js)
 
 **Prisma**
 - Custom `directUrl` with token refresh middleware

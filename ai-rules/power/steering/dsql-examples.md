@@ -1,289 +1,233 @@
 # Aurora DSQL Implementation Examples
 
-This file contains code examples for working with DSQL. Only load this when actively implementing database code.
+This file contains DSQL integration code examples; only load this when actively implementing database code.
 
-For language-specific framework selection, recommendations, and examples see [language.md](./language.md). 
+For language-specific framework selection, recommendations, and examples see [language.md](./language.md).
 
 For developer rules, see [development-guide.md](./development-guide.md).
 
+For additional samples, including in alternative language and driver support, refer to the official
+[aurora-dsql-samples](https://github.com/aws-samples/aurora-dsql-samples).
+
 ---
 
-## Query Execution
-
-### Direct psql Execution (Ad-Hoc Queries)
+## Ad-Hoc Queries with psql
 
 ```bash
-# Direct query execution
+# Execute queries with admin token
 PGPASSWORD="$(aws dsql generate-db-connect-admin-auth-token \
   --hostname ${CLUSTER}.dsql.${REGION}.on.aws \
   --region ${REGION})" \
 psql -h ${CLUSTER}.dsql.${REGION}.on.aws -U admin -d postgres \
   -c "SELECT COUNT(*) FROM objectives WHERE tenant_id = 'tenant-123';"
-
-# List tables
-PGPASSWORD="$(aws dsql generate-db-connect-admin-auth-token \
-  --hostname ${CLUSTER}.dsql.${REGION}.on.aws \
-  --region ${REGION})" \
-psql -h ${CLUSTER}.dsql.${REGION}.on.aws -U admin -d postgres \
-  -c "\dt"
-
-# Query with formatting
-PGPASSWORD="$TOKEN" psql -h ${CLUSTER}.dsql.${REGION}.on.aws \
-  -U admin -d postgres \
-  -c "SELECT tenant_id, COUNT(*) as count FROM objectives GROUP BY tenant_id;"
-```
-
----
-
-## Schema Design
-
-### Table Creation
-
-```sql
--- Correct: Simple types, tenant isolation
-CREATE TABLE entities (
-  entity_id VARCHAR(255) PRIMARY KEY,
-  tenant_id VARCHAR(255) NOT NULL,
-  name VARCHAR(255) NOT NULL,
-  tags TEXT,                    -- NOT array type
-  metadata TEXT,                -- NOT json/jsonb
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP
-);
-
--- Async indexes (always)
-CREATE INDEX ASYNC idx_entities_tenant ON entities(tenant_id);
-CREATE INDEX ASYNC idx_entities_tenant_name ON entities(tenant_id, name);
-CREATE INDEX ASYNC idx_entities_created ON entities(tenant_id, created_at DESC);
-```
-
-### ALTER TABLE Operations
-
-```sql
--- Correct: One column at a time
-ALTER TABLE entities ADD COLUMN status VARCHAR(50);
-ALTER TABLE entities ADD COLUMN priority INTEGER;
-ALTER TABLE entities ADD COLUMN description TEXT;
-
--- Wrong examples (for reference)
--- ALTER TABLE entities ADD COLUMN col1 TEXT, ADD COLUMN col2 TEXT;  -- No multi-column
--- ALTER TABLE entities ADD COLUMN status VARCHAR(50) DEFAULT 'active';  -- No DEFAULT
--- CREATE INDEX idx_sync ON entities(name);  -- Must be ASYNC
-```
-
-### Setting Column Defaults
-
-```sql
--- Pattern: Add column, then update
-ALTER TABLE entities ADD COLUMN status VARCHAR(50);
-UPDATE entities SET status = 'active' WHERE status IS NULL;
-
--- For NOT NULL, handle in application layer (cannot alter existing column)
-```
-
----
-
-## Application-Layer Referential Integrity
-
-### Repository Pattern with Validation
-
-```typescript
-class EntityRepository {
-  async create(tenantId: string, data: CreateEntityRequest) {
-    // MANDATORY: Validate parent reference
-    if (data.parentId) {
-      const parent = await this.findById(tenantId, data.parentId);
-      if (!parent) {
-        throw new Error('Invalid parent reference');
-      }
-    }
-
-    // MANDATORY: Validate category reference
-    if (data.categoryId) {
-      const category = await this.categoryRepo.findById(
-        tenantId,
-        data.categoryId
-      );
-      if (!category) {
-        throw new Error('Invalid category reference');
-      }
-    }
-
-    return await this.insert(tenantId, data);
-  }
-
-  async delete(tenantId: string, id: string) {
-    // MANDATORY: Check for dependent records
-    const children = await this.findByParentId(tenantId, id);
-    if (children.length > 0) {
-      throw new Error(
-        `Cannot delete entity: has ${children.length} dependent records`
-      );
-    }
-
-    const references = await this.findReferences(tenantId, id);
-    if (references.length > 0) {
-      throw new Error('Cannot delete: entity is referenced by other records');
-    }
-
-    return await this.deleteById(tenantId, id);
-  }
-
-  private async findReferences(tenantId: string, entityId: string) {
-    // Check all tables that might reference this entity
-    const tables = ['objectives', 'key_results', 'initiatives'];
-    const references = [];
-
-    for (const table of tables) {
-      const result = await this.query(
-        `SELECT COUNT(*) as count FROM ${table}
-         WHERE tenant_id = $1 AND entity_id = $2`,
-        [tenantId, entityId]
-      );
-      if (result.rows[0].count > 0) {
-        references.push({ table, count: result.rows[0].count });
-      }
-    }
-
-    return references;
-  }
-}
-```
-
----
-
-## Data Serialization
-
-### Array and JSON Serialization
-
-```typescript
-class DataSerializer {
-  // Array serialization (comma-separated)
-  static serializeArray(items: string[]): string {
-    return items.join(',');
-  }
-
-  static deserializeArray(text: string): string[] {
-    return text ? text.split(',').map(item => item.trim()) : [];
-  }
-
-  // Array serialization (JSON for complex items)
-  static serializeComplexArray<T>(items: T[]): string {
-    return JSON.stringify(items);
-  }
-
-  static deserializeComplexArray<T>(text: string): T[] {
-    try {
-      return text ? JSON.parse(text) : [];
-    } catch (error) {
-      console.error('Failed to parse array:', error);
-      return [];
-    }
-  }
-
-  // JSON object serialization
-  static serializeJSON(obj: any): string {
-    return JSON.stringify(obj);
-  }
-
-  static deserializeJSON<T>(text: string): T | null {
-    try {
-      return text ? JSON.parse(text) : null;
-    } catch (error) {
-      console.error('Failed to parse JSON:', error);
-      return null;
-    }
-  }
-}
-
-// Usage in repository
-class EntityRepository {
-  private mapRowToEntity(row: any): Entity {
-    return {
-      id: row.entity_id,
-      tenantId: row.tenant_id,
-      name: row.name,
-      tags: DataSerializer.deserializeArray(row.tags),
-      metadata: DataSerializer.deserializeJSON(row.metadata),
-      createdAt: row.created_at,
-      updatedAt: row.updated_at
-    };
-  }
-
-  private mapEntityToRow(tenantId: string, entity: Entity): any {
-    return {
-      entity_id: entity.id,
-      tenant_id: tenantId,
-      name: entity.name,
-      tags: DataSerializer.serializeArray(entity.tags),
-      metadata: DataSerializer.serializeJSON(entity.metadata),
-      created_at: entity.createdAt,
-      updated_at: entity.updatedAt
-    };
-  }
-}
 ```
 
 ---
 
 ## Connection Management
 
-### RECOMMENDED: Connector
+### RECOMMENDED: DSQL Connector
 
-```typescript
-import { AuroraDSQLClient } from "@aws/aurora-dsql-node-postgres-connector";
+Source: [aurora-dsql-samples/javascript](https://github.com/aws-samples/aurora-dsql-samples/tree/main/javascript)
 
-async function getConnection(
-  clusterEndpoint: string,
-  user: string,
-  region: string
-): Promise<pg.Client> {
-  const client = new AuroraDSQLClient({
+```javascript
+import { AuroraDSQLPool } from "@aws/aurora-dsql-node-postgres-connector";
+
+function createPool(clusterEndpoint, user) {
+  return new AuroraDSQLPool({
     host: clusterEndpoint,
     user: user,
+    max: 10,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000,
   });
+}
 
-  // Connect
-  await client.connect();
-  return client;
+async function example() {
+  const pool = createPool(process.env.CLUSTER_ENDPOINT, process.env.CLUSTER_USER);
+
+  try {
+    const result = await pool.query("SELECT $1::int as value", [42]);
+    console.log(`Result: ${result.rows[0].value}`);
+  } finally {
+    await pool.end();
+  }
 }
 ```
 
-### Token Generation (NOT PREFERRED)
+### Token Generation for Custom Implementations
+
+For custom drivers or languages without DSQL Connector. Source: [aurora-dsql-samples/javascript/authentication](https://github.com/aws-samples/aurora-dsql-samples/tree/main/javascript/authentication)
+
 ```javascript
 import { DsqlSigner } from "@aws-sdk/dsql-signer";
 
-async function getConnection(clusterEndpoint, user, region) {
-  
-  let client = postgres({
-    host: clusterEndpoint,
-    user: user,
-    // We can pass a function to password instead of a value, which will be triggered whenever
-    // connections are opened.
-    password: async () => await getPasswordToken(clusterEndpoint, user, region),
-    database: "postgres",
-    port: 5432,
-    idle_timeout: 2,
-    ssl: {
-      rejectUnauthorized: true,
-    }
-    // max: 1, // Optionally set maximum connection pool size
-  })
+async function generateToken(clusterEndpoint, region) {
+  const signer = new DsqlSigner({ hostname: clusterEndpoint, region });
+  return await signer.getDbConnectAdminAuthToken();
+}
+```
 
-  return client;
+---
+
+## Schema Design: Table Creation
+
+SHOULD use UUIDs with `gen_random_uuid()` for distributed write performance. Source: [aurora-dsql-samples/java/liquibase](https://github.com/aws-samples/aurora-dsql-samples/tree/main/java/liquibase)
+
+```sql
+CREATE TABLE IF NOT EXISTS owner (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name VARCHAR(30) NOT NULL,
+  city VARCHAR(80) NOT NULL,
+  telephone VARCHAR(20)
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  order_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id VARCHAR(255) NOT NULL,
+  status VARCHAR(50) NOT NULL,
+  tags TEXT,
+  metadata TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+---
+
+## Schema Design: Index Creation
+
+MUST use `CREATE INDEX ASYNC` (max 24 indexes/table, 8 columns/index). Source: [aurora-dsql-samples/java/liquibase](https://github.com/aws-samples/aurora-dsql-samples/tree/main/java/liquibase)
+
+```sql
+CREATE INDEX ASYNC idx_owner_city ON owner(city);
+CREATE INDEX ASYNC idx_orders_tenant ON orders(tenant_id);
+CREATE INDEX ASYNC idx_orders_status ON orders(tenant_id, status);
+```
+
+---
+
+## Schema Design: Column Modifications
+
+MUST use two-step process: add column, then UPDATE for defaults (ALTER COLUMN not supported).
+
+```sql
+ALTER TABLE orders ADD COLUMN priority INTEGER;
+UPDATE orders SET priority = 0 WHERE priority IS NULL;
+```
+
+---
+
+## Data Operations: Basic CRUD
+
+Source: [aurora-dsql-samples/quickstart_data](https://github.com/aws-samples/aurora-dsql-samples/tree/main/quickstart_data)
+
+```sql
+-- Insert with transaction
+BEGIN;
+INSERT INTO owner (name, city) VALUES
+  ('John Doe', 'New York'),
+  ('Mary Major', 'Anytown');
+COMMIT;
+
+-- Query with JOIN
+SELECT o.name, COUNT(p.id) as pet_count
+FROM owner o
+LEFT JOIN pet p ON p.owner_id = o.id
+GROUP BY o.name;
+
+-- Update and delete
+UPDATE owner SET city = 'Boston' WHERE name = 'John Doe';
+DELETE FROM owner WHERE city = 'Portland';
+```
+
+---
+
+## Data Operations: Batch Processing
+
+**Transaction Limits:**
+- Maximum 3,000 rows per transaction
+- Maximum 10 MiB data size per transaction
+- Maximum 5 minutes per transaction
+
+### Safe Batch Insert
+
+```javascript
+async function batchInsert(pool, tenantId, items) {
+  const BATCH_SIZE = 500;
+
+  for (let i = 0; i < items.length; i += BATCH_SIZE) {
+    const batch = items.slice(i, i + BATCH_SIZE);
+    const client = await pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      for (const item of batch) {
+        await client.query(
+          `INSERT INTO entities (tenant_id, name, metadata)
+          VALUES ($1, $2, $3)`,
+          [tenantId, item.name, JSON.stringify(item.metadata)]
+        );
+      }
+
+      await client.query('COMMIT');
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+}
+```
+
+### Concurrent Batch Processing
+
+**Pattern:** SHOULD use concurrent connections for better throughput
+
+Source: Adapted from [aurora-dsql-samples/javascript](https://github.com/aws-samples/aurora-dsql-samples/tree/main/javascript)
+
+```javascript
+// Split into batches and process concurrently
+async function concurrentBatchInsert(pool, tenantId, items) {
+  const BATCH_SIZE = 500;
+  const NUM_WORKERS = 8;
+
+  const batches = [];
+  for (let i = 0; i < items.length; i += BATCH_SIZE) {
+    batches.push(items.slice(i, i + BATCH_SIZE));
+  }
+
+  const workers = [];
+  for (let i = 0; i < NUM_WORKERS && i < batches.length; i++) {
+    workers.push(processBatches(pool, tenantId, batches, i, NUM_WORKERS));
+  }
+
+  await Promise.all(workers);
 }
 
-async function getPasswordToken(clusterEndpoint, user, region) {
-  const signer = new DsqlSigner({
-    hostname: clusterEndpoint,
-    region,
-  });
-  if (user === "admin") {
-    return await signer.getDbConnectAdminAuthToken();
-  }
-  else {
-    signer.user = user;
-    return await signer.getDbConnectAuthToken()
+async function processBatches(pool, tenantId, batches, startIdx, step) {
+  for (let i = startIdx; i < batches.length; i += step) {
+    const batch = batches[i];
+    const client = await pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      for (const item of batch) {
+        await client.query(
+          'INSERT INTO entities (tenant_id, name, metadata) VALUES ($1, $2, $3)',
+          [tenantId, item.name, JSON.stringify(item.metadata)]
+        );
+      }
+
+      await client.query('COMMIT');
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
   }
 }
 ```
@@ -292,241 +236,182 @@ async function getPasswordToken(clusterEndpoint, user, region) {
 
 ## Migration Execution
 
-### Migration Runner
+**Pattern:** MUST execute each DDL statement separately (DDL statements execute outside transactions)
 
-```typescript
-interface Migration {
-  id: string;
-  description: string;
-  statements: string[];  // Each DDL separate
-}
+Source: Adapted from [aurora-dsql-samples/java/liquibase](https://github.com/aws-samples/aurora-dsql-samples/tree/main/java/liquibase)
 
-class MigrationRunner {
-  private client: Client;
-
-  async run(migrations: Migration[]) {
-    for (const migration of migrations) {
-      console.log(`Running migration: ${migration.id} - ${migration.description}`);
-
-      // Execute each DDL statement individually (no transactions)
-      for (const statement of migration.statements) {
-        if (statement.trim()) {
-          try {
-            await this.client.query(statement);
-            console.log(`  ✓ Executed: ${statement.substring(0, 60)}...`);
-          } catch (error) {
-            console.error(`  ✗ Failed: ${statement.substring(0, 60)}...`);
-            throw error;
-          }
-        }
-      }
-
-      console.log(`✓ Completed migration: ${migration.id}`);
-    }
-  }
-}
-
-// Example migrations
-const migrations: Migration[] = [
+```javascript
+const migrations = [
   {
     id: '001_initial_schema',
-    description: 'Create initial tables',
+    description: 'Create owner and pet tables',
     statements: [
-      'CREATE TABLE IF NOT EXISTS tenants (tenant_id VARCHAR(255) PRIMARY KEY, name VARCHAR(255) NOT NULL)',
-      'CREATE INDEX ASYNC idx_tenants_name ON tenants(name)',
-      'CREATE TABLE IF NOT EXISTS entities (entity_id VARCHAR(255) PRIMARY KEY, tenant_id VARCHAR(255) NOT NULL)',
-      'CREATE INDEX ASYNC idx_entities_tenant ON entities(tenant_id)'
+      `CREATE TABLE IF NOT EXISTS owner (
+         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+         name VARCHAR(30) NOT NULL,
+         city VARCHAR(80) NOT NULL,
+         telephone VARCHAR(20)
+       )`,
+      `CREATE TABLE IF NOT EXISTS pet (
+         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+         name VARCHAR(30) NOT NULL,
+         birth_date DATE NOT NULL,
+         owner_id UUID
+       )`,
     ]
   },
   {
-    id: '002_add_status_columns',
-    description: 'Add status tracking columns',
+    id: '002_create_indexes',
+    description: 'Create async indexes',
     statements: [
-      'ALTER TABLE entities ADD COLUMN IF NOT EXISTS status VARCHAR(50)',
-      'ALTER TABLE entities ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP',
-      'UPDATE entities SET status = \'active\' WHERE status IS NULL',
-      'CREATE INDEX ASYNC idx_entities_status ON entities(tenant_id, status)'
+      'CREATE INDEX ASYNC idx_owner_city ON owner(city)',
+      'CREATE INDEX ASYNC idx_pet_owner ON pet(owner_id)',
+    ]
+  },
+  {
+    id: '003_add_columns',
+    description: 'Add status column',
+    statements: [
+      'ALTER TABLE pet ADD COLUMN IF NOT EXISTS status VARCHAR(20)',
+      "UPDATE pet SET status = 'active' WHERE status IS NULL",
     ]
   }
 ];
+
+async function runMigrations(pool, migrations) {
+  for (const migration of migrations) {
+    for (const statement of migration.statements) {
+      if (statement.trim()) {
+        await pool.query(statement);
+      }
+    }
+  }
+}
 ```
 
 ---
 
 ## Multi-Tenant Isolation
 
-### Base Repository with Tenant Scoping
+ALWAYS include tenant_id in WHERE clauses; tenant_id is always first parameter.
 
-```typescript
-abstract class TenantRepository<T> {
-  protected client: Client;
-  protected tableName: string;
-  protected idColumn: string;
+```javascript
+async function getOrders(pool, tenantId, status) {
+  const result = await pool.query(
+    'SELECT * FROM orders WHERE tenant_id = $1 AND status = $2',
+    [tenantId, status]
+  );
+  return result.rows;
+}
 
-  // tenantId is ALWAYS first parameter
-  async findAll(tenantId: string, limit = 100): Promise<T[]> {
-    const query = `
-      SELECT * FROM ${this.tableName}
-      WHERE tenant_id = $1
-      ORDER BY created_at DESC
-      LIMIT $2
-    `;
-    const result = await this.client.query(query, [tenantId, limit]);
-    return result.rows.map(row => this.mapRow(row));
+async function deleteOrder(pool, tenantId, orderId) {
+  const check = await pool.query(
+    'SELECT order_id FROM orders WHERE tenant_id = $1 AND order_id = $2',
+    [tenantId, orderId]
+  );
+
+  if (check.rows.length === 0) {
+    throw new Error('Order not found or access denied');
   }
 
-  async findById(tenantId: string, id: string): Promise<T | null> {
-    const query = `
-      SELECT * FROM ${this.tableName}
-      WHERE tenant_id = $1 AND ${this.idColumn} = $2
-    `;
-    const result = await this.client.query(query, [tenantId, id]);
-    return result.rows[0] ? this.mapRow(result.rows[0]) : null;
-  }
-
-  async create(tenantId: string, data: Partial<T>): Promise<T> {
-    // Always include tenant_id
-    const values = { tenant_id: tenantId, ...data };
-
-    const columns = Object.keys(values);
-    const placeholders = columns.map((_, i) => `$${i + 1}`);
-    const query = `
-      INSERT INTO ${this.tableName} (${columns.join(', ')})
-      VALUES (${placeholders.join(', ')})
-      RETURNING *
-    `;
-
-    const result = await this.client.query(query, Object.values(values));
-    return this.mapRow(result.rows[0]);
-  }
-
-  async delete(tenantId: string, id: string): Promise<boolean> {
-    const query = `
-      DELETE FROM ${this.tableName}
-      WHERE tenant_id = $1 AND ${this.idColumn} = $2
-    `;
-    const result = await this.client.query(query, [tenantId, id]);
-    return result.rowCount > 0;
-  }
-
-  protected abstract mapRow(row: any): T;
+  await pool.query(
+    'DELETE FROM orders WHERE tenant_id = $1 AND order_id = $2',
+    [tenantId, orderId]
+  );
 }
 ```
 
 ---
 
-## Batch Operations
+## Application-Layer Referential Integrity
 
-### Safe Batching Within Limits
+SHOULD validate references for custom business rules (DSQL provides database-level integrity).
 
-```typescript
-class BatchProcessor {
-  private readonly BATCH_SIZE = 500; // < 3000
+```javascript
+async function createLineItem(pool, tenantId, lineItemData) {
+  const orderCheck = await pool.query(
+    'SELECT order_id FROM orders WHERE tenant_id = $1 AND order_id = $2',
+    [tenantId, lineItemData.order_id]
+  );
 
-  async batchInsert(tenantId: string, items: any[]) {
-    const chunks = this.chunkArray(items, this.BATCH_SIZE);
-    const results = [];
-
-    for (const chunk of chunks) {
-      await withDatabase(async (client) => {
-        await client.query('BEGIN');
-
-        try {
-          for (const item of chunk) {
-            const result = await client.query(
-              `INSERT INTO items (tenant_id, name, data)
-               VALUES ($1, $2, $3) RETURNING *`,
-              [tenantId, item.name, item.data]
-            );
-            results.push(result.rows[0]);
-          }
-
-          await client.query('COMMIT');
-        } catch (error) {
-          await client.query('ROLLBACK');
-          throw error;
-        }
-      });
-    }
-
-    return results;
+  if (orderCheck.rows.length === 0) {
+    throw new Error('Order does not exist');
   }
 
-  private chunkArray<T>(array: T[], size: number): T[][] {
-    const chunks: T[][] = [];
-    for (let i = 0; i < array.length; i += size) {
-      chunks.push(array.slice(i, i + size));
-    }
-    return chunks;
+  await pool.query(
+    'INSERT INTO line_items (tenant_id, order_id, product_id, quantity) VALUES ($1, $2, $3, $4)',
+    [tenantId, lineItemData.order_id, lineItemData.product_id, lineItemData.quantity]
+  );
+}
+
+async function deleteProduct(pool, tenantId, productId) {
+  const check = await pool.query(
+    'SELECT COUNT(*) as count FROM line_items WHERE tenant_id = $1 AND product_id = $2',
+    [tenantId, productId]
+  );
+
+  if (parseInt(check.rows[0].count) > 0) {
+    throw new Error('Product has existing orders');
   }
+
+  await pool.query(
+    'DELETE FROM products WHERE tenant_id = $1 AND product_id = $2',
+    [tenantId, productId]
+  );
 }
 ```
 
 ---
 
-## Hierarchical Queries
+## Data Serialization
 
-### Recursive CTEs
+**Pattern:** MUST store arrays and JSON as TEXT (runtime-only types). Per [DSQL docs](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/working-with-postgresql-compatibility-supported-data-types.html), cast to JSON at query time.
+
+```javascript
+function toTextArray(values) {
+  return values.join(',');
+}
+
+function fromTextArray(textValue) {
+  return textValue ? textValue.split(',').map(v => v.trim()) : [];
+}
+
+function toTextJSON(object) {
+  return JSON.stringify(object);
+}
+
+function fromTextJSON(textValue) {
+  if (!textValue) return null;
+  try {
+    return JSON.parse(textValue);
+  } catch (err) {
+    console.warn('Invalid JSON in column:', err.message);
+    return null;
+  }
+}
+
+const categoriesText = toTextArray(['backend', 'api', 'database']);
+await pool.query('INSERT INTO projects (project_id, categories) VALUES ($1, $2)', [projectId, categoriesText]);
+
+const configText = toTextJSON({ theme: 'dark', notifications: true });
+await pool.query('INSERT INTO user_settings (user_id, preferences) VALUES ($1, $2)', [userId, configText]);
+```
+
+Query-time operations:
 
 ```sql
--- Get all descendants of an entity
-WITH RECURSIVE entity_tree AS (
-  -- Anchor: Start with root entity
-  SELECT
-    entity_id,
-    parent_id,
-    name,
-    0 as level,
-    entity_id::TEXT as path
-  FROM entities
-  WHERE entity_id = $1
-    AND tenant_id = $2
+SELECT user_id, preferences::jsonb->>'theme' as theme
+FROM user_settings WHERE preferences::jsonb->>'notifications' = 'true';
 
-  UNION ALL
-
-  -- Recursive: Get children
-  SELECT
-    e.entity_id,
-    e.parent_id,
-    e.name,
-    et.level + 1,
-    et.path || '/' || e.entity_id
-  FROM entities e
-  INNER JOIN entity_tree et ON e.parent_id = et.entity_id
-  WHERE e.tenant_id = $2
-    AND et.level < 10  -- Prevent infinite recursion
-)
-SELECT * FROM entity_tree ORDER BY path;
-```
-
-```typescript
-// Usage in repository
-async findDescendants(tenantId: string, entityId: string): Promise<Entity[]> {
-  const query = `
-    WITH RECURSIVE entity_tree AS (
-      SELECT entity_id, parent_id, name, 0 as level
-      FROM entities
-      WHERE entity_id = $1 AND tenant_id = $2
-
-      UNION ALL
-
-      SELECT e.entity_id, e.parent_id, e.name, et.level + 1
-      FROM entities e
-      INNER JOIN entity_tree et ON e.parent_id = et.entity_id
-      WHERE e.tenant_id = $2 AND et.level < 10
-    )
-    SELECT * FROM entity_tree
-  `;
-
-  const result = await this.client.query(query, [entityId, tenantId]);
-  return result.rows.map(row => this.mapRow(row));
-}
+SELECT project_id, string_to_array(categories, ',') as category_array FROM projects;
 ```
 
 ---
 
 ## References
 
-- **Developing Guide:** [development-guide.md](./development-guide.md)
+- **Development Guide:** [development-guide.md](./development-guide.md)
+- **Language Guide:** [language.md](./language.md)
 - **Onboarding Guide:** [onboarding.md](./onboarding.md)
 - **AWS Documentation:** [DSQL User Guide](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/)
+- **Sample Code:** [aurora-dsql-samples](https://github.com/aws-samples/aurora-dsql-samples)
