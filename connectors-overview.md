@@ -135,8 +135,8 @@ Additional connectors are planned for future releases. For the latest informatio
 
 ## Related Documentation
 
-- **Database Drivers**: [Programming with DSQL Overview](https://jubilant-adventure-yv9p22g.pages.github.io/programming-with-dsql.html#database-drivers)
-- **Authentication**: [Generate Authentication Token](https://jubilant-adventure-yv9p22g.pages.github.io/generate-authentication-token.html)
-- **Database Roles**: [Database Roles and IAM Authentication](https://jubilant-adventure-yv9p22g.pages.github.io/database-roles-iam-authentication.html)
+- **Database Drivers**: [Programming with DSQL Overview](https://awslabs.github.io/aurora-dsql-starter-kit/programming-with-dsql.html#database-drivers)
+- **Authentication**: [Generate Authentication Token](https://awslabs.github.io/aurora-dsql-starter-kit/generate-authentication-token.html)
+- **Database Roles**: [Database Roles and IAM Authentication](https://awslabs.github.io/aurora-dsql-starter-kit/database-roles-iam-authentication.html)
 - **Sample Code**: [Aurora DSQL Samples Repository](https://github.com/aws-samples/aurora-dsql-samples)
-- **Getting Started**: [Getting Started](https://jubilant-adventure-yv9p22g.pages.github.io/guides/getting-started/quickstart.html)
+- **Getting Started**: [Getting Started](https://awslabs.github.io/aurora-dsql-starter-kit/guides/getting-started/quickstart.html)

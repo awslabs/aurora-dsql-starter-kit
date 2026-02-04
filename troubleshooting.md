@@ -51,7 +51,7 @@ This guide provides troubleshooting advice for common errors and issues when usi
 1. Check IAM role expiration time
 1. Retry connection with fresh credentials
 
-**Related Documentation**: [Authentication and authorization guide](https://jubilant-adventure-yv9p22g.pages.github.io/authentication-and-authorization.html)
+**Related Documentation**: [Authentication and authorization guide](https://awslabs.github.io/aurora-dsql-starter-kit/authentication-and-authorization.html)
 
 ### Invalid Access Key ID
 
@@ -173,7 +173,7 @@ This guide provides troubleshooting advice for common errors and issues when usi
 1. Then drop the database role
 1. Verify no other dependencies exist
 
-**Related Documentation**: [Revoking authorization](https://jubilant-adventure-yv9p22g.pages.github.io/authentication-and-authorization.html#revoking-authorization-using-iam-and-postgresql)
+**Related Documentation**: [Revoking authorization](https://awslabs.github.io/aurora-dsql-starter-kit/authentication-and-authorization.html#revoking-authorization-using-iam-and-postgresql)
 
 ## SQL Errors
 

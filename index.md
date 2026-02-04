@@ -16,7 +16,7 @@ Amazon Aurora DSQL is a serverless, distributed SQL database that provides:
 
 ## Getting Started
 
-Ready to start using Aurora DSQL? Check out our [Quickstart Guide](https://jubilant-adventure-yv9p22g.pages.github.io/guides/getting-started/quickstart.html) to:
+Ready to start using Aurora DSQL? Check out our [Quickstart Guide](https://awslabs.github.io/aurora-dsql-starter-kit/guides/getting-started/quickstart.html) to:
 
 1. Create your first Aurora DSQL cluster
 1. Connect to your cluster

@@ -34,7 +34,7 @@ Note
 
 Warning: Using Amazon SageMaker AI may result in charges to your AWS account.
 
-Once the SageMaker instance becomes active, you can open it from the **Notebook instances** section with **Open JupyterLab**. Before getting started with Aurora DSQL in your notebook you must provide access to your DSQL cluster in the SageMaker instance's IAM role. The simplest way to do so is to follow the link to the IAM role in the notebook instance page. From there you can edit the Policies attached to your SageMaker IAM role. See [Authentication and authorization](https://jubilant-adventure-yv9p22g.pages.github.io/authentication-and-authorization.html) for more information on configuring an IAM policy to allow access to Aurora DSQL.
+Once the SageMaker instance becomes active, you can open it from the **Notebook instances** section with **Open JupyterLab**. Before getting started with Aurora DSQL in your notebook you must provide access to your DSQL cluster in the SageMaker instance's IAM role. The simplest way to do so is to follow the link to the IAM role in the notebook instance page. From there you can edit the Policies attached to your SageMaker IAM role. See [Authentication and authorization](https://awslabs.github.io/aurora-dsql-starter-kit/authentication-and-authorization.html) for more information on configuring an IAM policy to allow access to Aurora DSQL.
 
 ### Connecting to Aurora DSQL using JupyterLab
 

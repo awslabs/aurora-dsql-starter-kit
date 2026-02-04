@@ -480,7 +480,7 @@ For multi-region clusters, both clusters must be deleted. The first cluster will
 
 ## Related Documentation
 
-- **Single-Region Clusters**: [Single-Region Clusters](https://jubilant-adventure-yv9p22g.pages.github.io/single-region-clusters.html)
-- **Getting Started**: [Getting Started](https://jubilant-adventure-yv9p22g.pages.github.io/guides/getting-started/quickstart.html)
-- **Authentication**: [Auth & Access Overview](https://jubilant-adventure-yv9p22g.pages.github.io/authentication-and-authorization.html)
-- **Troubleshooting**: [Troubleshooting Overview](https://jubilant-adventure-yv9p22g.pages.github.io/troubleshooting.html)
+- **Single-Region Clusters**: [Single-Region Clusters](https://awslabs.github.io/aurora-dsql-starter-kit/single-region-clusters.html)
+- **Getting Started**: [Getting Started](https://awslabs.github.io/aurora-dsql-starter-kit/guides/getting-started/quickstart.html)
+- **Authentication**: [Auth & Access Overview](https://awslabs.github.io/aurora-dsql-starter-kit/authentication-and-authorization.html)
+- **Troubleshooting**: [Troubleshooting Overview](https://awslabs.github.io/aurora-dsql-starter-kit/troubleshooting.html)

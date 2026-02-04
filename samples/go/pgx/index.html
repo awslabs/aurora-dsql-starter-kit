@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://jubilant-adventure-yv9p22g.pages.github.io/samples/go/pgx/index.html">
+        <link rel="canonical" href="https://awslabs.github.io/aurora-dsql-starter-kit/samples/go/pgx/index.html">
       
       
       
@@ -1505,7 +1505,7 @@
   <a href="#important" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ⚠️ Important
+        Important
       
     </span>
   </a>
@@ -1513,37 +1513,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tls-connection-configuration" class="md-nav__link">
+  <a href="#run-the-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        TLS connection configuration
+        Run the example
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#run-the-examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run the examples
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Run the examples">
+    <nav class="md-nav" aria-label="Run the example">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1558,32 +1536,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#setup-test-running-environment" class="md-nav__link">
+  <a href="#run-the-code" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Setup test running environment
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Environment Variables
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#run-the-example-tests" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run the example tests
+        Run the code
       
     </span>
   </a>
@@ -1592,17 +1548,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#token-generation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Token Generation
-      
-    </span>
-  </a>
   
 </li>
       
@@ -1639,56 +1584,41 @@
 
 <h1 id="aurora-dsql-with-pgx">Aurora DSQL with pgx<a class="headerlink" href="#aurora-dsql-with-pgx" title="Permanent link">&para;</a></h1>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>This code example demonstrates how to use the <code>pgx</code> driver with Amazon Aurora DSQL. The example shows you how to connect
-to an Aurora DSQL cluster and perform database operations using IAM authentication.</p>
-<p>Aurora DSQL is a distributed SQL database service that provides high availability and scalability for your
-PostgreSQL-compatible applications. <code>pgx</code> is a pure Go driver and toolkit for PostgreSQL that offers robust features
-including automatic connection pool management and authentication token refresh.</p>
+<p>This code example demonstrates how to use <code>pgx</code> with Amazon Aurora DSQL.
+The example shows you how to connect to an Aurora DSQL cluster and perform basic database operations.</p>
+<p>Aurora DSQL is a distributed SQL database service that provides high availability and scalability for
+your PostgreSQL-compatible applications. <code>pgx</code> is a popular PostgreSQL driver and toolkit for Go that
+provides high-performance database connectivity.</p>
 <h2 id="about-the-code-example">About the code example<a class="headerlink" href="#about-the-code-example" title="Permanent link">&para;</a></h2>
-<p>The example demonstrates a flexible connection approach using IAM authentication:</p>
+<p>This example uses the <a href="https://github.com/awslabs/aurora-dsql-connectors/tree/main/go/pgx">Aurora DSQL Go Connector</a> which automatically handles IAM token generation for authentication.</p>
+<p>The example demonstrates a flexible connection approach that works for both admin and non-admin users:</p>
 <ul>
-<li>Implements automatic token generation for new connections</li>
-<li>Handles secure IAM-based authentication token generation</li>
-<li>Provides connection pooling and management</li>
-<li>Demonstrates best practices for Aurora DSQL connectivity in Go applications</li>
+<li>When connecting as an <strong>admin user</strong>, the example uses the <code>public</code> schema and generates an admin authentication token.</li>
+<li>When connecting as a <strong>non-admin user</strong>, the example uses a custom <code>myschema</code> schema and generates a standard authentication token.</li>
 </ul>
-<h2 id="important">⚠️ Important<a class="headerlink" href="#important" title="Permanent link">&para;</a></h2>
+<p>The code automatically detects the user type and adjusts its behavior accordingly.</p>
+<h2 id="important">Important<a class="headerlink" href="#important" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Running this code might result in charges to your AWS account.</li>
 <li>We recommend that you grant your code least privilege. At most, grant only the
   minimum permissions required to perform the task. For more information, see
-  Grant least privilege in the AWS IAM User Guide.</li>
+  <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#grant-least-privilege">Grant least privilege</a>.</li>
 <li>This code is not tested in every AWS Region. For more information, see
-  AWS Regional Services.</li>
+  <a href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services">AWS Regional Services</a>.</li>
 </ul>
-<h2 id="tls-connection-configuration">TLS connection configuration<a class="headerlink" href="#tls-connection-configuration" title="Permanent link">&para;</a></h2>
-<p>This example uses direct TLS connections where supported, and verifies the server certificate is trusted. Verified SSL
-connections should be used where possible to ensure data security during transmission.</p>
-<ul>
-<li>Driver versions following the release of PostgreSQL 17 support direct TLS connections, bypassing the traditional
-  PostgreSQL connection preamble</li>
-<li>Direct TLS connections provide improved connection performance and enhanced security</li>
-<li>Not all PostgreSQL drivers support direct TLS connections yet, or only in recent versions following PostgreSQL 17</li>
-<li>Ensure your installed driver version supports direct TLS negotiation, or use a version that is at least as recent as
-  the one used in this sample</li>
-<li>If your driver doesn't support direct TLS connections, you may need to use the traditional preamble connection instead</li>
-</ul>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p>The following environment variables can be used to configure the connection parameter in this example:</p>
-<ul>
-<li><code>CLUSTER_ENDPOINT</code>: Your Aurora DSQL cluster endpoint (required)</li>
-<li><code>CLUSTER_USER</code>: Database user (required)</li>
-<li><code>REGION</code>: AWS region where your cluster is located (required)</li>
-<li><code>DB_PORT</code>: Database port (defaults to 5432)</li>
-<li><code>DB_NAME</code>: Database name (defaults to "postgres")</li>
-</ul>
-<h2 id="run-the-examples">Run the examples<a class="headerlink" href="#run-the-examples" title="Permanent link">&para;</a></h2>
+<h2 id="run-the-example">Run the example<a class="headerlink" href="#run-the-example" title="Permanent link">&para;</a></h2>
 <h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
 <ul>
 <li>You must have an AWS account, and have your default credentials and AWS Region
   configured as described in the
   <a href="https://docs.aws.amazon.com/credref/latest/refdocs/creds-config-files.html">Globally configuring AWS SDKs and tools</a>
   guide.</li>
+<li>Go: Ensure you have Go 1.21+ installed.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>version
+</code></pre></div>
+<p>It should output something similar to <code>go version go1.21</code> or higher.</p>
+<ul>
 <li>You must have an Aurora DSQL cluster. For information about creating an Aurora DSQL cluster, see the
   <a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/getting-started.html">Getting started with Aurora DSQL</a>
   guide.</li>
@@ -1696,38 +1626,31 @@ connections should be used where possible to ensure data security during transmi
   schema. See the
   <a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/using-database-and-iam-roles.html">Using database roles with IAM roles</a>
   guide.</li>
-<li>Go version &gt;= 1.24</li>
 </ul>
-<h3 id="setup-test-running-environment">Setup test running environment<a class="headerlink" href="#setup-test-running-environment" title="Permanent link">&para;</a></h3>
-<p>Ensure you are authenticated with AWS credentials. No other setup is needed besides having Go installed.</p>
-<h3 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h3>
-<p>Set the following required environment variables:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Your cluster endpoint (e.g., &quot;cluster-name.cluster-xxx.region.rds.amazonaws.com&quot;)</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_ENDPOINT</span><span class="o">=</span><span class="s2">&quot;&lt;your cluster endpoint&gt;&quot;</span>
-
-<span class="c1"># Your AWS region (e.g., &quot;us-east-1&quot;)</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">REGION</span><span class="o">=</span><span class="s2">&quot;&lt;your cluster region&gt;&quot;</span>
+<h3 id="run-the-code">Run the code<a class="headerlink" href="#run-the-code" title="Permanent link">&para;</a></h3>
+<p>The example demonstrates the following operations:</p>
+<ul>
+<li>Opening a connection pool to an Aurora DSQL cluster</li>
+<li>Running concurrent queries using the pool</li>
+<li>Automatic IAM token generation for authentication</li>
+</ul>
+<p>The example is designed to work with both admin and non-admin users.</p>
+<p><strong>Note:</strong> running the example will use actual resources in your AWS account and may incur charges.</p>
+<p>Set environment variables for your cluster details:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># e.g. &quot;foo0bar1baz2quux3quuux4.dsql.us-east-1.on.aws&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_ENDPOINT</span><span class="o">=</span><span class="s2">&quot;&lt;your endpoint&gt;&quot;</span>
 </code></pre></div>
-<h3 id="run-the-example-tests">Run the example tests<a class="headerlink" href="#run-the-example-tests" title="Permanent link">&para;</a></h3>
-<p>In a terminal run the following commands:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Run the unit tests</span>
-go<span class="w"> </span>env<span class="w"> </span>-w<span class="w"> </span><span class="nv">GOPROXY</span><span class="o">=</span>direct
-go<span class="w"> </span><span class="nb">test</span>
-
-<span class="c1"># Run the example directly</span>
-go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>example
-./example
+<p>Run the example:</p>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>./test/...<span class="w"> </span>-v
 </code></pre></div>
-<h2 id="token-generation">Token Generation<a class="headerlink" href="#token-generation" title="Permanent link">&para;</a></h2>
-<p>The implementation includes an automatic token generation mechanism for new connections. This ensures continuous
-database connectivity for the pool. Lazily created connections will generate a new authentication token before
-connecting. Similarly, replacement connections for those exceeding the pool connection
-lifetime will generate their own fresh authentication token.</p>
+<p>The example contains comments explaining the code and the operations being performed.</p>
 <h2 id="additional-resources">Additional resources<a class="headerlink" href="#additional-resources" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/what-is-aurora-dsql.html">Amazon Aurora DSQL Documentation</a></li>
-<li><a href="https://pkg.go.dev/github.com/jackc/pgx/v5">pgx Documentation</a></li>
+<li><a href="https://github.com/awslabs/aurora-dsql-connectors/tree/main/go/pgx">Aurora DSQL Go Connector</a></li>
+<li><a href="https://github.com/jackc/pgx">pgx Documentation</a></li>
 </ul>
+<p><strong>Note:</strong> The connector automatically extracts the region from the cluster endpoint and defaults to the <code>postgres</code> database.</p>
 <hr />
 <p>Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</p>
 <p>SPDX-License-Identifier: MIT-0</p>

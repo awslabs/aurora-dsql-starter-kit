@@ -37,7 +37,7 @@ Restoring an Aurora DSQL multi-Region cluster is supported through both the [AWS
 
 To restore to a multi-Region Aurora DSQL cluster, you can use a backup taken in a single AWS Region. However, before you initiate the restore process, you must ensure there is an identical copy of your backup in all AWS Regions for your multi-Region clusters. If you don't yet have those copies, you must first copy the backup to another AWS Region that supports multi-Region clusters.
 
-We recommend creating backup copies in key AWS Regions to enable robust disaster recovery options and meet compliance requirements. To view available AWS Regions for Aurora DSQL, see [Region Availability for Amazon Aurora DSQL](https://jubilant-adventure-yv9p22g.pages.github.io/what-is-amazon-aurora-dsql.html#region-availability-for-amazon-aurora-dsql).
+We recommend creating backup copies in key AWS Regions to enable robust disaster recovery options and meet compliance requirements. To view available AWS Regions for Aurora DSQL, see [Region Availability for Amazon Aurora DSQL](https://awslabs.github.io/aurora-dsql-starter-kit/what-is-amazon-aurora-dsql.html#region-availability-for-amazon-aurora-dsql).
 
 For detailed instructions on these steps, see [Amazon Aurora DSQL restore](https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-auroradsql.html) documentation.
 

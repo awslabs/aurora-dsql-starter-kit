@@ -43,21 +43,19 @@ public class ExamplePreferred {
         config.setJdbcUrl(jdbcUrl);
         config.setUsername(username);
 
-        // PostgreSQL SSL configuration for Aurora DSQL
-        config.addDataSourceProperty("sslmode", "verify-full");
-        config.addDataSourceProperty("sslnegotiation", "direct");
-
-        // Verify the server's root cert against those in the default trust store
-        config.addDataSourceProperty("sslfactory", "org.postgresql.ssl.DefaultJavaSSLFactory");
-
+        // Note: SSL is configured automatically by the connector with secure defaults:
+        // - sslmode=verify-full
+        // - sslNegotiation=direct
+        // - sslfactory=org.postgresql.ssl.DefaultJavaSSLFactory
+        // You can override these if needed by setting the properties explicitly.
 
         // HikariCP pool configuration optimized for Aurora DSQL
         config.setPoolName("AuroraDSQLPool");
         config.setMaximumPoolSize(20);                    // Production pool size
         config.setMinimumIdle(5);                         // Keep connections ready
         config.setConnectionTimeout(30000);               // 30 seconds
-        config.setIdleTimeout(300000);                    // 5 minutes (shorter than token expiry)
-        config.setMaxLifetime(600000);                    // 10 minutes (shorter than token expiry)
+        config.setIdleTimeout(600000);                    // 10 minutes
+        config.setMaxLifetime(3300000);                   // 55 minutes (connector handles token refresh)
         config.setLeakDetectionThreshold(60000);          // 60 seconds
 
         // Connection validation

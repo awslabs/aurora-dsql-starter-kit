@@ -6,56 +6,56 @@ Documentation for Amazon Aurora DSQL, a serverless distributed SQL database
 
 ## Overview
 
-- [Welcome](https://jubilant-adventure-yv9p22g.pages.github.io/index.md): Welcome
-- [What is Amazon Aurora DSQL?](https://jubilant-adventure-yv9p22g.pages.github.io/what-is-amazon-aurora-dsql.md): What is Amazon Aurora DSQL?
+- [Welcome](https://awslabs.github.io/aurora-dsql-starter-kit/index.md): Welcome
+- [What is Amazon Aurora DSQL?](https://awslabs.github.io/aurora-dsql-starter-kit/what-is-amazon-aurora-dsql.md): What is Amazon Aurora DSQL?
 
 ## Getting Started
 
-- [Getting Started](https://jubilant-adventure-yv9p22g.pages.github.io/guides/getting-started/quickstart.md): Getting Started
+- [Getting Started](https://awslabs.github.io/aurora-dsql-starter-kit/guides/getting-started/quickstart.md): Getting Started
 
 ## Managing Aurora DSQL Clusters
 
-- [Managing Clusters Overview](https://jubilant-adventure-yv9p22g.pages.github.io/managing-clusters.md): Managing Clusters Overview
-- [Single-Region Clusters](https://jubilant-adventure-yv9p22g.pages.github.io/single-region-clusters.md): Single-Region Clusters
-- [Multi-Region Clusters](https://jubilant-adventure-yv9p22g.pages.github.io/multi-region-clusters.md): Multi-Region Clusters
+- [Managing Clusters Overview](https://awslabs.github.io/aurora-dsql-starter-kit/managing-clusters.md): Managing Clusters Overview
+- [Single-Region Clusters](https://awslabs.github.io/aurora-dsql-starter-kit/single-region-clusters.md): Single-Region Clusters
+- [Multi-Region Clusters](https://awslabs.github.io/aurora-dsql-starter-kit/multi-region-clusters.md): Multi-Region Clusters
 
 ## Programming with DSQL
 
-- [Programming with DSQL Overview](https://jubilant-adventure-yv9p22g.pages.github.io/programming-with-dsql.md): Programming with DSQL Overview
-- [Connectors Overview](https://jubilant-adventure-yv9p22g.pages.github.io/connectors-overview.md): Connectors Overview
+- [Programming with DSQL Overview](https://awslabs.github.io/aurora-dsql-starter-kit/programming-with-dsql.md): Programming with DSQL Overview
+- [Connectors Overview](https://awslabs.github.io/aurora-dsql-starter-kit/connectors-overview.md): Connectors Overview
 
 ## Auth & Access
 
-- [Auth & Access Overview](https://jubilant-adventure-yv9p22g.pages.github.io/authentication-and-authorization.md): Auth & Access Overview
-- [Generate Authentication Token](https://jubilant-adventure-yv9p22g.pages.github.io/generate-authentication-token.md): Generate Authentication Token
-- [Database Roles and IAM Authentication](https://jubilant-adventure-yv9p22g.pages.github.io/database-roles-iam-authentication.md): Database Roles and IAM Authentication
+- [Auth & Access Overview](https://awslabs.github.io/aurora-dsql-starter-kit/authentication-and-authorization.md): Auth & Access Overview
+- [Generate Authentication Token](https://awslabs.github.io/aurora-dsql-starter-kit/generate-authentication-token.md): Generate Authentication Token
+- [Database Roles and IAM Authentication](https://awslabs.github.io/aurora-dsql-starter-kit/database-roles-iam-authentication.md): Database Roles and IAM Authentication
 
 ## Query Editors
 
-- [Aurora DSQL Query Editor](https://jubilant-adventure-yv9p22g.pages.github.io/generative-ai/query-editor.md): Aurora DSQL Query Editor
-- [Using JupyterLab with Aurora DSQL](https://jubilant-adventure-yv9p22g.pages.github.io/generative-ai/jupyterlab.md): Using JupyterLab with Aurora DSQL
+- [Aurora DSQL Query Editor](https://awslabs.github.io/aurora-dsql-starter-kit/generative-ai/query-editor.md): Aurora DSQL Query Editor
+- [Using JupyterLab with Aurora DSQL](https://awslabs.github.io/aurora-dsql-starter-kit/generative-ai/jupyterlab.md): Using JupyterLab with Aurora DSQL
 
 ## Generative AI
 
-- [AWS Labs Aurora DSQL MCP Server](https://jubilant-adventure-yv9p22g.pages.github.io/generative-ai/mcp-server.md): AWS Labs Aurora DSQL MCP Server
+- [AWS Labs Aurora DSQL MCP Server](https://awslabs.github.io/aurora-dsql-starter-kit/generative-ai/mcp-server.md): AWS Labs Aurora DSQL MCP Server
 
 ## Backup and Restore
 
-- [Backup and Restore](https://jubilant-adventure-yv9p22g.pages.github.io/backup-and-restore.md): Backup and Restore
+- [Backup and Restore](https://awslabs.github.io/aurora-dsql-starter-kit/backup-and-restore.md): Backup and Restore
 
 ## Considerations
 
-- [Considerations Overview](https://jubilant-adventure-yv9p22g.pages.github.io/considerations.md): Considerations Overview
+- [Considerations Overview](https://awslabs.github.io/aurora-dsql-starter-kit/considerations.md): Considerations Overview
 
 ## Quotas and Limits
 
-- [Quotas and Limits Overview](https://jubilant-adventure-yv9p22g.pages.github.io/quotas-and-limits.md): Quotas and Limits Overview
+- [Quotas and Limits Overview](https://awslabs.github.io/aurora-dsql-starter-kit/quotas-and-limits.md): Quotas and Limits Overview
 
 ## API Reference
 
-- [API Reference Overview](https://jubilant-adventure-yv9p22g.pages.github.io/api-reference.md): API Reference Overview
+- [API Reference Overview](https://awslabs.github.io/aurora-dsql-starter-kit/api-reference.md): API Reference Overview
 
 ## Troubleshooting
 
-- [Troubleshooting Overview](https://jubilant-adventure-yv9p22g.pages.github.io/troubleshooting.md): Troubleshooting Overview
+- [Troubleshooting Overview](https://awslabs.github.io/aurora-dsql-starter-kit/troubleshooting.md): Troubleshooting Overview
 

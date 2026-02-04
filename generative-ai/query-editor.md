@@ -14,9 +14,9 @@ The Query Editor is available in all Regions where Aurora DSQL is supported. For
 
 Before you begin, ensure that you meet the following requirements:
 
-- You have at least one Aurora DSQL cluster available. For more information, see [Step 1: Create a Single-Region Cluster](https://jubilant-adventure-yv9p22g.pages.github.io/guides/getting-started/quickstart.html#step-1-create-a-single-region-cluster).
+- You have at least one Aurora DSQL cluster available. For more information, see [Step 1: Create a Single-Region Cluster](https://awslabs.github.io/aurora-dsql-starter-kit/guides/getting-started/quickstart.html#step-1-create-a-single-region-cluster).
 - Your cluster endpoint is publicly accessible. The Query Editor does not currently support clusters that have public access blocked by resource-based policies or clusters managed through VPC endpoints. For more information, see [Blocking public access with resource-based policies in Aurora DSQL](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/rbp-block-public-access.html) and [Managing and connecting to Amazon Aurora DSQL clusters using AWS PrivateLink](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/privatelink-managing-clusters.html).
-- Your IAM user or role has the required permissions to access and connect to the cluster. For more information, see [Using database roles and IAM authentication](https://jubilant-adventure-yv9p22g.pages.github.io/database-roles-iam-authentication.html).
+- Your IAM user or role has the required permissions to access and connect to the cluster. For more information, see [Using database roles and IAM authentication](https://awslabs.github.io/aurora-dsql-starter-kit/database-roles-iam-authentication.html).
 
 ## Working with the Query Editor
 

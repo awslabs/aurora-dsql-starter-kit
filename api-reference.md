@@ -30,6 +30,6 @@ For more information about the AWS CLI, see AWS Command Line Interface reference
 
 ## Related Documentation
 
-- **Authentication Guide**: [Auth & Access Overview](https://jubilant-adventure-yv9p22g.pages.github.io/authentication-and-authorization.html)
-- **Getting Started**: [Getting Started](https://jubilant-adventure-yv9p22g.pages.github.io/guides/getting-started/quickstart.html)
-- **Troubleshooting**: [Troubleshooting Overview](https://jubilant-adventure-yv9p22g.pages.github.io/troubleshooting.html)
+- **Authentication Guide**: [Auth & Access Overview](https://awslabs.github.io/aurora-dsql-starter-kit/authentication-and-authorization.html)
+- **Getting Started**: [Getting Started](https://awslabs.github.io/aurora-dsql-starter-kit/guides/getting-started/quickstart.html)
+- **Troubleshooting**: [Troubleshooting Overview](https://awslabs.github.io/aurora-dsql-starter-kit/troubleshooting.html)

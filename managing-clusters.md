@@ -141,7 +141,7 @@ The features and functionality discussed in this guide ensure that your Aurora D
 
 ## Related Documentation
 
-- **Getting Started**: [Getting Started](https://jubilant-adventure-yv9p22g.pages.github.io/guides/getting-started/quickstart.html)
-- **Authentication**: [Auth & Access Overview](https://jubilant-adventure-yv9p22g.pages.github.io/authentication-and-authorization.html)
-- **Quotas and Limits**: [Quotas and Limits Overview](https://jubilant-adventure-yv9p22g.pages.github.io/quotas-and-limits.html)
-- **Troubleshooting**: [Troubleshooting Overview](https://jubilant-adventure-yv9p22g.pages.github.io/troubleshooting.html)
+- **Getting Started**: [Getting Started](https://awslabs.github.io/aurora-dsql-starter-kit/guides/getting-started/quickstart.html)
+- **Authentication**: [Auth & Access Overview](https://awslabs.github.io/aurora-dsql-starter-kit/authentication-and-authorization.html)
+- **Quotas and Limits**: [Quotas and Limits Overview](https://awslabs.github.io/aurora-dsql-starter-kit/quotas-and-limits.html)
+- **Troubleshooting**: [Troubleshooting Overview](https://awslabs.github.io/aurora-dsql-starter-kit/troubleshooting.html)

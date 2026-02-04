@@ -410,7 +410,7 @@ For more code samples and examples, visit the [Aurora DSQL Samples GitHub reposi
 
 ## Related Documentation
 
-- **Getting Started**: [Getting Started](https://jubilant-adventure-yv9p22g.pages.github.io/guides/getting-started/quickstart.html)
-- **Multi-Region Clusters**: [Multi-Region cluster management](https://jubilant-adventure-yv9p22g.pages.github.io/multi-region-clusters.html)
-- **Authentication**: [Auth & Access Overview](https://jubilant-adventure-yv9p22g.pages.github.io/authentication-and-authorization.html)
-- **Troubleshooting**: [Troubleshooting Overview](https://jubilant-adventure-yv9p22g.pages.github.io/troubleshooting.html)
+- **Getting Started**: [Getting Started](https://awslabs.github.io/aurora-dsql-starter-kit/guides/getting-started/quickstart.html)
+- **Multi-Region Clusters**: [Multi-Region cluster management](https://awslabs.github.io/aurora-dsql-starter-kit/multi-region-clusters.html)
+- **Authentication**: [Auth & Access Overview](https://awslabs.github.io/aurora-dsql-starter-kit/authentication-and-authorization.html)
+- **Troubleshooting**: [Troubleshooting Overview](https://awslabs.github.io/aurora-dsql-starter-kit/troubleshooting.html)

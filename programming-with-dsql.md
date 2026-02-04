@@ -24,7 +24,7 @@ AWS provides SDKs for many popular technologies and programming languages. They 
 
 This API is another programming interface for Aurora DSQL. When using this API, you must format every HTTPS request correctly and add a valid digital signature to every request.
 
-**Documentation**: [Aurora DSQL API Reference](https://jubilant-adventure-yv9p22g.pages.github.io/api-reference.html)
+**Documentation**: [Aurora DSQL API Reference](https://awslabs.github.io/aurora-dsql-starter-kit/api-reference.html)
 
 ### AWS CloudFormation
 
@@ -49,7 +49,7 @@ Aurora DSQL uses the [PostgreSQL wire protocol](https://www.postgresql.org/docs/
 
 ### Authentication Requirements
 
-When connecting, Aurora DSQL requires a signed IAM [authentication token](https://jubilant-adventure-yv9p22g.pages.github.io/generate-authentication-token.html) in place of a traditional password. These temporary tokens are generated using AWS Signature Version 4 and are used only during connection establishment. Once connected, the session remains active until it ends or the client disconnects.
+When connecting, Aurora DSQL requires a signed IAM [authentication token](https://awslabs.github.io/aurora-dsql-starter-kit/generate-authentication-token.html) in place of a traditional password. These temporary tokens are generated using AWS Signature Version 4 and are used only during connection establishment. Once connected, the session remains active until it ends or the client disconnects.
 
 If you attempt to open a new session with an expired token, the connection request fails and a new token must be generated.
 
@@ -109,7 +109,7 @@ DBeaver is an open-source, GUI-based database tool for connecting to and managin
 - **Database**: `postgres`
 - **Authentication**: `Database Native`
 - **Username**: `admin`
-- **Password**: [Generate authentication token](https://jubilant-adventure-yv9p22g.pages.github.io/generate-authentication-token.html)
+- **Password**: [Generate authentication token](https://awslabs.github.io/aurora-dsql-starter-kit/generate-authentication-token.html)
 
 4. Configure SSL mode (`PGSSLMODE=require` or `PGSSLMODE=verify-full`)
 1. Test connection and begin running SQL statements
@@ -130,7 +130,7 @@ DataGrip is a cross-platform IDE for working with SQL and databases, including P
 - **Database**: `postgres`
 - **Authentication**: `User & Password`
 - **Username**: `admin`
-- **Password**: [Generate authentication token](https://jubilant-adventure-yv9p22g.pages.github.io/generate-authentication-token.html)
+- **Password**: [Generate authentication token](https://awslabs.github.io/aurora-dsql-starter-kit/generate-authentication-token.html)
 
 3. Configure SSL mode in connection settings
 1. Test connection and start running SQL statements
@@ -204,8 +204,8 @@ Specific extensions that make existing ORMs work with Aurora DSQL:
 
 ## Related Documentation
 
-- **Authentication Tokens**: [Generate Authentication Token](https://jubilant-adventure-yv9p22g.pages.github.io/generate-authentication-token.html)
-- **Database Roles**: [Database Roles and IAM Authentication](https://jubilant-adventure-yv9p22g.pages.github.io/database-roles-iam-authentication.html)
-- **Getting Started**: [Getting Started](https://jubilant-adventure-yv9p22g.pages.github.io/guides/getting-started/quickstart.html)
-- **Troubleshooting**: [Troubleshooting Overview](https://jubilant-adventure-yv9p22g.pages.github.io/troubleshooting.html)
+- **Authentication Tokens**: [Generate Authentication Token](https://awslabs.github.io/aurora-dsql-starter-kit/generate-authentication-token.html)
+- **Database Roles**: [Database Roles and IAM Authentication](https://awslabs.github.io/aurora-dsql-starter-kit/database-roles-iam-authentication.html)
+- **Getting Started**: [Getting Started](https://awslabs.github.io/aurora-dsql-starter-kit/guides/getting-started/quickstart.html)
+- **Troubleshooting**: [Troubleshooting Overview](https://awslabs.github.io/aurora-dsql-starter-kit/troubleshooting.html)
 - **SSL Certificates**: [SSL/TLS certificates configuration](https://docs.aws.amazon.com/aurora-dsql/latest/userguide/configure-root-certificates.html)
