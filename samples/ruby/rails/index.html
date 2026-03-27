@@ -19,7 +19,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -192,7 +192,7 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/aws/aurora-dsql-starter-kit" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/awslabs/aurora-dsql-starter-kit" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
@@ -309,7 +309,7 @@
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/aws/aurora-dsql-starter-kit" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/awslabs/aurora-dsql-starter-kit" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
@@ -1503,10 +1503,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#add-a-token-generator" class="md-nav__link">
+  <a href="#add-the-connector-gem" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Add a token generator
+        Add the connector gem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inject-dsql-tokens-into-new-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inject DSQL tokens into new connections
       
     </span>
   </a>
@@ -1562,57 +1573,50 @@
 
 <h1 id="aurora-dsql-with-ruby-on-rails">Aurora DSQL with Ruby on Rails<a class="headerlink" href="#aurora-dsql-with-ruby-on-rails" title="Permanent link">&para;</a></h1>
 <p>This example demonstrates how to use an Aurora DSQL cluster with a Ruby On Rails
-application. Aurora DSQL only supports token-based authentication so we extend the
-<a href="https://github.com/haines/pg-aws_rds_iam"><code>pg-aws_rds_iam</code></a> plugin to generate Aurora DSQL auth tokens
-when required.</p>
+application. It uses the <a href="https://rubygems.org/gems/aurora-dsql-ruby-pg"><code>aurora-dsql-ruby-pg</code></a> connector to
+automatically generate authentication tokens for new database connections.</p>
 <p>It also includes changes to ActiveRecord behavior to be compatible with Aurora DSQL
 supported features.</p>
 <h2 id="running-this-example">Running this example<a class="headerlink" href="#running-this-example" title="Permanent link">&para;</a></h2>
 <p>See <a href="petclinic/index.html"><code>petclinic/README.md</code></a>.</p>
 <h2 id="using-aurora-dsql-authentication-tokens-with-rails">Using Aurora DSQL authentication tokens with Rails<a class="headerlink" href="#using-aurora-dsql-authentication-tokens-with-rails" title="Permanent link">&para;</a></h2>
 <p>These are the changes to make to your Rails application to be compatible with Aurora DSQL.</p>
-<h3 id="add-a-token-generator">Add a token generator<a class="headerlink" href="#add-a-token-generator" title="Permanent link">&para;</a></h3>
-<p>To modify your Rails application to work with Aurora DSQL you should reproduce the
-<code>DsqlAuthTokenGenerator</code> in <a href="petclinic/config/initializers/adapter.rb"><code>adapter.rb</code></a>.</p>
-<div class="highlight"><pre><span></span><code><span class="nb">require</span><span class="w"> </span><span class="s2">&quot;aws-sdk-dsql&quot;</span>
+<h3 id="add-the-connector-gem">Add the connector gem<a class="headerlink" href="#add-the-connector-gem" title="Permanent link">&para;</a></h3>
+<p>Add <code>aurora-dsql-ruby-pg</code> to your <code>Gemfile</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">gem</span><span class="w"> </span><span class="s2">&quot;pg&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;~&gt; 1.5&quot;</span>
+<span class="n">gem</span><span class="w"> </span><span class="s2">&quot;aurora-dsql-ruby-pg&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;~&gt; 1.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">require</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;aurora_dsql_pg&quot;</span>
+</code></pre></div>
+<h3 id="inject-dsql-tokens-into-new-connections">Inject DSQL tokens into new connections<a class="headerlink" href="#inject-dsql-tokens-into-new-connections" title="Permanent link">&para;</a></h3>
+<p>Create an initializer (e.g. <a href="petclinic/config/initializers/adapter.rb"><code>config/initializers/adapter.rb</code></a>) that
+hooks into the PostgreSQL adapter to generate tokens for each new connection:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">require</span><span class="w"> </span><span class="s2">&quot;aurora_dsql_pg&quot;</span>
+<span class="nb">require</span><span class="w"> </span><span class="s2">&quot;active_record/connection_adapters/postgresql_adapter&quot;</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">DsqlAuthTokenGenerator</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="ss">host</span><span class="p">:,</span><span class="w"> </span><span class="ss">port</span><span class="p">:,</span><span class="w"> </span><span class="ss">user</span><span class="p">:)</span>
-<span class="w">    </span><span class="c1"># e.g. host == &quot;&lt;clusterID&gt;.dsql.us-east-1.on.aws&quot;</span>
-<span class="w">    </span><span class="n">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">host</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
-<span class="w">    </span><span class="k">raise</span><span class="w"> </span><span class="s2">&quot;Unable to extract AWS region from host &#39;</span><span class="si">#{</span><span class="n">host</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="w"> </span><span class="k">unless</span><span class="w"> </span><span class="n">region</span><span class="w"> </span><span class="o">=~</span> <span class="sr">/[\w\d-]+/</span>
-
-<span class="w">    </span><span class="n">token_generator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Aws</span><span class="o">::</span><span class="no">DSQL</span><span class="o">::</span><span class="no">AuthTokenGenerator</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
-<span class="w">      </span><span class="ss">credentials</span><span class="p">:</span><span class="w"> </span><span class="no">Aws</span><span class="o">::</span><span class="no">CredentialProviderChain</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">resolve</span><span class="p">,</span>
-<span class="w">    </span><span class="p">)</span>
-
-<span class="w">    </span><span class="n">auth_token_params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="ss">endpoint</span><span class="p">:</span><span class="w"> </span><span class="n">host</span><span class="p">,</span>
-<span class="w">      </span><span class="ss">region</span><span class="p">:</span><span class="w"> </span><span class="n">region</span><span class="p">,</span>
-<span class="w">      </span><span class="ss">expires_in</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="c1"># 15 minutes, optional</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">user</span>
-<span class="w">    </span><span class="k">when</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span>
-<span class="w">      </span><span class="n">token_generator</span><span class="o">.</span><span class="n">generate_db_connect_admin_auth_token</span><span class="p">(</span><span class="n">auth_token_params</span><span class="p">)</span>
-<span class="w">    </span><span class="k">else</span>
-<span class="w">      </span><span class="n">token_generator</span><span class="o">.</span><span class="n">generate_db_connect_auth_token</span><span class="p">(</span><span class="n">auth_token_params</span><span class="p">)</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">DsqlTokenAuthentication</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">new_client</span><span class="p">(</span><span class="n">conn_params</span><span class="p">)</span>
+<span class="w">    </span><span class="n">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn_params</span><span class="o">[</span><span class="ss">:host</span><span class="o">]</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">host</span><span class="o">&amp;.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;.dsql.&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="n">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">AuroraDsql</span><span class="o">::</span><span class="no">Pg</span><span class="o">::</span><span class="no">Util</span><span class="o">.</span><span class="n">parse_region</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
+<span class="w">      </span><span class="n">conn_params</span><span class="o">[</span><span class="ss">:password</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">AuroraDsql</span><span class="o">::</span><span class="no">Pg</span><span class="o">::</span><span class="no">Token</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+<span class="w">        </span><span class="ss">host</span><span class="p">:</span><span class="w"> </span><span class="n">host</span><span class="p">,</span>
+<span class="w">        </span><span class="ss">region</span><span class="p">:</span><span class="w"> </span><span class="n">region</span><span class="p">,</span>
+<span class="w">        </span><span class="ss">user</span><span class="p">:</span><span class="w"> </span><span class="n">conn_params</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span>
+<span class="w">      </span><span class="p">)</span>
 <span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="k">super</span>
 <span class="w">  </span><span class="k">end</span>
 <span class="k">end</span>
+
+<span class="c1"># new_client is a class method in Rails 7.2, so prepend on the singleton class</span>
+<span class="no">ActiveRecord</span><span class="o">::</span><span class="no">ConnectionAdapters</span><span class="o">::</span><span class="no">PostgreSQLAdapter</span><span class="o">.</span><span class="n">singleton_class</span><span class="o">.</span><span class="n">prepend</span><span class="p">(</span><span class="no">DsqlTokenAuthentication</span><span class="p">)</span>
 </code></pre></div>
-<p><code>call</code> will be invoked when a new database connection is requested. It will:
-1. Retrieve credentials for the running environment. The <code>Aws::CredentialProviderChain</code> discovers credentials
-   in the order described in <a href="https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/credential-providers.html">these docs</a>.
-1. Determine which token type to generate based on the database user.</p>
+<p><code>new_client</code> is called when a new database connection is requested. It will:
+1. Retrieve credentials for the running environment via the default AWS credential provider chain
+   (<a href="https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/credential-providers.html">docs</a>).
+2. Determine which token type to generate based on the database user.</p>
 <p>The retrieved credentials will need permission to <code>dsql:DbConnectAdmin</code> for the <code>admin</code> user or
 <code>dsql:DbConnect</code> for a custom user. See Aurora DSQL documentation for <a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/authentication-authorization.html#authentication-authorization-iam-role-connect">IAM role connect</a>
 and <a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/SECTION_authentication-token.html">authentication token generation</a> for more details.</p>
-<p>Finally, register the adapter with the <code>pg-aws_rds_iam</code> plugin.
-<div class="highlight"><pre><span></span><code><span class="no">PG</span><span class="o">::</span><span class="no">AWS_RDS_IAM</span><span class="o">.</span><span class="n">auth_token_generators</span><span class="o">.</span><span class="n">add</span><span class="w"> </span><span class="ss">:dsql</span><span class="w"> </span><span class="k">do</span>
-<span class="w">  </span><span class="no">DsqlAuthTokenGenerator</span><span class="o">.</span><span class="n">new</span>
-<span class="k">end</span>
-</code></pre></div></p>
 <h3 id="alter-activerecord-behavior">Alter ActiveRecord behavior<a class="headerlink" href="#alter-activerecord-behavior" title="Permanent link">&para;</a></h3>
 <p>Disable features not supported by Aurora DSQL. The example includes this in <a href="petclinic/config/initializers/adapter.rb"><code>adapter.rb</code></a>.</p>
 <div class="highlight"><pre><span></span><code><span class="nb">require</span><span class="w"> </span><span class="s2">&quot;active_record/connection_adapters/postgresql/schema_statements&quot;</span>
@@ -1621,8 +1625,6 @@ and <a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/SECTION_au
 <span class="w">  </span><span class="c1"># DSQL does not support setting min_messages in the connection parameters</span>
 <span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">client_min_messages=</span><span class="p">(</span><span class="n">level</span><span class="p">);</span><span class="w"> </span><span class="k">end</span>
 <span class="k">end</span>
-
-<span class="nb">require</span><span class="w"> </span><span class="s2">&quot;active_record/connection_adapters/postgresql_adapter&quot;</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ActiveRecord</span><span class="o">::</span><span class="no">ConnectionAdapters</span><span class="o">::</span><span class="no">PostgreSQLAdapter</span>
 <span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">set_standard_conforming_strings</span><span class="p">;</span><span class="w"> </span><span class="k">end</span>
@@ -1635,35 +1637,23 @@ and <a href="https://docs.aws.amazon.com/aurora-dsql/latest/userguide/SECTION_au
 </code></pre></div>
 <h3 id="use-the-adapter-in-the-database-configuration">Use the adapter in the database configuration<a class="headerlink" href="#use-the-adapter-in-the-database-configuration" title="Permanent link">&para;</a></h3>
 <p>Refer to <a href="petclinic/config/database.yml"><code>database.yml</code></a>.</p>
-<div class="highlight"><pre><span></span><code>development:
-  &lt;&lt;: *default
-
-  # Always the database name for Aurora DSQL
+<div class="highlight"><pre><span></span><code>default: &amp;default
+  adapter: postgresql
+  encoding: unicode
   database: postgres
-
-  # eg: admin or other postgres users
-  username: &lt;postgres username&gt;
-
-  # Set this value based on the access of the configured user,
-  # or omit if running as &#39;admin&#39; and using the &#39;public&#39; schema.
-  schema_search_path: myschema
-
-  # Set to Aurora DSQL instance endpoint
-  # Use environment variables, etc for production values!
-  # e.g. {clusterId}.dsql.{region}.on.aws
-  host: foo0bar1baz2quux3quuux4.dsql.us-east-1.on.aws
-
-  # Use the custom token generator we created
-  aws_rds_iam_auth_token_generator: dsql
-
-  # Provide the path to the root certificate. 
-  # Amazon&#39;s root certs can be fetched from https://www.amazontrust.com/repository/
-  sslrootcert: &lt;replace with the path to root certificate&gt;
-  sslmode: verify-full
-
-  # More DSQL compatibility tweaks
-  advisory_locks: false
+  pool: &lt;%= ENV.fetch(&quot;RAILS_MAX_THREADS&quot;) { 5 } %&gt;
+  username: &lt;%= ENV.fetch(&quot;CLUSTER_USER&quot;) { &quot;admin&quot; } %&gt;
+  host: &lt;%= ENV[&#39;CLUSTER_ENDPOINT&#39;] %&gt;
+  # Disable prepared statements and advisory locks for Aurora DSQL
   prepared_statements: false
+  advisory_locks: false
+  sslnegotiation: direct
+  sslmode: verify-full
+  # Amazon&#39;s root certs can be fetched from https://www.amazontrust.com/repository/
+  sslrootcert: ./root.pem
+
+development:
+  &lt;&lt;: *default
 </code></pre></div>
 <hr />
 <p>Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</p>

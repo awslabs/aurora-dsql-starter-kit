@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -196,7 +196,7 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/aws/aurora-dsql-starter-kit" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/awslabs/aurora-dsql-starter-kit" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
@@ -315,7 +315,7 @@
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/aws/aurora-dsql-starter-kit" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/awslabs/aurora-dsql-starter-kit" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
@@ -2117,8 +2117,6 @@ aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin
 <span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">Aws</span><span class="o">::</span><span class="nn">DSQL</span><span class="p">;</span>
 
 <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="nf">generateToken</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">region</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">Aws</span><span class="o">::</span><span class="n">SDKOptions</span><span class="w"> </span><span class="n">options</span><span class="p">;</span>
-<span class="w">    </span><span class="n">Aws</span><span class="o">::</span><span class="n">InitAPI</span><span class="p">(</span><span class="n">options</span><span class="p">);</span>
 <span class="w">    </span><span class="n">DSQLClientConfiguration</span><span class="w"> </span><span class="n">clientConfig</span><span class="p">;</span>
 <span class="w">    </span><span class="n">clientConfig</span><span class="p">.</span><span class="n">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">region</span><span class="p">;</span>
 <span class="w">    </span><span class="n">DSQLClient</span><span class="w"> </span><span class="n">client</span><span class="p">{</span><span class="n">clientConfig</span><span class="p">};</span>
@@ -2133,9 +2131,16 @@ aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-
-<span class="w">    </span><span class="n">Aws</span><span class="o">::</span><span class="n">ShutdownAPI</span><span class="p">(</span><span class="n">options</span><span class="p">);</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">token</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Aws</span><span class="o">::</span><span class="n">SDKOptions</span><span class="w"> </span><span class="n">options</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Aws</span><span class="o">::</span><span class="n">InitAPI</span><span class="p">(</span><span class="n">options</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Replace with your cluster endpoint and region</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">generateToken</span><span class="p">(</span><span class="s">&quot;your_cluster_endpoint.dsql.us-east-1.on.aws&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;us-east-1&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Aws</span><span class="o">::</span><span class="n">ShutdownAPI</span><span class="p">(</span><span class="n">options</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="javascript-sdk">JavaScript SDK<a class="headerlink" href="#javascript-sdk" title="Permanent link">&para;</a></h3>
@@ -2172,7 +2177,7 @@ aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">generateToken</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="p">,</span><span class="w"> </span><span class="n">Region</span><span class="w"> </span><span class="n">region</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">DsqlUtilities</span><span class="w"> </span><span class="n">utilities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DsqlUtilities</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
 <span class="w">                </span><span class="p">.</span><span class="na">region</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
-<span class="w">                </span><span class="p">.</span><span class="na">credentialsProvider</span><span class="p">(</span><span class="n">DefaultCredentialsProvider</span><span class="p">.</span><span class="na">create</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">credentialsProvider</span><span class="p">(</span><span class="n">DefaultCredentialsProvider</span><span class="p">.</span><span class="na">builder</span><span class="p">().</span><span class="na">build</span><span class="p">())</span>
 <span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
 
 <span class="w">        </span><span class="c1">// Use `generateDbConnectAuthToken` if you are _not_ logging in as `admin` user </span>
@@ -2216,7 +2221,7 @@ aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin
 <div class="highlight"><pre><span></span><code><span class="nb">require</span><span class="w"> </span><span class="s1">&#39;aws-sdk-dsql&#39;</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_token</span><span class="p">(</span><span class="n">your_cluster_endpoint</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">)</span>
-<span class="w">  </span><span class="n">credentials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Aws</span><span class="o">::</span><span class="no">SharedCredentials</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+<span class="w">  </span><span class="n">credentials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Aws</span><span class="o">::</span><span class="no">CredentialProviderChain</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">resolve</span>
 
 <span class="w">  </span><span class="k">begin</span>
 <span class="w">      </span><span class="n">token_generator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Aws</span><span class="o">::</span><span class="no">DSQL</span><span class="o">::</span><span class="no">AuthTokenGenerator</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
@@ -2240,14 +2245,11 @@ aws<span class="w"> </span>dsql<span class="w"> </span>generate-db-connect-admin
 - <strong>Custom database role</strong>: Use <code>DbConnect</code></p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">Amazon</span><span class="p">;</span>
 <span class="k">using</span><span class="w"> </span><span class="nn">Amazon.DSQL.Util</span><span class="p">;</span>
-<span class="k">using</span><span class="w"> </span><span class="nn">Amazon.Runtime</span><span class="p">;</span>
 
 <span class="kt">var</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;insert-dsql-cluster-endpoint&quot;</span><span class="p">;</span>
 
-<span class="n">AWSCredentials</span><span class="w"> </span><span class="n">credentials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FallbackCredentialsFactory</span><span class="p">.</span><span class="n">GetCredentials</span><span class="p">();</span>
-
 <span class="c1">// Use `DSQLAuthTokenGenerator.GenerateDbConnectAuthToken` if you are _not_ logging in as `admin` user</span>
-<span class="kt">var</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DSQLAuthTokenGenerator</span><span class="p">.</span><span class="n">GenerateDbConnectAdminAuthToken</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span><span class="w"> </span><span class="n">RegionEndpoint</span><span class="p">.</span><span class="n">USEast1</span><span class="p">,</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="p">);</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DSQLAuthTokenGenerator</span><span class="p">.</span><span class="n">GenerateDbConnectAdminAuthToken</span><span class="p">(</span><span class="n">RegionEndpoint</span><span class="p">.</span><span class="n">USEast1</span><span class="p">,</span><span class="w"> </span><span class="n">yourClusterEndpoint</span><span class="p">);</span>
 
 <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">token</span><span class="p">);</span>
 </code></pre></div>

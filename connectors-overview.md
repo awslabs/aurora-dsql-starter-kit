@@ -26,7 +26,7 @@ Aurora DSQL provides specialized connectors that extend existing database driver
 - Spring Boot applications
 - Hibernate ORM integration
 
-**Repository**: [Aurora DSQL JDBC Connector](https://github.com/awslabs/aurora-dsql-jdbc-connector)
+**Repository**: [Aurora DSQL JDBC Connector](https://github.com/awslabs/aurora-dsql-connectors/tree/main/java/jdbc)
 
 ### Python Connector
 
@@ -52,7 +52,7 @@ Aurora DSQL provides specialized connectors that extend existing database driver
 - Psycopg2 (legacy support)
 - asyncpg (asynchronous operations)
 
-**Repository**: [Aurora DSQL Python Connector](https://github.com/awslabs/aurora-dsql-python-connector)
+**Repository**: [Aurora DSQL Python Connector](https://github.com/awslabs/aurora-dsql-connectors/tree/main/python/connector)
 
 ### Node.js Connectors
 
@@ -77,7 +77,7 @@ Aurora DSQL provides specialized connectors that extend existing database driver
 - node-postgres (pg)
 - Postgres.js
 
-**Repository**: [Aurora DSQL Node.js Connectors](https://github.com/awslabs/aurora-dsql-nodejs-connectors)
+**Repository**: [Aurora DSQL Node.js Connectors](https://github.com/awslabs/aurora-dsql-connectors/tree/main/node)
 
 ## Connector Benefits
 

@@ -140,8 +140,6 @@ using namespace Aws;
 using namespace Aws::DSQL;
 
 std::string generateToken(String yourClusterEndpoint, String region) {
-    Aws::SDKOptions options;
-    Aws::InitAPI(options);
     DSQLClientConfiguration clientConfig;
     clientConfig.region = region;
     DSQLClient client{clientConfig};
@@ -156,9 +154,16 @@ std::string generateToken(String yourClusterEndpoint, String region) {
     }
 
     std::cout << token << std::endl;
-
-    Aws::ShutdownAPI(options);
     return token;
+}
+
+int main() {
+    Aws::SDKOptions options;
+    Aws::InitAPI(options);
+    // Replace with your cluster endpoint and region
+    std::string token = generateToken("your_cluster_endpoint.dsql.us-east-1.on.aws", "us-east-1");
+    Aws::ShutdownAPI(options);
+    return 0;
 }
 ```
 
@@ -205,7 +210,7 @@ public class GenerateAuthToken {
     public static String generateToken(String yourClusterEndpoint, Region region) {
         DsqlUtilities utilities = DsqlUtilities.builder()
                 .region(region)
-                .credentialsProvider(DefaultCredentialsProvider.create())
+                .credentialsProvider(DefaultCredentialsProvider.builder().build())
                 .build();
 
         // Use `generateDbConnectAuthToken` if you are _not_ logging in as `admin` user 
@@ -259,7 +264,7 @@ You can generate the token in the following ways:
 require 'aws-sdk-dsql'
 
 def generate_token(your_cluster_endpoint, region)
-  credentials = Aws::SharedCredentials.new()
+  credentials = Aws::CredentialProviderChain.new.resolve
 
   begin
       token_generator = Aws::DSQL::AuthTokenGenerator.new({
@@ -289,14 +294,11 @@ You can generate the token in the following ways:
 ```
 using Amazon;
 using Amazon.DSQL.Util;
-using Amazon.Runtime;
 
 var yourClusterEndpoint = "insert-dsql-cluster-endpoint";
 
-AWSCredentials credentials = FallbackCredentialsFactory.GetCredentials();
-
 // Use `DSQLAuthTokenGenerator.GenerateDbConnectAuthToken` if you are _not_ logging in as `admin` user
-var token = DSQLAuthTokenGenerator.GenerateDbConnectAdminAuthToken(credentials, RegionEndpoint.USEast1, yourClusterEndpoint);
+var token = DSQLAuthTokenGenerator.GenerateDbConnectAdminAuthToken(RegionEndpoint.USEast1, yourClusterEndpoint);
 
 Console.WriteLine(token);
 ```
