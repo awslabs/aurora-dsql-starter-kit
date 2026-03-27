@@ -47,7 +47,7 @@ import urllib.request
 urllib.request.urlretrieve('https://www.amazontrust.com/repository/AmazonRootCA1.pem', 'root.pem')
 ```
 
-To connect to Aurora DSQL, first install the [Aurora DSQL Connector for Python](https://github.com/awslabs/aurora-dsql-python-connector) and the Psycopg driver in a Python cell, and then import it:
+To connect to Aurora DSQL, first install the [Aurora DSQL Connector for Python](https://github.com/awslabs/aurora-dsql-connectors/tree/main/python/connector) and the Psycopg driver in a Python cell, and then import it:
 
 ```bash
 pip install aurora_dsql_python_connector psycopg
@@ -99,5 +99,5 @@ print(f"Total records: {len(df)}")
 ## Further reading
 
 - [Amazon SageMaker AI setup documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-setup-working-env.html)
-- [Aurora DSQL Connector for Python](https://github.com/awslabs/aurora-dsql-python-connector)
+- [Aurora DSQL Connector for Python](https://github.com/awslabs/aurora-dsql-connectors/tree/main/python/connector)
 - [Pandas documentation](https://pandas.pydata.org/docs/user_guide/index.html)
